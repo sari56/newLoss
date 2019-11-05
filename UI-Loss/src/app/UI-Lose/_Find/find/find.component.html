@@ -37,10 +37,22 @@
         <div *ngIf="femail.errors.required">שדה זה חובה</div>
       </div>
       <!-- עיר -->
-     <label for="fcity">:עיר</label> 
+      <label for="fcity">:עיר</label>
       <select>
-        <option id="cityName" name="cityName" [(ngModel)]="_cityName" value="c.CityName" *ngFor="let c of ListCity"> {{c.CityName}}</option>
+        <option *ngFor="let c of ListCity">{{c.CityName}}</option>
       </select>
+      <!-- <select [(ngModel)]="city" (change)="selected()">
+        <option id="cityName" name="cityName" *ngFor="let c of ListCity" [ngValue]="c">
+          {{c.CityName}}</option>
+      </select>
+
+      {{city | json}} -->
+
+
+      <br>
+      <h3>{{city.CityCode}}</h3>
+      <h3>city:{{_cityName}}</h3>
+      <br>
       <!--  -->
       <!-- <input id="fcity" name="fcity" class="form-control" required placeholder="עיר" [(ngModel)]="find.FindCityCode"
         #fcity="ngModel">

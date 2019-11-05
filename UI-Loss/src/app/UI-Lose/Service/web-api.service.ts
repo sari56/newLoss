@@ -6,7 +6,7 @@ import { Category } from '../Category';
 // import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/internal/Observable';
-import { City } from '../City';
+// import { City } from '../City';
 import { environment } from 'src/environments/environment';
 import { VirtualTimeScheduler } from 'rxjs';
 
@@ -52,6 +52,13 @@ export class WebApiService {
   InsetUser(params){
     return this.setRequstData("Losty/","InsetUser",params);
   }
+
+}
+
+export interface City {
+  CityCode: number;
+  CityTavCode: number;
+  CityName: string;   
 }
 
 

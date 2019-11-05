@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Lose } from '../../Lose';
-import { WebApiService } from '../../Service/web-api.service';
-import { City } from '../../City';
+import { WebApiService, City } from '../../Service/web-api.service';
+// import { City } from '../../City';
 
 @Component({
   selector: 'app-lose',
