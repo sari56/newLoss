@@ -1,0 +1,41 @@
+<body>
+  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="formBorder">
+    <form action="/action_page.php">
+
+      <label for="fid">:תעודת זהות</label>
+      <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" placeholder="תעודת זהות" /><br>
+      <div *ngIf="pid.errors && (pid.dirty || pid.touched)" class="alert alert-danger">
+        <div [hidden]="!pid.errors.required">תעודת זהות חובה</div>
+        <div [hidden]="!pid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
+        <div [hidden]="!pid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
+      </div>
+        <label for="pass">:סיסמת אבדה</label>
+        <input type="text" id="pass" name="pass" placeholder="סיסמת אבדה">
+
+        <button (click)="Check(fid,pass)">Check</button>
+      
+    </form>
+    <form [hidden]="isHidden">
+      <label for="Desc">:תיאור אבידה</label>
+      <input type="text" id="Desc" name="Desc" placeholder="תיאור אבידה">
+      <br>
+      <label for="Color">:צבע האבידה</label>
+      <input type="color" id="Color" name="Color">
+      <br>
+      <!-- לבדוק שהתאריך קטן מהיום -->
+      <label for="Date">:תאריך בו נאבד</label><br>
+      <input type="date" id="Date" name="Date">
+      <br>
+      <input value="[(ngModel)]='date.today'">
+      <br>
+      <!-- <input type="file"> -->
+      <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+      </label>
+    </form>
+
+  </div>
+
+</body>

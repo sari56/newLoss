@@ -1,0 +1,36 @@
+<body>
+  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="formBorder">
+    <form action="/action_page.php">
+
+      <label for="fid">:תעודת זהות</label>
+       <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" placeholder="תעודת זהות"  /><br>
+     
+        <label for="pass">:סיסמת מציאה</label>
+        <input type="text" id="pass" name="pass" placeholder="סיסמת מציאה">
+
+        <button (click)="Check(fid,pass)">אישור</button>
+    </form>
+    <form [hidden]="isHidden">
+      <label for="Desc">:תיאור מציאה</label>
+      <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
+      <br>
+      <label for="Color">:צבע המציאה</label>
+      <input type="color" id="Color" name="Color">
+      <br>
+      <!-- לבדוק שהתאריך קטן מהיום -->
+      <label for="Date">:תאריך בו נמצא</label><br>
+      <input type="date" id="Date" name="Date">
+      <br>
+      <input value="[(ngModel)]='date.today'">
+      <br>
+      <!-- <input type="file"> -->
+      <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+      </label>
+    </form>
+
+  </div>
+
+</body>
