@@ -15,6 +15,7 @@ export class FindComponent implements OnInit {
   find_hid:boolean=true;
   find: Find;
   pass:string;
+  _cityName:string;
 //  cities = [ 
 //    { code: 'א', c: [] },{ code: 'ב', c: [] },{ code: 'ג', c: [] },{ code: 'ד', c: [] },{ code: 'ה', c: [] },{ code: 'ו', c: [] },{ code: 'ז', c: [] },{ code: 'ח', c: [] },{ code: 'ט', c: [] },{ code: 'י', c: [] },{ code: 'כ', c: [] },
 //    { code: 'ל', c: [] },{ code: 'מ', c: [] },{ code: 'נ', c: [] },{ code: 'ס', c: [] },{ code: 'ע', c: [] },{ code: 'פ', c: [] },{ code: 'צ', c: [] },{ code: 'ק', c: [] },{ code: 'ר', c: [] },{ code: 'ש', c: [] },{ code: 'ת', c: [] }
@@ -28,9 +29,6 @@ export class FindComponent implements OnInit {
     this._WebApiService.GetAllCity().then(res =>{
       if(res){
         this.ListCity = res;
-        // res.array.forEach(element => {
-        //   this.ListCity.push({CityCode: element.CityCode ,CityTavCode: element.CityTavCode, CityName: element.CityName})
-        // });
       }
     })
    
@@ -46,6 +44,14 @@ export class FindComponent implements OnInit {
 
   }
 
+  SaveUser(f: Find, cityName: string){
+    //   this._WebApiService.GetCityCode([{Value : cityName}]).then(res=>{
+    //   if(res)
+    //   f.FindCityCode=res;
+    // });
+    f.FindCityCode = 2;
+    this._WebApiService.InsetUser(f);
+  }
 //   filterForeCasts(filterVal: any) {
 //     if (filterVal == "0")
 //         this.forecasts = this.cacheForecasts;

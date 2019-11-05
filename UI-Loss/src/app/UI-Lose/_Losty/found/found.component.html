@@ -6,15 +6,26 @@
       <label for="fid">:תעודת זהות</label>
        <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" placeholder="תעודת זהות"  /><br>
      
-        <label for="pass">:סיסמת מציאה</label>
+        <label for="pass">:שם משתמש</label>
         <input type="text" id="pass" name="pass" placeholder="סיסמת מציאה">
 
+        <label for="femail">:דוא"ל</label>
+        <input type="text" id="email" name="email" placeholder="דואר אלקטרוני">
+        <!-- <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
+          [(ngModel)]="find.FindEmail" #femail="ngModel">
+        <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
+          <div *ngIf="femail.errors.required">שדה זה חובה</div>
+        </div> -->
         <button (click)="Check(fid,pass)">אישור</button>
     </form>
     <form [hidden]="isHidden">
       <label for="Desc">:תיאור מציאה</label>
       <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
       <br>
+      <label for="Category">:קטגוריה</label>
+      <select >
+        <option *ngFor="let Cat of ListCategory">{{Cat.CategoryDesc}}</option>
+      </select>
       <label for="Color">:צבע המציאה</label>
       <input type="color" id="Color" name="Color">
       <br>

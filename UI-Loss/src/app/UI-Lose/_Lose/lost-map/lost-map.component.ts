@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-lost-map',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lost-map.component.scss']
 })
 export class LostMapComponent implements OnInit {
+  @Input()
+  map_hid: boolean = true;
   constructor() { }
 
   ngOnInit() {

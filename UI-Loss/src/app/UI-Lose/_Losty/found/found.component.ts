@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { WebApiService } from '../../Service/web-api.service';
+import { Category } from '../../Category';
 
 @Component({
   selector: 'app-found',
@@ -8,17 +10,22 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class FoundComponent implements OnInit {
   @Input()
-  found_hid:boolean=true;
-  isHidden:boolean=true;
-  constructor() { }
-
+  found_hid: boolean = true;
+  isHidden: boolean = true;
+  constructor(private _WebApiService: WebApiService) { }
+  ListCategory: Array<Category> = new Array<Category>();
   ngOnInit() {
+    this._WebApiService.GetAllCategory().then(res => {
+      if (res)
+        this.ListCategory = res;
+    })
+    console.log(this.ListCategory.length);
   }
 
-  Check(fid,pass) {
+  Check(fid, pass) {
     //  if(this._WebApiService.CheckMatch_FindCode(fid,pass)==true)
-        this.isHidden=false;
-        console.log("Check");
-        console.log(this.isHidden);
-    }
+    this.isHidden = false;
+    console.log("Check");
+    console.log(this.isHidden);
+  }
 }

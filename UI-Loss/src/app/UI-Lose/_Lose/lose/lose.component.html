@@ -38,11 +38,14 @@
       </div>
       <!-- עיר -->
       <label for="lcity">:עיר</label>
-      <input id="lcity" name="lcity" class="form-control" required placeholder="עיר" [(ngModel)]="lose.LoseCityCode"
+      <select>
+          <option id="cityName" name="cityName" [(ngModel)]="_cityName" value="c.CityName" *ngFor="let c of ListCity"> {{c.CityName}}</option>
+        </select>
+      <!-- <input id="lcity" name="lcity" class="form-control" required placeholder="עיר" [(ngModel)]="lose.LoseCityCode"
         #lcity="ngModel">
       <div *ngIf="lcity.invalid && (lcity.dirty || lcity.touched)" class="alert alert-danger">
         <div *ngIf="lcity.errors.required">שדה זה חובה</div>
-      </div>
+      </div> -->
       <!-- רחוב -->
       <label for="laddress">:רחוב</label>
       <input id="laddress" name="laddress" class="form-control" required placeholder="רחוב" [(ngModel)]="lose.LoseAddress"

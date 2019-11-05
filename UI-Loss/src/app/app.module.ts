@@ -17,13 +17,14 @@ import { LostyComponent } from './UI-Lose/_Losty/losty/losty.component';
 // import { ImageSnippetComponent } from './UI-Lose/_Losty/image-snippet/image-snippet.component';
 import { WebApiService } from './UI-Lose/Service/web-api.service';
 import { FoundComponent } from './UI-Lose/_Losty/found/found.component';
+import { EntryLoseComponent } from './UI-Lose/_Lose/entry-lose/entry-lose.component';
 // import { ImageService } from './UI-Lose/Service/image-service.service';
 
  
 
 const ROUTES:Routes=[
   { path: "find",component:EntryFindComponent},
-  { path: "lose",component:LoseComponent},
+  { path: "lose",component:EntryLoseComponent},
   // { path: "",component:AppComponent },
   // { path: "**",component:AppComponent},
  ];
@@ -39,6 +40,7 @@ const ROUTES:Routes=[
     LostMapComponent,
     LostyComponent,
     FoundComponent,
+    EntryLoseComponent,
     // ImageSnippetComponent
   ],
   imports: [

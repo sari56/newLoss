@@ -37,12 +37,20 @@ export class WebApiService {
       });
   }
 
+  GetAllCategory(){
+    return this.setRequstData("Losty/","GetCategory",{});
+  }
+
   GetAllCity() {
     return this.setRequstData("Losty/","GetCity", {});
   }
 
-  GetAllCategory(){
-    return this.setRequstData("Losty/","GetCategory",{});
+  GetCityCode(params){
+   return this.setRequstData("Losty/","GetCityCode",params);
+  }
+
+  InsetUser(params){
+    return this.setRequstData("Losty/","InsetUser",params);
   }
 }
 
