@@ -37,6 +37,12 @@ Create Table Person
  PersonPhone varchar(11),
  PersonEmail varchar(100),
 )
+Create Table [User]
+(
+ UserID int primary key,
+ UserName varchar(15),
+ UserEmail varchar (100)
+)
 --מאבדים
 Create Table Lose
 (
@@ -58,19 +64,19 @@ Create Table Find
  FindEmail varchar(100),
 )
 --תז וקוד אבדה
-Create Table LoseCode
-(
- LoseID varchar(10),
- LoseCode varchar(5), 
- primary key(LoseID,LoseCode)
-)
+--Create Table LoseCode
+--(
+-- LoseID varchar(10),
+-- LoseCode varchar(5), 
+-- primary key(LoseID,LoseCode)
+--)
 --תז וקוד מציאה
-Create Table FindCode
-(
- FindID varchar(10),
- FindCode varchar(5)
-  primary key(FindID,FindCode)
-)
+--Create Table FindCode
+--(
+-- FindID varchar(10),
+-- FindCode varchar(5)
+--  primary key(FindID,FindCode)
+--)
 --אבדות
 Create Table Loss
 (
@@ -214,3 +220,5 @@ select *  from City
 
 Insert into [Status] values('נאבד'),('נמצא')
 select * from [Status]
+
+select * from person
