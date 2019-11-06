@@ -23,8 +23,11 @@ import { EntryLoseComponent } from './UI-Lose/_Lose/entry-lose/entry-lose.compon
  
 
 const ROUTES:Routes=[
-  { path: "find",component:EntryFindComponent},
-  { path: "lose",component:EntryLoseComponent},
+  { path: "find",component:FindComponent},
+  { path: "found",component:FoundComponent},
+  { path: "lost-map",component:LostMapComponent},
+  { path: "search",component:SearchComponent},
+  // { path: "lose",component:EntryLoseComponent},
   // { path: "",component:AppComponent },
   // { path: "**",component:AppComponent},
  ];

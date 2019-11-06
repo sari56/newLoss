@@ -15,9 +15,7 @@ export class FindComponent implements OnInit {
   find_hid:boolean=true;
   find: Find;
   pass:string;
-  _cityName:string;
-  cityCode:number;
-  cityName:string="בני ברק";
+  _CityName:string;
   city:City;
 //  cities = [ 
 //    { code: 'א', c: [] },{ code: 'ב', c: [] },{ code: 'ג', c: [] },{ code: 'ד', c: [] },{ code: 'ה', c: [] },{ code: 'ו', c: [] },{ code: 'ז', c: [] },{ code: 'ח', c: [] },{ code: 'ט', c: [] },{ code: 'י', c: [] },{ code: 'כ', c: [] },
@@ -35,7 +33,7 @@ export class FindComponent implements OnInit {
       }
     })
     
-    console.log(this._WebApiService.GetCityCode(this.cityName));
+
     console.log(this.ListCity.length);
   }
 
@@ -48,15 +46,24 @@ export class FindComponent implements OnInit {
     console.log(fid)
   }
 
-  selected(){
-    this.cityCode=this.city.CityCode;
+  selected(city){
+  //  let i;
+  //  for (i = 1; i < this.ListCity.length && this.ListCity[i].CityName!=this._CityName; i++);
+  //  this.find.FindCityCode=this.ListCity[i].CityCode;
+  console.log(city.CityName)
   }
 
-  SaveUser(f: Find, cityName: string){
-      this._WebApiService.GetCityCode([{Value : cityName}]).then(res=>{
-      if(res)
-      f.FindCityCode=res;
-    });
+  onChange($event) {
+    console.log(this.city.CityName);
+    // I want to do something here for new selectedDevice, but what I
+    // got here is always last selection, not the one I just select.
+}
+
+  SaveUser(f: Find){
+    //   this._WebApiService.GetCityCode([{Value : cityName}]).then(res=>{
+    //   if(res)
+    //   f.FindCityCode=res;
+    // });
     this._WebApiService.InsetUser(f);
   }
 

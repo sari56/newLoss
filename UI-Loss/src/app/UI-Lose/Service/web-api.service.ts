@@ -19,7 +19,7 @@ export class WebApiService {
 
 
   constructor(private http: HttpClient) { }
-  setRequstData( controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
+  setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     // const requestObj: any = { "InputParams": collection, "identityGuid": identityGuid };
     this.body = JSON.stringify(collection);
     return this.http
@@ -37,20 +37,24 @@ export class WebApiService {
       });
   }
 
-  GetAllCategory(){
-    return this.setRequstData("Losty/","GetCategory",{});
+  GetAllCategory() {
+    return this.setRequstData("Losty/", "GetCategory", {});
   }
 
   GetAllCity() {
-    return this.setRequstData("Losty/","GetCity", {});
+    return this.setRequstData("Losty/", "GetCity", {});
   }
 
-  GetCityCode(params){
-   return this.setRequstData("Losty/","GetCityCode",params);
+  // GetCityCode(params){
+  //  return this.setRequstData("Losty/","GetCityCode",params);
+  // }
+
+  InsetUser(params) {
+    return this.setRequstData("Losty/", "InsetUser", params);
   }
 
-  InsetUser(params){
-    return this.setRequstData("Losty/","InsetUser",params);
+  GetFounds(params) {
+    return this.setRequstData("Losty/", "GetFounds", params);
   }
 
 }
@@ -58,8 +62,44 @@ export class WebApiService {
 export interface City {
   CityCode: number;
   CityTavCode: number;
-  CityName: string;   
+  CityName: string;
 }
 
+export interface Found {
+  FoundCode: string;
+  FindID: string;
+  CategoryCode: number;
+  FoundColor: string;
+  FoundDate: Date;
+  Found_X: number;
+  Found_Y: number;
+  StatusCode: number;
+  //  PictureCode:number;
+  Today: Date;
+}
+
+export interface Loss {
+  LossCode: string;
+  LoseID: string;
+  CategoryCode: number;
+  LossColor: string;
+  LossDate: Date;
+  Loss_X: number;
+  Loss_Y: number;
+  StatusCode: number;
+  //  PictureCode:number;
+  Today: Date;
+}
+
+export interface Lose {
+
+  LoseID: number;
+  LoseName: string;
+  LoseCityCode: number;
+  LoseAddress: string;
+  LosePhone: string;
+  LoseEmail: string;
+
+  }
 
 

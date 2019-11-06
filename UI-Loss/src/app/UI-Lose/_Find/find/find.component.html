@@ -4,7 +4,7 @@
 <body>
   <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <div>
-    <form class="formBorder" #FindForm="ngForm" action="/action_page.php">
+    <form class="formBorder" #FindForm="ngForm" action="/action_page.php" (ngSubmit)="selected(city)">
       <!-- שם מאבד -->
       <label for="fname">:שם מאבד</label>
       <input id="fname" name="fname" class="form-control" required placeholder="שם מוצא האבדה"
@@ -31,6 +31,7 @@
       <!-- דוא"ל -->
       <!-- אימות מייל -->
       <label for="femail">:דוא"ל</label>
+      <!-- <input id="femail" name="femail" placeholder="דואר אלקטרוני" [(ngModel)]="find.FindEmail" [ngModelOptions]="{standalone: true}"> -->
       <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
         [(ngModel)]="find.FindEmail" #femail="ngModel">
       <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
@@ -38,8 +39,8 @@
       </div>
       <!-- עיר -->
       <label for="fcity">:עיר</label>
-      <select>
-        <option *ngFor="let c of ListCity">{{c.CityName}}</option>
+      <select [(ngModel)]="city" (change)="onChange($event)">
+        <option *ngFor="let c of ListCity" [ngValue]="c">{{c.CityName}}</option>
       </select>
       <!-- <select [(ngModel)]="city" (change)="selected()">
         <option id="cityName" name="cityName" *ngFor="let c of ListCity" [ngValue]="c">
@@ -49,10 +50,7 @@
       {{city | json}} -->
 
 
-      <br>
-      <h3>{{city.CityCode}}</h3>
-      <h3>city:{{_cityName}}</h3>
-      <br>
+      
       <!--  -->
       <!-- <input id="fcity" name="fcity" class="form-control" required placeholder="עיר" [(ngModel)]="find.FindCityCode"
         #fcity="ngModel">
@@ -67,10 +65,24 @@
         <div *ngIf="faddress.errors.required">שדה זה חובה</div>
       </div>
 
-      <input type="submit" value="שמירת פרטי מוצא" [disabled]="!FindForm.form.valid" (click)="SaveUser(find,_cityName)">
+      <!-- <div ng-app="myApp" ng-controller="myCtrl">
+
+        <select ng-model="selectedName" ng-options="c for c in ListCity">
+        </select>
+        
+        </div>
+        
+        <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+          $scope.names = ["Emil", "Tobias", "Linus"];
+        });
+        </script> -->
+
+      <input type="submit" value="שמירת פרטי מוצא" [disabled]="!FindForm.form.valid" (click)="SaveUser(find)">
     </form>
   </div>
-
+  <!-- (click)="SaveUser(find) -->
 </body>
 
 </html>

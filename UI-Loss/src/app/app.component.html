@@ -544,17 +544,62 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
+
+<!-- <nav class="navbar navbar-inverse" id="nav">
+    <div class="container-fluid" >
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" style="font-family: BN Cloud;font-size: 100px">מצא לי</a>
+      </div>
+      <ul class="nav navbar-nav"> -->
+          <!-- <li id="cursor" routerLink="/Home" routerLinkActive="active"><a><span class="glyphicon glyphicon-home"></span>Home</a></li> -->
+          <!-- <li id="cursor" routerLink="/find" routerLinkActive="active"><a><span class="glyphicon glyphicon-equalizer"></span>מוצא אבדה</a></li>
+          <li id="cursor" routerLink="/lose" routerLinkActive="active"><a><span class="glyphicon glyphicon-new-window"></span>מחפש אבדה</a></li>
+          <li> <a id="u"> <span class="glyphicon glyphicon-user"></span> User name: {{user}} </a></li>
+      </ul>
+    </div>
+  </nav>
+<router-outlet></router-outlet> -->
+
+<body>
+
+  <ul>
+    <!-- <li><a href="#home">Home</a></li> -->
+    <li class="dropdown">
+      <a href="javascript:void(0)" class="dropbtn">מוצא אבדה</a>
+      <div class="dropdown">
+        <a routerLink="found">משתמש קיים</a>
+        <a routerLink="find">משתמש חדש</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="javascript:void(0)" class="dropbtn">מחפש אבדה</a>
+      <div class="dropdown">
+        <a routerLink="lost-map">חיפוש במפת האבדות</a>
+        <a routerLink="search">חיפוש עפ"י סימנים</a>
+      </div>
+    </li>
+  </ul>
+  <!-- class="dropdown-content" -->
+ 
+  <router-outlet></router-outlet>
+  </body>
+
+
 <!-- <app-lose></app-lose> -->
-<br><br><br><br>
+
+<!-- <br><br><br><br>
 <div id="div">
   <strong><a style="font-family:Guttman Yad-Brush,Guttman Yad; color:#fff0b3; font-size: 100px;font-style: oblique">מצא לי</a></strong>
-  <br><br><br><br><br>
+  <br><br><br><br><br> -->
+
   <!-- <br><br><br><br><br> -->
 <!-- <a  href="#./UI-Lose/_Find/find/find.component" id="btn" type="button" class="btn btn-default btn-lg" style="margin: unset">מוצא אבדה</a> -->
-<button id="btn" type="button"  class="btn btn-default btn-lg active" style="margin: unset;size: 50px" ><a routerLink="lose">מחפש אבדה</a></button>
+
+
+<!-- <button id="btn" type="button"  class="btn btn-default btn-lg active" style="margin: unset;size: 50px" ><a routerLink="lose">מחפש אבדה</a></button>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <button id="btn" type="button"  class="btn btn-default btn-lg active" style="margin: unset;size: 50px" ><a routerLink="find">מוצא אבדה</a></button>
 </div>
 
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->

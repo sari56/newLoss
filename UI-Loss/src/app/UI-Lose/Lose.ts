@@ -6,13 +6,5 @@ export class Lose {
   LoseAddress: string;
   LosePhone: string;
   LoseEmail: string;
-    // LoseCode: number;
-    // CategoryCode: number;
-    // LoseDesc: string;
-    // LoseDate:Date;
-    // Lose_X: number;
-    // Lose_Y: number;
-    // StatusCode: number;
-    // PictureCode: number;
 
   }
