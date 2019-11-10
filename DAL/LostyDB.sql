@@ -222,3 +222,4 @@ Insert into [Status] values('נאבד'),('נמצא')
 select * from [Status]
 
 select * from person
+
