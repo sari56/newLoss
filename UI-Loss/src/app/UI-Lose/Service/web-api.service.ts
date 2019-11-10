@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { Observable } from 'rxjs/internal/Observable';
 // import { Observable } from 'rxjs';
-import { Category } from '../Category';
 // import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/internal/Observable';
@@ -49,8 +48,12 @@ export class WebApiService {
   //  return this.setRequstData("Losty/","GetCityCode",params);
   // }
 
-  InsetUser(params) {
-    return this.setRequstData("Losty/", "InsetUser", params);
+  InsertUser(params) {
+    return this.setRequstData("Losty/", "InsertUser", params);
+  }
+
+  Insert(params) {
+    return this.setRequstData("Losty/", "Insert", params);
   }
 
   GetFounds(params) {
@@ -63,6 +66,11 @@ export interface City {
   CityCode: number;
   CityTavCode: number;
   CityName: string;
+}
+
+export class Category{
+  CategoryCode: number;
+  CategoryDesc: string;
 }
 
 export interface Found {
@@ -91,15 +99,31 @@ export interface Loss {
   Today: Date;
 }
 
-export interface Lose {
-
+export class Lose {
   LoseID: number;
   LoseName: string;
   LoseCityCode: number;
   LoseAddress: string;
   LosePhone: string;
   LoseEmail: string;
+  }
 
+  export class Find{
+    FindID: number;
+    FindName: string;
+    FindCityCode: number;
+    FindAddress: string;
+    FindPhone: string;
+    FindEmail: string;
+  }
+
+  export class Person{
+    PersonID: number;
+    PersonName: string;
+    PersonCityCode: number;
+    PersonAddress: string;
+    PersonPhone: string;
+    PersonEmail: string;
   }
 
 

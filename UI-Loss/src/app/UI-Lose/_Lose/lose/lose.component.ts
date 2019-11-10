@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Lose } from '../../Lose';
-import { WebApiService, City } from '../../Service/web-api.service';
+// import { Lose } from '../../Lose';
+import { WebApiService, City, Lose } from '../../Service/web-api.service';
 // import { City } from '../../City';
 
 @Component({

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebApiService } from '../../Service/web-api.service';
-import { Category } from '../../Category';
+import { WebApiService, Category } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-found',

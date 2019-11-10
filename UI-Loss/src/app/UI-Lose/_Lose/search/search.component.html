@@ -3,15 +3,18 @@
 <body>
     <br><br><br>
 
-    <select aria-placeholder="בחר קטגוריה">
-        <option *ngFor="let Cat of ListCategory">{{Cat.CategoryDesc}}</option>
+    <select [(ngModel)]="selectedValue" (change)="onChange($event)" aria-placeholder="בחר קטגוריה">
+        <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
     </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <label>מה נאבד</label>
-   <br>
-    <input type="date" id="Date" name="Date" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <br>
+    <!-- <input type="date" id="Date" name="Date" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+    <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}" (change)="onChange($event)" [(ngModel)]="currentDate">
     <label for="Date">מתי נאבד</label>
     <br>
-    <input type="color" id="Color" name="Color" style="width: 120px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <!-- <input type="color" id="Color" name="Color"
+        style="width: 120px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+        <input type="color" [(ngModel)]="selectedColor" (change)="onChange($event)" id="Color" name="Color" style="width: 120px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <label for="Color">:צבע האבדה</label>
     <br><br><br>
 
