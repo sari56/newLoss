@@ -107,7 +107,7 @@ namespace Web_Api.Controllers
             }
             catch (Exception e)
             {
-                return "Exception Occre while creating table:" + e.Message + "\t" + e.GetType();
+                return "Exception Occre while inserting person:" + e.Message + "\t" + e.GetType();
             }
             finally
             {
@@ -116,21 +116,126 @@ namespace Web_Api.Controllers
 
         }
 
-        [Route("api/Losty/Insert")]
-        [HttpPost]
-        public string Insert(params string[] person)
+        public bool DeleteUser(Person person)
         {
-            //string id, string name, int code, string address, string phone, string email  params string [] person
-            //SqlCommand cmd = ConnectSql("Insert into Person (PersonID , PersonName , PersonCityCode , PersonAddress , PersonPhone , PersonEmail) values (" + id + " , " + name + " , " + code + " , " + address + " , " + phone + " , " + email + ");");
-            SqlCommand cmd = ConnectSql("Insert into Person (PersonID , PersonName , PersonCityCode , PersonAddress , PersonPhone , PersonEmail) values (" + person[0] + " , " + person[1] + " , " + person[2] + " , " + person[3] + " , " + person[4] + " , " + person[5] + ");");
+            SqlCommand cmd = ConnectSql("Delete * From Person Where PersonID = @personId");
             try
             {
+                cmd.Parameters.AddWithValue("@personId", person.PersonID);
                 cmd.ExecuteNonQuery();
-                return "Inserting Data Successfully";
+                return true;
+           }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        public bool InsertFind(Person person)
+        {
+            SqlCommand cmd = ConnectSql("Insert into Find values (@FindId,@FindName,@FindCityCode,@FindAddress,@FindPhone,@FindEmail)"
+            );
+            try
+            {
+                cmd.Parameters.AddWithValue("@FindId", person.PersonID.ToString());
+                cmd.Parameters.AddWithValue("@FindName", person.PersonName.ToString());
+                cmd.Parameters.AddWithValue("@FindCityCode", person.PersonCityCode);
+                cmd.Parameters.AddWithValue("@FindAddress", person.PersonAddress.ToString());
+                cmd.Parameters.AddWithValue("@FindPhone", person.PersonPhone.ToString());
+                cmd.Parameters.AddWithValue("@FindEmail", person.PersonEmail.ToString());
+                cmd.ExecuteNonQuery();
+                DeleteUser(person);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        public bool InsertLose(Person person)
+        {
+            SqlCommand cmd = ConnectSql("Insert into Lose values (@LoseId,@LoseName,@LoseCityCode,@LoseAddress,@LosePhone,@LoseEmail)"
+            );
+            try
+            {
+                cmd.Parameters.AddWithValue("@LoseId", person.PersonID.ToString());
+                cmd.Parameters.AddWithValue("@LoseName", person.PersonName.ToString());
+                cmd.Parameters.AddWithValue("@LoseCityCode", person.PersonCityCode);
+                cmd.Parameters.AddWithValue("@LoseAddress", person.PersonAddress.ToString());
+                cmd.Parameters.AddWithValue("@LosePhone", person.PersonPhone.ToString());
+                cmd.Parameters.AddWithValue("@LoseEmail", person.PersonEmail.ToString());
+                cmd.ExecuteNonQuery();
+                DeleteUser(person);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        [Route("api/Losty/VerifyUserName")]
+        [HttpPost]
+        public bool VerifyUserName(string user , string id , string userName)
+        {
+            SqlCommand cmd = ConnectSql("Select * from Person Where PersonID = @id");
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataReader reader = cmd.ExecuteReader();
+            if(reader != null)
+            {
+                Person person = new Person()
+                {
+                    PersonID = reader["PersonID"].ToString(),
+                    PersonName = reader["PersonName"].ToString(),
+                    PersonCityCode = (int)reader["PersonCityCode"],
+                    PersonAddress = reader["PersonAddress"].ToString(),
+                    PersonPhone = reader["PersonPhone"].ToString(),
+                    PersonEmail = reader["personEmail"].ToString()
+                };
+                connection.DisConnectSql();
+                if (user == "מוצא")
+                    return InsertFind(person);
+                else
+                   return InsertLose(person);
+            }
+            connection.DisConnectSql();
+            return false;
+          
+        }
+        //todo
+        [Route("api/Losty/InsertFound")]
+        [HttpPost]
+        public string InsertFound(Found found)
+        {
+           SqlCommand cmd = ConnectSql("Insert into Found (FoundCode , FindID , CategoryCode , FoundColor , FoundDate , StatusCode , Date) Values(@FoundCode , @FindID , @CategoryCode , @FoundColor , @FoundDate , @StatusCode , @Date)");
+            try
+            {
+                cmd.Parameters.AddWithValue("@FoundCode", found.FoundCode);
+                cmd.Parameters.AddWithValue("@FindID", found.FindID);
+                cmd.Parameters.AddWithValue("@CategoryCode", found.CategoryCode);
+                cmd.Parameters.AddWithValue("@FoundColor", found.FoundColor);
+                cmd.Parameters.AddWithValue("@FoundDate", found.FoundDate);
+                cmd.Parameters.AddWithValue("@StatusCode", found.StatusCode);
+                cmd.Parameters.AddWithValue("@Date", found.Date);
+                cmd.ExecuteNonQuery();
+                return "Inserting Found Seccessfuly";
             }
             catch (Exception e)
             {
-                return "Exception Occre while creating table:" + e.Message + "\t" + e.GetType();
+                return "Exception Occre while inserting found:" + e.Message + "\t" + e.GetType();
             }
             finally
             {
