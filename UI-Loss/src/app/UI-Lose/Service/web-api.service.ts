@@ -52,13 +52,14 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertUser", params);
   }
 
-  Insert(params) {
-    return this.setRequstData("Losty/", "Insert", params);
+  InsertFound(params) {
+    return this.setRequstData("Losty/", "InsertFound", params);
   }
 
   GetFounds(params) {
     return this.setRequstData("Losty/", "GetFounds", params);
   }
+
 
 }
 
@@ -73,7 +74,7 @@ export class Category{
   CategoryDesc: string;
 }
 
-export interface Found {
+export class Found {
   FoundCode: string;
   FindID: string;
   CategoryCode: number;
@@ -83,7 +84,7 @@ export interface Found {
   Found_Y: number;
   StatusCode: number;
   //  PictureCode:number;
-  Today: Date;
+  Date: Date;
 }
 
 export interface Loss {

@@ -4,43 +4,48 @@
     <form action="/action_page.php">
 
       <label for="fid">:תעודת זהות</label>
-       <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" placeholder="תעודת זהות"  /><br>
-     
-        <label for="pass">:שם משתמש</label>
-        <input type="text" id="pass" name="pass" placeholder="סיסמת מציאה">
+      <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
+        placeholder="תעודת זהות" /><br>
 
-        <label for="femail">:דוא"ל</label>
-        <input type="text" id="email" name="email" placeholder="דואר אלקטרוני">
-        <!-- <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
+      <label for="pass">:שם משתמש</label>
+      <input type="text" id="pass" name="pass" [(ngModel)]="userName" placeholder="סיסמת מציאה">
+
+      <label for="femail">:דוא"ל</label>
+      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
+      <!-- <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
           [(ngModel)]="find.FindEmail" #femail="ngModel">
         <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
           <div *ngIf="femail.errors.required">שדה זה חובה</div>
         </div> -->
-        <button (click)="Check(fid,pass)">אישור</button>
+      <button (click)="Check(fid,pass)">אישור</button>
     </form>
-    <form [hidden]="isHidden">
+    <p [hidden]="isHidden">
+      <label for="Category">:קטגוריה</label>
+      <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+          <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+      </select>
+      <br>
       <label for="Desc">:תיאור מציאה</label>
       <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
       <br>
-      <label for="Category">:קטגוריה</label>
-      <select >
-        <option *ngFor="let Cat of ListCategory">{{Cat.CategoryDesc}}</option>
-      </select>
-      <label for="Color">:צבע המציאה</label>
-      <input type="color" id="Color" name="Color">
-      <br>
+      <label for="Color">:צבע המציאה</label><br>
+      <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px">
+      <br><br>
       <!-- לבדוק שהתאריך קטן מהיום -->
       <label for="Date">:תאריך בו נמצא</label><br>
-      <input type="date" id="Date" name="Date">
+      <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+
       <br>
-      <input value="[(ngModel)]='date.today'">
+      <button (click)="SaveFound(found)" type="submit">שמירת פרטי מציאה</button>
       <br>
       <!-- <input type="file"> -->
-      <label class="image-upload-container btn btn-bwm">
+      <!-- <label class="image-upload-container btn btn-bwm">
         <span>Select Image</span>
         <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
-      </label>
-    </form>
+      </label> -->
+    </p>
 
   </div>
 

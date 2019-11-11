@@ -19,7 +19,10 @@ import { WebApiService } from './UI-Lose/Service/web-api.service';
 import { FoundComponent } from './UI-Lose/_Losty/found/found.component';
 import { EntryLoseComponent } from './UI-Lose/_Lose/entry-lose/entry-lose.component';
 // import { ImageService } from './UI-Lose/Service/image-service.service';
-
+// import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
  
 
 const ROUTES:Routes=[
@@ -51,7 +54,11 @@ const ROUTES:Routes=[
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES ,{useHash:true})
+    // DropDownsModule,
+    RouterModule.forRoot(ROUTES ,{useHash:true}),
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
   ],
   // providers: [WebApiService,ImageService],
   providers: [WebApiService],
