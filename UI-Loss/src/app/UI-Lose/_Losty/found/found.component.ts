@@ -57,16 +57,26 @@ export class FoundComponent implements OnInit {
   }
 
   SaveFound(f: Found) {
-    if (this.currentDate > this.today){
-       window.alert("תאריך לא חוקי");
+    if (this.currentDate > this.today) {
+      window.alert("תאריך לא חוקי");
     }
-     else{
+    else {
       //  this.found.StatusCode = 2;
       //  this.found.Date = this.today;
-      f.Date = this.today;
-      f.StatusCode = 2;
+
+      f.FoundCode = 1;
       f.CategoryCode = this.found.CategoryCode;
-       this._WebApiService.InsertFound(f);
-     }
+      f.FoundDesc = " ";
+      f.Found_X = 1;
+      f.Found_Y = 1;
+      f.PictureCode = 1;
+      f.StatusCode = 2;
+      f.Date = this.today;
+      this._WebApiService.InsertFound(f);
+      //  this._WebApiService.InsertFound([{Value: f.FindID} , {Value: f.CategoryCode} , {Value: f.FoundColor} , {Value: f.FoundDate} , {Value: f.StatusCode} , {Value: f.Date}]);
+    }
+
+
+
   }
 }

@@ -75,15 +75,16 @@ export class Category{
 }
 
 export class Found {
-  FoundCode: string;
+  FoundCode: number;
   FindID: string;
   CategoryCode: number;
+  FoundDesc: string;
   FoundColor: string;
   FoundDate: Date;
   Found_X: number;
   Found_Y: number;
   StatusCode: number;
-  //  PictureCode:number;
+  PictureCode:number;
   Date: Date;
 }
 
