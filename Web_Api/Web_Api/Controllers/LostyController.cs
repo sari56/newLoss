@@ -16,6 +16,7 @@ namespace Web_Api.Controllers
         public Connection connection = new Connection();
 
         //[Route("http://localhost:59282/api/Home/GetCity")]
+        [Route("api/Losty/GetCity")]
         [HttpPost]
         public List<City> GetCity()
         {
@@ -118,7 +119,7 @@ namespace Web_Api.Controllers
 
         public bool DeleteUser(Person person)
         {
-            SqlCommand cmd = ConnectSql("Delete * From Person Where PersonID = @personId");
+            SqlCommand cmd = ConnectSql("Delete From Person Where PersonID = @personId");
             try
             {
                 cmd.Parameters.AddWithValue("@personId", person.PersonID);
@@ -220,15 +221,20 @@ namespace Web_Api.Controllers
         [HttpPost]
         public string InsertFound(Found found)
         {
-           SqlCommand cmd = ConnectSql("Insert into Found (FoundCode , FindID , CategoryCode , FoundColor , FoundDate , StatusCode , Date) Values(@FoundCode , @FindID , @CategoryCode , @FoundColor , @FoundDate , @StatusCode , @Date)");
+            //(FindID, CategoryCode, FoundColor, FoundDate, StatusCode, Date)
+           SqlCommand cmd = ConnectSql("Insert into Found  Values(@FoundCode , @FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y , @StatusCode , @PictureCode , @Date)");
             try
             {
                 cmd.Parameters.AddWithValue("@FoundCode", found.FoundCode);
                 cmd.Parameters.AddWithValue("@FindID", found.FindID);
                 cmd.Parameters.AddWithValue("@CategoryCode", found.CategoryCode);
+                cmd.Parameters.AddWithValue("@FoundDesc" , found.FoundDesc);
                 cmd.Parameters.AddWithValue("@FoundColor", found.FoundColor);
                 cmd.Parameters.AddWithValue("@FoundDate", found.FoundDate);
+                cmd.Parameters.AddWithValue("@Found_X", found.Found_X);
+                cmd.Parameters.AddWithValue("@Found_Y", found.Found_Y);
                 cmd.Parameters.AddWithValue("@StatusCode", found.StatusCode);
+                cmd.Parameters.AddWithValue("@PictureCode", found.PictureCode);
                 cmd.Parameters.AddWithValue("@Date", found.Date);
                 cmd.ExecuteNonQuery();
                 return "Inserting Found Seccessfuly";
