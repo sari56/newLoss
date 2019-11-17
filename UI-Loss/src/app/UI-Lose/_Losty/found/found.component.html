@@ -17,7 +17,7 @@
         <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
           <div *ngIf="femail.errors.required">שדה זה חובה</div>
         </div> -->
-      <button (click)="Check(fid,pass)">אישור</button>
+      <button (click)="Check(found.FindIDs,userName,email)">אישור</button>
     </form>
     <p [hidden]="isHidden">
       <label for="Category">:קטגוריה</label>

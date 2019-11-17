@@ -56,11 +56,15 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertFound", params);
   }
 
+  VerifyUserName(params){
+    return this.setRequstData("Losty/","VerifyUserName",params);
+  }
+
   GetFounds(params) {
     return this.setRequstData("Losty/", "GetFounds", params);
   }
 
-
+  
 }
 
 export interface City {
@@ -84,7 +88,7 @@ export class Found {
   Found_X: number;
   Found_Y: number;
   StatusCode: number;
-  PictureCode:number;
+  // PictureCode:number;
   Date: Date;
 }
 

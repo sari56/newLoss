@@ -49,10 +49,12 @@ export class FoundComponent implements OnInit {
     console.log(this.currentDate);
   }
 
-  Check(fid, pass) {
-    //  if(this._WebApiService.CheckMatch_FindCode(fid,pass)==true)
-    this.isHidden = false;
-    console.log("Check");
+  Check(fid: string, pass: string , email: string) {
+    console.log("Check   id" + fid.toString() + "pass  "+ pass.toString() + "email  "+ email.toString());
+    if (this._WebApiService.VerifyUserName([{ fid } , { pass } , { email }]) == true)
+      this.isHidden = false;
+    else
+      window.alert("שם משתמש שגוי");
     console.log(this.isHidden);
   }
 
@@ -61,22 +63,18 @@ export class FoundComponent implements OnInit {
       window.alert("תאריך לא חוקי");
     }
     else {
-      //  this.found.StatusCode = 2;
-      //  this.found.Date = this.today;
 
-      f.FoundCode = 1;
+      // f.FoundCode = 1;
       f.CategoryCode = this.found.CategoryCode;
       f.FoundDesc = " ";
       f.Found_X = 1;
       f.Found_Y = 1;
-      f.PictureCode = 1;
+      // f.PictureCode = 1;
+
       f.StatusCode = 2;
       f.Date = this.today;
       this._WebApiService.InsertFound(f);
       //  this._WebApiService.InsertFound([{Value: f.FindID} , {Value: f.CategoryCode} , {Value: f.FoundColor} , {Value: f.FoundDate} , {Value: f.StatusCode} , {Value: f.Date}]);
     }
-
-
-
   }
 }
