@@ -30,7 +30,7 @@ Create Table Category
 --אנשים
 Create Table Person
 (
- PersonID int primary key,
+ PersonID varchar(9) primary key,
  PersonName varchar(50),
  PersonCityCode int foreign key references City,
  PersonAddress varchar(30),
@@ -39,14 +39,14 @@ Create Table Person
 )
 Create Table [User]
 (
- UserID int primary key,
- UserName varchar(15),
+ UserID varchar(9) primary key,
+ UserName varchar(50),
  UserEmail varchar (100)
 )
 --מאבדים
 Create Table Lose
 (
- LoseID int primary key,
+ LoseID varchar(9) primary key,
  LoseName varchar(50),
  LoseCityCode int foreign key references City,
  LoseAddress varchar(30),
@@ -56,7 +56,7 @@ Create Table Lose
 --מוצאים
 Create Table Find
 (
- FindID int primary key,
+ FindID varchar(9) primary key,
  FindName varchar(50),
  FindCityCode int foreign key references City,
  FindAddress varchar(30),
@@ -80,8 +80,8 @@ Create Table Find
 --אבדות
 Create Table Loss
 (
- LossCode int primary key,
- LoseID int foreign key references Lose,
+ LossCode int identity(100,1) primary key ,
+ LoseID varchar(9) foreign key references Lose,
  CategoryCode int foreign key references Category,
  LossDesc varchar(20),
  LossColor varchar(20),
@@ -92,11 +92,12 @@ Create Table Loss
  PictureCode int foreign key references Picture,
  [Date] date
 )
+--drop table found 
 --מציאות
 Create Table Found
 (
- FoundCode int primary key,
- FindID int foreign key references Find,
+ FoundCode int identity(100,1) primary key,
+ FindID varchar(9) foreign key references Person,
  CategoryCode int foreign key references Category,
  FoundDesc varchar(20),
  FoundColor varchar(20),
@@ -104,14 +105,15 @@ Create Table Found
  Found_X int,
  Found_Y int,
  StatusCode int foreign key references [Status],
- PictureCode int foreign key references Picture,
+-- PictureCode int foreign key references Picture,
  [Date] date
 )
+select * from found
 --ארכיון אבדות
 Create Table ArchivesLoss
 (
  ArchivesLossCode int primary key,
- LoseID int foreign key references Lose,
+ LoseID varchar(9) foreign key references Lose,
  CategoryCode int foreign key references Category,
  ArchivesLossDesc varchar(20),
  ArchivesLossColor varchar(20),
@@ -126,7 +128,7 @@ Create Table ArchivesLoss
 Create Table ArchivesFound
 (
  ArchivesFoundCode int primary key,
- FindID int foreign key references Find,
+ FindID varchar(9) foreign key references Find,
  CategoryCode int foreign key references Category,
  ArchivesFoundDesc varchar(20),
  ArchivesFoundColor varchar(20),
@@ -141,7 +143,7 @@ Create Table ArchivesFound
 Create Table FindLoss
 (
  FindLossCode int primary key,
- LoseID int foreign key references Find,
+ LoseID varchar(9) foreign key references Find,
  CategoryCode int foreign key references Category,
  FindLossDesc varchar(20),
  FindLossColor varchar(20),
@@ -156,7 +158,7 @@ Create Table FindLoss
 Create Table AskFound
 (
  AskFoundCode int primary key,
- FindID int foreign key references Find,
+ FindID varchar(9) foreign key references Find,
  CategoryCode int foreign key references Category,
  AskFoundDesc varchar(20),
  AskFoundColor varchar(20),
@@ -222,4 +224,6 @@ Insert into [Status] values('נאבד'),('נמצא')
 select * from [Status]
 
 select * from person
+
+
 
