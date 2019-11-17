@@ -222,10 +222,10 @@ namespace Web_Api.Controllers
         public string InsertFound(Found found)
         {
             //(FindID, CategoryCode, FoundColor, FoundDate, StatusCode, Date)
-           SqlCommand cmd = ConnectSql("Insert into Found  Values(@FoundCode , @FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y , @StatusCode , @PictureCode , @Date)");
+           SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y , @StatusCode , @Date)");
             try
             {
-                cmd.Parameters.AddWithValue("@FoundCode", found.FoundCode);
+                //cmd.Parameters.AddWithValue("@FoundCode", found.FoundCode);
                 cmd.Parameters.AddWithValue("@FindID", found.FindID);
                 cmd.Parameters.AddWithValue("@CategoryCode", found.CategoryCode);
                 cmd.Parameters.AddWithValue("@FoundDesc" , found.FoundDesc);
@@ -234,7 +234,7 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@Found_X", found.Found_X);
                 cmd.Parameters.AddWithValue("@Found_Y", found.Found_Y);
                 cmd.Parameters.AddWithValue("@StatusCode", found.StatusCode);
-                cmd.Parameters.AddWithValue("@PictureCode", found.PictureCode);
+               // cmd.Parameters.AddWithValue("@PictureCode", found.PictureCode);
                 cmd.Parameters.AddWithValue("@Date", found.Date);
                 cmd.ExecuteNonQuery();
                 return "Inserting Found Seccessfuly";
