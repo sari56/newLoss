@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Web_Api.Models;
@@ -248,6 +249,52 @@ namespace Web_Api.Controllers
                 connection.DisConnectSql();
             }
         }
+
+        //[HttpPost]
+        //[Route("api/Losty/SendEmail")]
+        //public string SendEmail()
+        //{
+        //    MailMessage mail = new MailMessage();
+        //    mail.Subject = strSubject;
+        //    mail.From = new MailAddress("xyz@gmail.com");
+        //    mail.To.Add(ToEmail);
+        //    mail.Bcc.Add("abc@gmail.com");
+        //    mail.Subject = strSubject;
+        //    mail.Body = strBody;
+        //    mail.IsBodyHtml = true;
+
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 25);
+        //    smtp.EnableSsl = true;
+        //    NetworkCredential netCre = new NetworkCredential("xyz@gmail.com", "myPassword");
+        //    smtp.Credentials = netCre;
+        //    try
+        //    {
+        //        smtp.Send(mail);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex.InnerException != null)
+        //        {
+        //            string exInner = ex.InnerException.ToString();
+        //        }
+        //        msg = false;
+        //    }
+        //}
+        [HttpPost]
+        [Route("api/Losty/SendEmail")]
+        public string SendEmail()
+        {
+            mail_core mail = new mail_core();
+            mail.NewMail("sv4114994@gmail.com", "sari", "b0527109047@gmail.com", "batya", "hello", "good day", "");
+            mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
+
+            return mail.sendMail();
+
+
+
+        }
+
+
 
         public SqlCommand ConnectSql(string query)
         {
