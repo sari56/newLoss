@@ -222,8 +222,11 @@ select *  from City
 
 Insert into [Status] values('נאבד'),('נמצא')
 select * from [Status]
-
+                             
 select * from person
-
-
+select * from [User]
+    
+delete from [User]
+delete from person where PersonID = 027859511
+delete from person where PersonID = 208094391
 
