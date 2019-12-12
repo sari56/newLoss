@@ -37,9 +37,10 @@ export class FindComponent implements OnInit {
     console.log(this.ListCity.length);
   }
 
-  CheckEmail(fid) {
+  CheckEmail(fid, name, email) {
     window.alert("check")
     // מייל אוטומטי
+    this._WebApiService.SendEmail([{ fid }, {}, {}])
     this.pass = "sss";
     // this._LocalStorage.Password=fid;
     // +" "+this.pass;
@@ -58,8 +59,8 @@ export class FindComponent implements OnInit {
   onChange($event) {
     console.log(this.selectedCity);
     let i;
-     for (i = 1; i < this.ListCity.length && this.ListCity[i].CityName!=this.selectedCity; i++);
-    this.find.PersonCityCode=this.ListCity[i].CityCode;
+    for (i = 1; i < this.ListCity.length && this.ListCity[i].CityName != this.selectedCity; i++);
+    this.find.PersonCityCode = this.ListCity[i].CityCode;
     // console.log(this.city.CityName);
 
     // I want to do something here for new selectedDevice, but what I
@@ -71,8 +72,8 @@ export class FindComponent implements OnInit {
     //   if(res)
     //   f.FindCityCode=res;
     // });
-
-     this._WebApiService.InsertUser(f);
+    this._WebApiService.InsertUser(f);
+    this._WebApiService.SendEmail(f);
 
     // this._WebApiService.Insert([{ID: f.PersonID} , {Name: f.PersonName} , {Code: "19"} , {Address: f.PersonAddress} , {Phone: f.PersonPhone} , {Email: f.PersonEmail}]);
   }

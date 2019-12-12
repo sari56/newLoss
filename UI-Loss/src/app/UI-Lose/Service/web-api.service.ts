@@ -16,7 +16,6 @@ import { VirtualTimeScheduler } from 'rxjs';
 export class WebApiService {
   private body: string
 
-
   constructor(private http: HttpClient) { }
   setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     // const requestObj: any = { "InputParams": collection, "identityGuid": identityGuid };
@@ -56,15 +55,18 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertFound", params);
   }
 
-  VerifyUserName(params){
-    return this.setRequstData("Losty/","VerifyUserName",params);
+  VerifyUserName(params) {
+    return this.setRequstData("Losty/", "VerifyUserName", params);
   }
 
   GetFounds(params) {
     return this.setRequstData("Losty/", "GetFounds", params);
   }
 
-  
+  SendEmail(params) {
+    return this.setRequstData("Losty/", "SendEmail", params);
+  }
+
 }
 
 export interface City {
@@ -73,7 +75,7 @@ export interface City {
   CityName: string;
 }
 
-export class Category{
+export class Category {
   CategoryCode: number;
   CategoryDesc: string;
 }
@@ -112,24 +114,24 @@ export class Lose {
   LoseAddress: string;
   LosePhone: string;
   LoseEmail: string;
-  }
+}
 
-  export class Find{
-    FindID: number;
-    FindName: string;
-    FindCityCode: number;
-    FindAddress: string;
-    FindPhone: string;
-    FindEmail: string;
-  }
+export class Find {
+  FindID: number;
+  FindName: string;
+  FindCityCode: number;
+  FindAddress: string;
+  FindPhone: string;
+  FindEmail: string;
+}
 
-  export class Person{
-    PersonID: number;
-    PersonName: string;
-    PersonCityCode: number;
-    PersonAddress: string;
-    PersonPhone: string;
-    PersonEmail: string;
-  }
+export class Person {
+  PersonID: number;
+  PersonName: string;
+  PersonCityCode: number;
+  PersonAddress: string;
+  PersonPhone: string;
+  PersonEmail: string;
+}
 
 
