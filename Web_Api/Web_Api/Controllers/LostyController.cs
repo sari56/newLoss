@@ -126,7 +126,7 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@personId", person.PersonID);
                 cmd.ExecuteNonQuery();
                 return true;
-           }
+            }
             catch
             {
                 return false;
@@ -191,12 +191,13 @@ namespace Web_Api.Controllers
 
         [Route("api/Losty/VerifyUserName")]
         [HttpPost]
-        public bool VerifyUserName(string user , string id , string userName)
+        public bool VerifyUserName(string user, string id, string userName, string email)
         {
             SqlCommand cmd = ConnectSql("Select * from Person Where PersonID = @id");
             cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@email", email);
             SqlDataReader reader = cmd.ExecuteReader();
-            if(reader != null)
+            if (reader != null)
             {
                 Person person = new Person()
                 {
@@ -211,11 +212,11 @@ namespace Web_Api.Controllers
                 if (user == "מוצא")
                     return InsertFind(person);
                 else
-                   return InsertLose(person);
+                    return InsertLose(person);
             }
             connection.DisConnectSql();
             return false;
-          
+
         }
         //todo
         [Route("api/Losty/InsertFound")]
@@ -223,19 +224,19 @@ namespace Web_Api.Controllers
         public string InsertFound(Found found)
         {
             //(FindID, CategoryCode, FoundColor, FoundDate, StatusCode, Date)
-           SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y , @StatusCode , @Date)");
+            SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y , @StatusCode , @Date)");
             try
             {
                 //cmd.Parameters.AddWithValue("@FoundCode", found.FoundCode);
                 cmd.Parameters.AddWithValue("@FindID", found.FindID);
                 cmd.Parameters.AddWithValue("@CategoryCode", found.CategoryCode);
-                cmd.Parameters.AddWithValue("@FoundDesc" , found.FoundDesc);
+                cmd.Parameters.AddWithValue("@FoundDesc", found.FoundDesc);
                 cmd.Parameters.AddWithValue("@FoundColor", found.FoundColor);
                 cmd.Parameters.AddWithValue("@FoundDate", found.FoundDate);
                 cmd.Parameters.AddWithValue("@Found_X", found.Found_X);
                 cmd.Parameters.AddWithValue("@Found_Y", found.Found_Y);
                 cmd.Parameters.AddWithValue("@StatusCode", found.StatusCode);
-               // cmd.Parameters.AddWithValue("@PictureCode", found.PictureCode);
+                // cmd.Parameters.AddWithValue("@PictureCode", found.PictureCode);
                 cmd.Parameters.AddWithValue("@Date", found.Date);
                 cmd.ExecuteNonQuery();
                 return "Inserting Found Seccessfuly";
@@ -280,21 +281,65 @@ namespace Web_Api.Controllers
         //        msg = false;
         //    }
         //}
-        [HttpPost]
-        [Route("api/Losty/SendEmail")]
-        public string SendEmail()
+
+        [HttpGet]
+        [Route("api/Losty/GetUserName")]
+        public string GetUserName(string reciveName)
         {
-            mail_core mail = new mail_core();
-            mail.NewMail("sv4114994@gmail.com", "sari", "b0527109047@gmail.com", "batya", "hello", "good day", "");
-            mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
-
-            return mail.sendMail();
-
-
-
+            string[] characters = { "a", "b", "g", "d", "h", "v", "z", "ch", "t", "i", "c", "c", "l", "m", "m", "n", "n", "s", "a", "p", "p", "th", "th", "k", "r", "s", "t" };
+            string[] fullName = reciveName.Split(' ');
+            string userName = "";
+            int i = 0, ascci;
+            foreach (string word in fullName)
+            {
+                ascci = (int)Convert.ToChar(word[0]);
+                userName += characters[ascci - 1488];
+                i++;
+            }
+            Random random = new Random();
+            userName += random.Next().ToString();
+            return userName;
         }
 
+        [HttpPost]
+        [Route("api/Losty/InsertUserName")]
+        public bool InsertUserName(string PersonID, string PersonName, string userName)
+        {
+            SqlCommand cmd = ConnectSql("Insert into [User] values (@UserID , @UserName , @UserEmail)");
+            try
+            {
+                cmd.Parameters.AddWithValue("@UserID", PersonID);
+                cmd.Parameters.AddWithValue("@UserName", PersonName);
+                cmd.Parameters.AddWithValue("@UserEmail", userName);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
 
+        [HttpPost]
+        [Route("api/Losty/SendEmail")]
+        public string SendEmail(Person person)
+        {
+            //string[] recive = user.Split(' ');
+            mail_core mail = new mail_core();
+            string userName = GetUserName(person.PersonName);
+            //mail.NewMail("sv4114994@gmail.com", "sari", "b0527109047@gmail.com", "batya", "hello", "good day", "");
+            //mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
+            mail.NewMail(person.PersonEmail, person.PersonName, "RS.Losty@gmail.com", "Losty", "LOSTY שם משתמש כניסה למערכת ", "שלום ל" + person.PersonName + " שם המשתמש שלך: " + userName, "");
+            mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
+            bool IsInsertUserName = InsertUserName(person.PersonID, person.PersonName, userName);
+            //if (IsInsertUserName == true)
+                return mail.sendMail();
+            //return "Incorrect email Address";
+        }
 
         public SqlCommand ConnectSql(string query)
         {
