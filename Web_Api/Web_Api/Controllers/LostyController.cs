@@ -118,16 +118,27 @@ namespace Web_Api.Controllers
 
         }
 
+        [Route("api/Losty/DeleteUser")]
+        [HttpPost]
         public bool DeleteUser(Person person)
         {
-            SqlCommand cmd = ConnectSql("Delete From Person Where PersonID = @personId");
+            //Person person = new Person();
+            //person.PersonID = "208094391";
+            //person.PersonName = "שרי ורדי";
+            //person.PersonCityCode = 19;
+            //person.PersonAddress = "עוזיאל 56";
+            //person.PersonPhone = "0504198338";
+            //person.PersonEmail = "sv4114994@gmail.com";
+            string strSQL = string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID);
+            SqlCommand cmd = ConnectSql(strSQL);
+            //SqlCommand cmd = ConnectSql("Delete From Person Where PersonID = '@PersonId'");
             try
             {
-                cmd.Parameters.AddWithValue("@personId", person.PersonID);
+                //cmd.Parameters.AddWithValue("@PersonId", person.PersonID.ToString());
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
                 return false;
             }
@@ -150,7 +161,7 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@FindPhone", person.PersonPhone.ToString());
                 cmd.Parameters.AddWithValue("@FindEmail", person.PersonEmail.ToString());
                 cmd.ExecuteNonQuery();
-                DeleteUser(person);
+                //DeleteUser(person);
                 return true;
             }
             catch
@@ -176,7 +187,7 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@LosePhone", person.PersonPhone.ToString());
                 cmd.Parameters.AddWithValue("@LoseEmail", person.PersonEmail.ToString());
                 cmd.ExecuteNonQuery();
-                DeleteUser(person);
+                //DeleteUser(person);
                 return true;
             }
             catch
@@ -191,13 +202,14 @@ namespace Web_Api.Controllers
 
         [Route("api/Losty/VerifyUserName")]
         [HttpPost]
-        public bool VerifyUserName(string user, string id, string userName, string email)
+        public bool VerifyUserName(string[] user)
         {
-            SqlCommand cmd = ConnectSql("Select * from Person Where PersonID = @id");
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@email", email);
+            string strSQL = string.Format("Select * From Person Where PersonID = '{0}'", user[1]);
+            SqlCommand cmd = ConnectSql(strSQL);
+            //cmd.Parameters.AddWithValue("@id", user[1]);
+            //cmd.Parameters.AddWithValue("@email", user[3]);
             SqlDataReader reader = cmd.ExecuteReader();
-            if (reader != null)
+            if (reader.Read())
             {
                 Person person = new Person()
                 {
@@ -209,10 +221,13 @@ namespace Web_Api.Controllers
                     PersonEmail = reader["personEmail"].ToString()
                 };
                 connection.DisConnectSql();
-                if (user == "מוצא")
-                    return InsertFind(person);
-                else
-                    return InsertLose(person);
+                if(DeleteUser(person) == true)
+                {
+                    if (user[0].Equals("מוצא"))
+                        return InsertFind(person);
+                    else
+                        return InsertLose(person);
+                }
             }
             connection.DisConnectSql();
             return false;
@@ -337,7 +352,7 @@ namespace Web_Api.Controllers
             mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
             bool IsInsertUserName = InsertUserName(person.PersonID, person.PersonName, userName);
             //if (IsInsertUserName == true)
-                return mail.sendMail();
+            return mail.sendMail();
             //return "Incorrect email Address";
         }
 
