@@ -15,6 +15,7 @@ import { VirtualTimeScheduler } from 'rxjs';
 })
 export class WebApiService {
   private body: string
+  private isValidate: number = 0;
 
   constructor(private http: HttpClient) { }
   setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
@@ -55,8 +56,8 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertFound", params);
   }
 
-  VerifyUserName(params) {
-    return this.setRequstData("Losty/", "VerifyUserName", params);
+  VerifyUserName(user: string[]) {
+    return this.setRequstData("Losty/", "VerifyUserName", user);
   }
 
   GetFounds(params) {
@@ -67,7 +68,56 @@ export class WebApiService {
     return this.setRequstData("Losty/", "SendEmail", params);
   }
 
+  CheckEmail(email: string) {
+    if (!email.includes("@")) {
+      this.isValidate = 1;
+      window.alert("there is not '@'");
+    }
+    else {
+      for (let i = 0; i <= email.length; i++) {
+        if (email[i] == '@') {
+          if (i > 0 && i < email.length - 1) {
+            if (email[i - 1] == ' ') {
+              this.isValidate = 1;
+              window.alert("there is not char before @");
+            }
+            if (email[i + 1] == ' ') {
+              this.isValidate = 1;
+              window.alert("there is not char after @");
+            }
+            else {
+              this.isValidate = 1;
+              window.alert("the address isn't correct");
+            }
+          }
+          else {
+            if (email[i] == '.') {
+              if (i > 0 && i < email.length) {
+                if (email[i - 1] == ' ') {
+                  this.isValidate = 1;
+                  window.alert("ther is not char before .");
+                }
+                if (email[i + 1] == ' ') {
+                  this.isValidate = 1;
+                  window.alert("ther is not char after .");
+                }
+                else {
+                  this.isValidate = 1;
+                  window.alert("the address isn't correct");
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if (this.isValidate == 0) {
+      return 0;
+    }
+    return 1;
+  }
 }
+
 
 export interface City {
   CityCode: number;

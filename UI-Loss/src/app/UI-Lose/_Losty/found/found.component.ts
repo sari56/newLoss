@@ -50,9 +50,10 @@ export class FoundComponent implements OnInit {
     console.log(this.currentDate);
   }
 
-  Check(fid: string, pass: string , email: string) {
-    console.log("Check   id" + fid.toString() + "pass  "+ pass.toString() + "email  "+ email.toString());
-    if (this._WebApiService.VerifyUserName([{status} , { fid } , { pass } , { email }]) == true)
+  Check(id: string, userName: string, email: string) {
+   // console.log("Check   id" + id.toString() + "pass  " + userName.toString() + "email  " + email.toString());
+    // if (this._WebApiService.VerifyUserName([{Value: status, Name: "status"}, {Value: id, Name: "id"}, {Value: userName, Name: "userName"}, {Value: email, Name: "email"}]) == true)
+    if (this._WebApiService.VerifyUserName([this.status, id, userName, email]) == true)
       this.isHidden = false;
     else
       window.alert("שם משתמש שגוי");

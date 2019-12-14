@@ -4,11 +4,12 @@
     <form action="/action_page.php">
 
       <label for="fid">:תעודת זהות</label>
-      <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
-        placeholder="תעודת זהות" /><br>
+      <input type="text" id="fid" name="fid" [(ngModel)]="found.FindID" placeholder="תעודת זהות" /><br>
+      <!-- <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
+        placeholder="תעודת זהות" /><br> -->
 
       <label for="pass">:שם משתמש</label>
-      <input type="text" id="pass" name="pass" [(ngModel)]="userName" placeholder="שם משתמש">
+      <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
 
       <label for="femail">:דוא"ל</label>
       <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
@@ -17,7 +18,7 @@
         <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
           <div *ngIf="femail.errors.required">שדה זה חובה</div>
         </div> -->
-      <button (click)="Check(found.FindIDs,userName,email)">אישור</button>
+      <button (click)="Check(found.FindID,userName,email)">אישור</button>
     </form>
     <p [hidden]="isHidden">
       <label for="Category">:קטגוריה</label>
