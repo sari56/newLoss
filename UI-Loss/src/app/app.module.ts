@@ -23,14 +23,15 @@ import { EntryLoseComponent } from './UI-Lose/_Lose/entry-lose/entry-lose.compon
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
- 
+import { AgmCoreModule } from '@agm/core';
 
 const ROUTES:Routes=[
   { path: "find",component:FindComponent},
   { path: "found",component:FoundComponent},
   { path: "lost-map",component:LostMapComponent},
   { path: "search",component:SearchComponent},
-  // { path: "lose",component:EntryLoseComponent},
+  { path: "lose",component:LoseComponent},
+  { path: "losty",component:LostyComponent},
   // { path: "",component:AppComponent },
   // { path: "**",component:AppComponent},
  ];
@@ -58,7 +59,12 @@ const ROUTES:Routes=[
     RouterModule.forRoot(ROUTES ,{useHash:true}),
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    // AlertModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCWXwfWSCnsonvPZobjIAaUHYIYU8MQUD0',
+      language:'he'
+    }),
   ],
   // providers: [WebApiService,ImageService],
   providers: [WebApiService],

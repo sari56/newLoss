@@ -8,14 +8,14 @@
       <!-- שם מאבד -->
       <label for="lname">:שם מאבד</label>
       <input id="lname" name="lname" class="form-control" required placeholder="שם מחפש האבדה"
-        [(ngModel)]="lose.LoseName" #lname="ngModel">
+        [(ngModel)]="lose.PersonName" #lname="ngModel">
       <div *ngIf="lname.invalid && (lname.dirty || lname.touched)" class="alert alert-danger">
         <div *ngIf="lname.errors.required">שדה זה חובה</div>
       </div>
       <!-- תעודת זהות -->
       <label for="lid">:תעודת זהות</label>
       <input id="lid" name="lid" class="form-control" required minlength="9" maxlength="9" placeholder="תעודת זהות"
-        [(ngModel)]="lose.LoseID" #lid="ngModel">
+        [(ngModel)]="lose.PersonID" #lid="ngModel">
       <div *ngIf="lid.invalid && (lid.dirty || lid.touched)" class="alert alert-danger">
         <div *ngIf="lid.errors.required">תעודת זהות חובה</div>
         <div *ngIf="lid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
@@ -23,7 +23,7 @@
       </div>
       <!-- טלפון -->
       <label for="lphone">:טלפון</label>
-      <input id="lphone" name="lphone" class="form-control" required placeholder="טלפון" [(ngModel)]="lose.LosePhone"
+      <input id="lphone" name="lphone" class="form-control" required placeholder="טלפון" [(ngModel)]="lose.PersonPhone"
         #lphone="ngModel">
       <div *ngIf="lphone.invalid && (lphone.dirty || lphone.touched)" class="alert alert-danger">
         <div *ngIf="lphone.errors.required">שדה זה חובה</div>
@@ -32,15 +32,15 @@
       <!-- אימות מייל -->
       <label for="lemail">:דוא"ל</label>
       <input id="lemail" name="lemail" class="form-control" required placeholder="דואר אלקטרוני"
-        [(ngModel)]="lose.LoseEmail" #lemail="ngModel">
+        [(ngModel)]="lose.PersonEmail" #lemail="ngModel">
       <div *ngIf="lemail.invalid && (lemail.dirty || lemail.touched)" class="alert alert-danger">
         <div *ngIf="lemail.errors.required">שדה זה חובה</div>
       </div>
-      <!-- עיר -->
-      <label for="lcity">:עיר</label>
-      <select>
-          <option id="cityName" name="cityName" value="c.CityName" *ngFor="let c of ListCity"> {{c.CityName}}</option>
-        </select>
+      <!-- עיר --> 
+      <label for="fcity">:עיר</label>
+      <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+      </select>
       <!-- <input id="lcity" name="lcity" class="form-control" required placeholder="עיר" [(ngModel)]="lose.LoseCityCode"
         #lcity="ngModel">
       <div *ngIf="lcity.invalid && (lcity.dirty || lcity.touched)" class="alert alert-danger">
@@ -48,16 +48,16 @@
       </div> -->
       <!-- רחוב -->
       <label for="laddress">:רחוב</label>
-      <input id="laddress" name="laddress" class="form-control" required placeholder="רחוב" [(ngModel)]="lose.LoseAddress"
+      <input id="laddress" name="laddress" class="form-control" required placeholder="רחוב" [(ngModel)]="lose.PersonAddress"
         #laddress="ngModel">
       <div *ngIf="laddress.invalid && (laddress.dirty || laddress.touched)" class="alert alert-danger">
         <div *ngIf="laddress.errors.required">שדה זה חובה</div>
       </div>
       
-      <input type="submit" value="שמירת פרטי מאבד" [disabled]="!LoseForm.form.valid">
+      <input type="submit" value="שמירת פרטי מאבד" (click)="SaveUser(lose)">
     </form>
   </div>
-
+  <!-- [disabled]="!LoseForm.form.valid" -->
 </body>
 
 </html>

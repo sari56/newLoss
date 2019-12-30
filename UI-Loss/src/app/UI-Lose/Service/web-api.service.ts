@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 // import { City } from '../City';
 import { environment } from 'src/environments/environment';
 import { VirtualTimeScheduler } from 'rxjs';
+import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 
 
 @Injectable({
@@ -56,12 +57,20 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertFound", params);
   }
 
+  InsertLose(params) {
+    return this.setRequstData("Losty/", "InsertLose", params);
+  }
+
   VerifyUserName(user: string[]) {
     return this.setRequstData("Losty/", "VerifyUserName", user);
   }
 
   GetFounds(params) {
     return this.setRequstData("Losty/", "GetFounds", params);
+  }
+
+  ChangeStatus(params) {
+    return this.setRequstData("Losty/", "ChangeStatus", params);
   }
 
   SendEmail(params) {

@@ -74,7 +74,7 @@ export class FindComponent implements OnInit {
     // });
     this._WebApiService.InsertUser(f);
     this._WebApiService.SendEmail(f);
-
+    window.alert("שם משתמש ישלח לאימייל");
     // this._WebApiService.Insert([{ID: f.PersonID} , {Name: f.PersonName} , {Code: "19"} , {Address: f.PersonAddress} , {Phone: f.PersonPhone} , {Email: f.PersonEmail}]);
   }
 

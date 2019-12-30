@@ -329,7 +329,7 @@
 <div class="content" role="main">
 
   <!-- Highlight Card -->
-  <!-- <div class="card highlight-card card-small">
+<!-- <div class="card highlight-card card-small">
 
     <svg id="rocket" alt="Rocket Ship" xmlns="http://www.w3.org/2000/svg" width="101.678" height="101.678" viewBox="0 0 101.678 101.678">
       <g id="Group_83" data-name="Group 83" transform="translate(-141 -696)">
@@ -350,7 +350,7 @@
   </div>
 
   <!-- Resources -->
-  <!-- <h2>Resources</h2>
+<!-- <h2>Resources</h2>
   <p>Here are some links to help you get started:</p>
 
   <div class="card-container">
@@ -380,7 +380,7 @@
   </div>
 
   <!-- Next Steps -->
-  <!-- <h2>Next Steps</h2>
+<!-- <h2>Next Steps</h2>
   <p>What do you want to do next with your app?</p>
 
   <input type="hidden" #selection>
@@ -417,8 +417,8 @@
     </div>
   </div> -->
 
-  <!-- Terminal -->
-  <!-- <div class="terminal" [ngSwitch]="selection.value">
+<!-- Terminal -->
+<!-- <div class="terminal" [ngSwitch]="selection.value">
       <pre *ngSwitchDefault>ng generate component xyz</pre>
       <pre *ngSwitchCase="'material'">ng add @angular/material</pre>
       <pre *ngSwitchCase="'dependency'">ng add _____</pre>
@@ -426,8 +426,8 @@
       <pre *ngSwitchCase="'build'">ng build --prod</pre>
   </div> -->
 
-  <!-- Links -->
-  <!-- <div class="card-container">
+<!-- Links -->
+<!-- <div class="card-container">
     <a class="circle-link" title="Animations" href="https://angular.io/guide/animations" target="_blank" rel="noopener">
       <svg id="Group_20" data-name="Group 20" xmlns="http://www.w3.org/2000/svg" width="21.813" height="23.453" viewBox="0 0 21.813 23.453">
         <path id="Path_15" data-name="Path 15" d="M4099.584,972.736h0l-10.882,3.9,1.637,14.4,9.245,5.153,9.245-5.153,1.686-14.4Z" transform="translate(-4088.702 -972.736)" fill="#ffa726"/>
@@ -506,7 +506,7 @@
   </div>
 
   <!-- Footer -->
-  <!-- <footer>
+<!-- <footer>
       Love Angular?&nbsp;
       <a href="https://github.com/angular/angular" target="_blank" rel="noopener"> Give our repo a star.
         <div class="github-star-badge">
@@ -536,13 +536,14 @@
 
 
 <!-- <router-outlet></router-outlet> -->
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <!-- <nav class="navbar navbar-inverse" id="nav">
@@ -551,8 +552,8 @@
         <a class="navbar-brand" href="#" style="font-family: BN Cloud;font-size: 100px">מצא לי</a>
       </div>
       <ul class="nav navbar-nav"> -->
-          <!-- <li id="cursor" routerLink="/Home" routerLinkActive="active"><a><span class="glyphicon glyphicon-home"></span>Home</a></li> -->
-          <!-- <li id="cursor" routerLink="/find" routerLinkActive="active"><a><span class="glyphicon glyphicon-equalizer"></span>מוצא אבדה</a></li>
+<!-- <li id="cursor" routerLink="/Home" routerLinkActive="active"><a><span class="glyphicon glyphicon-home"></span>Home</a></li> -->
+<!-- <li id="cursor" routerLink="/find" routerLinkActive="active"><a><span class="glyphicon glyphicon-equalizer"></span>מוצא אבדה</a></li>
           <li id="cursor" routerLink="/lose" routerLinkActive="active"><a><span class="glyphicon glyphicon-new-window"></span>מחפש אבדה</a></li>
           <li> <a id="u"> <span class="glyphicon glyphicon-user"></span> User name: {{user}} </a></li>
       </ul>
@@ -561,28 +562,51 @@
 <router-outlet></router-outlet> -->
 
 <body>
-
+  <!-- <a class="navbar-item">
+      <img src="assets/img/Losty.jpg">
+  </a> -->
   <ul>
     <!-- <li><a href="#home">Home</a></li> -->
     <li class="dropdown">
       <a href="javascript:void(0)" class="dropbtn">מוצא אבדה</a>
       <div class="dropdown">
-        <a routerLink="found">משתמש קיים</a>
-        <a routerLink="find">משתמש חדש</a>
+        <a routerLink="found">כניסה</a>
+        <a routerLink="find">הרשמה</a>
       </div>
     </li>
     <li class="dropdown">
       <a href="javascript:void(0)" class="dropbtn">מחפש אבדה</a>
       <div class="dropdown">
-        <a routerLink="lost-map">חיפוש במפת האבדות</a>
-        <a routerLink="search">חיפוש עפ"י סימנים</a>
+        <a routerLink="losty">כניסה</a>
+        <a routerLink="lose">הרשמה</a>
       </div>
     </li>
+    <li>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </li>
+    <li>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </li>
+    <li>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </li>
+    <li>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </li>
+    <li>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </li>
+    <li>
+      <
+      <a routerLink="lost-map">חיפוש במפת האבדות</a>
+      <a routerLink="search">חיפוש עפ"י סימנים</a>
+    </li>
   </ul>
-  <!-- class="dropdown-content" -->
  
+  <!-- class="dropdown-content" -->
+
   <router-outlet></router-outlet>
-  </body>
+</body>
 
 
 <!-- <app-lose></app-lose> -->
@@ -592,7 +616,7 @@
   <strong><a style="font-family:Guttman Yad-Brush,Guttman Yad; color:#fff0b3; font-size: 100px;font-style: oblique">מצא לי</a></strong>
   <br><br><br><br><br> -->
 
-  <!-- <br><br><br><br><br> -->
+<!-- <br><br><br><br><br> -->
 <!-- <a  href="#./UI-Lose/_Find/find/find.component" id="btn" type="button" class="btn btn-default btn-lg" style="margin: unset">מוצא אבדה</a> -->
 
 

@@ -11,18 +11,20 @@ export class FoundComponent implements OnInit {
   selectedColor: string;
   @Input()
   found_hid: boolean = true;
+  isVerifyUser: boolean = false;
   isHidden: boolean = true;
   found: Found;
   userName: string;
   status: string = "מוצא";
   email: string;
   selectedCategory: string;
-  today: Date = new Date();
+  today: Date;
   currentDate: Date = new Date();
   constructor(private _WebApiService: WebApiService) { }
   ListCategory: Array<Category> = new Array<Category>();
   ngOnInit() {
     // console.log(this.today);
+    this.today = new Date();
     this.found = new Found();
     this.selectedColor = null;
     this._WebApiService.GetAllCategory().then(res => {
@@ -51,16 +53,32 @@ export class FoundComponent implements OnInit {
   }
 
   Check(id: string, userName: string, email: string) {
-   // console.log("Check   id" + id.toString() + "pass  " + userName.toString() + "email  " + email.toString());
+    // console.log("Check   id" + id.toString() + "pass  " + userName.toString() + "email  " + email.toString());
     // if (this._WebApiService.VerifyUserName([{Value: status, Name: "status"}, {Value: id, Name: "id"}, {Value: userName, Name: "userName"}, {Value: email, Name: "email"}]) == true)
-    if (this._WebApiService.VerifyUserName([this.status, id, userName, email]) == true)
-      this.isHidden = false;
-    else
-      window.alert("שם משתמש שגוי");
-    console.log(this.isHidden);
+
+    this._WebApiService.VerifyUserName([this.status, id, userName, email]).then(res => {
+      if (res == true) {
+        this.isHidden = false;
+      }
+      else {
+        window.alert("שם משתמש שגוי");
+      }
+      // this.isSave.emit(false); 
+    });
+    //this.isVerifyUser = this._WebApiService.VerifyUserName([this.status, id, userName, email]);
+    // if(this.isVerifyUser == true) {
+    // console.log("====" + this.isHidden);
+    // this.isHidden = false;
+    // }
+    //     else {
+    //   window.alert("שם משתמש שגוי");
+    // }
+    // console.log(this.isHidden);
   }
 
-  SaveFound(f: Found) {
+  SaveFound(f: Found, currentDate: Date) {
+    console.log(this.currentDate);
+    console.log(this.today);
     if (this.currentDate > this.today) {
       window.alert("תאריך לא חוקי");
     }
@@ -75,7 +93,15 @@ export class FoundComponent implements OnInit {
 
       f.StatusCode = 2;
       f.Date = this.today;
-      this._WebApiService.InsertFound(f);
+      // this._WebApiService.InsertFound(f);
+      this._WebApiService.InsertFound(f).then(res => {
+        if (res == "Inserting Found Seccessfuly") {
+          window.alert("המציאה התווספה בהצלחה!");
+        }
+        else {
+          window.alert("שגיאה");
+        }
+      });
       //  this._WebApiService.InsertFound([{Value: f.FindID} , {Value: f.CategoryCode} , {Value: f.FoundColor} , {Value: f.FoundDate} , {Value: f.StatusCode} , {Value: f.Date}]);
     }
   }
