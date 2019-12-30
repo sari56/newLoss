@@ -64,9 +64,11 @@ namespace Web_Api.Controllers
 
         [Route("api/Losty/GetFounds")]
         [HttpPost]
-        public List<Found> GetFounds(int @CategoryCode, string @LossColor, DateTime @LossDate)
+        public List<Found> GetFounds(int CategoryCode, string LossColor, DateTime LossDate)
         {
-            SqlCommand cmd = ConnectSql("Select * From Found Where ((@Category=CategoryCode AND @LossColor = FoundColor AND @LossDate < FoundDate) OR (@CategoryCode = CategoryCode AND @FoundColor = FoundColor) OR (@CategoryCode = CategoryCode @FoundDate < FoundDate) OR ( @LossColor = FoundColor AND @LossDate < FoundDate))");
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where((CategoryCode = '{0}' AND FoundColor = '{1}' AND FoundDate > '{2}') " +
+                                       "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR(CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
+                                       " '{1}' AND FoundDate > '{2}'))", CategoryCode, LossColor, LossDate));
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
             while (reader.Read())
@@ -122,15 +124,8 @@ namespace Web_Api.Controllers
         [HttpPost]
         public bool DeleteUser(Person person)
         {
-            //Person person = new Person();
-            //person.PersonID = "208094391";
-            //person.PersonName = "שרי ורדי";
-            //person.PersonCityCode = 19;
-            //person.PersonAddress = "עוזיאל 56";
-            //person.PersonPhone = "0504198338";
-            //person.PersonEmail = "sv4114994@gmail.com";
-            string strSQL = string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID);
-            SqlCommand cmd = ConnectSql(strSQL);
+            //string strSQL = string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID);
+            SqlCommand cmd = ConnectSql(string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID));
             //SqlCommand cmd = ConnectSql("Delete From Person Where PersonID = '@PersonId'");
             try
             {
@@ -204,8 +199,9 @@ namespace Web_Api.Controllers
         [HttpPost]
         public bool VerifyUserName(string[] user)
         {
-            string strSQL = string.Format("Select * From Person Where PersonID = '{0}'", user[1]);
-            SqlCommand cmd = ConnectSql(strSQL);
+            string searchInPersonTable = string.Format("Select * From Person Where PersonID = '{0}' AND PersonEmail = '{1}'", user[1], user[3]);
+            bool checkInsert = false;
+            SqlCommand cmd = ConnectSql(searchInPersonTable);
             //cmd.Parameters.AddWithValue("@id", user[1]);
             //cmd.Parameters.AddWithValue("@email", user[3]);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -221,16 +217,32 @@ namespace Web_Api.Controllers
                     PersonEmail = reader["personEmail"].ToString()
                 };
                 connection.DisConnectSql();
-                if(DeleteUser(person) == true)
+                if (DeleteUser(person) == true)
                 {
                     if (user[0].Equals("מוצא"))
-                        return InsertFind(person);
+                        checkInsert = InsertFind(person);
                     else
-                        return InsertLose(person);
-                }
+                        checkInsert = InsertLose(person);
+                }            
+            }    
+            else
+            {
+                connection.DisConnectSql();
+                string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' AND FindEmail = '{1}'", user[1], user[3]);
+                cmd = ConnectSql(searchInFindTable);
+                reader = cmd.ExecuteReader();
+                if (reader.Read())
+                    checkInsert = true;          
             }
             connection.DisConnectSql();
-            return false;
+            if (checkInsert == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
         }
         //todo
@@ -318,14 +330,14 @@ namespace Web_Api.Controllers
 
         [HttpPost]
         [Route("api/Losty/InsertUserName")]
-        public bool InsertUserName(string PersonID, string PersonName, string userName)
+        public bool InsertUserName(string PersonID, string PersonEmail, string userName)
         {
             SqlCommand cmd = ConnectSql("Insert into [User] values (@UserID , @UserName , @UserEmail)");
             try
             {
                 cmd.Parameters.AddWithValue("@UserID", PersonID);
-                cmd.Parameters.AddWithValue("@UserName", PersonName);
-                cmd.Parameters.AddWithValue("@UserEmail", userName);
+                cmd.Parameters.AddWithValue("@UserName", userName);
+                cmd.Parameters.AddWithValue("@UserEmail", PersonEmail);
                 cmd.ExecuteNonQuery();
                 return true;
             }
@@ -350,10 +362,33 @@ namespace Web_Api.Controllers
             //mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
             mail.NewMail(person.PersonEmail, person.PersonName, "RS.Losty@gmail.com", "Losty", "LOSTY שם משתמש כניסה למערכת ", "שלום ל" + person.PersonName + " שם המשתמש שלך: " + userName, "");
             mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
-            bool IsInsertUserName = InsertUserName(person.PersonID, person.PersonName, userName);
+            bool IsInsertUserName = InsertUserName(person.PersonID, person.PersonEmail, userName);
             //if (IsInsertUserName == true)
             return mail.sendMail();
             //return "Incorrect email Address";
+        }
+
+        [HttpPost]
+        [Route("api/Losty/ChangeStatus/{status}")]
+        public string ChangeStatus(string FoundID)
+        {
+            //SqlCommand cmd = ConnectSql(string.Format("UPDATE Found SET StatusCode = '{0}' Where FoundID = '{1}'", 3, FoundID));
+            SqlCommand cmd = new SqlCommand("UPDATE Found ('StatusCode') VALUES ('@StatusCode') WHERE FoundID ='@FoundID'");
+            try
+            {
+                cmd.Parameters.AddWithValue("@StatusCode", 3);
+                cmd.Parameters.AddWithValue("@FoundID", FoundID);
+                cmd.ExecuteNonQuery();
+                return "Data updated!";
+            }
+            catch (Exception ex)
+            {
+               return ex.Message;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
         }
 
         public SqlCommand ConnectSql(string query)

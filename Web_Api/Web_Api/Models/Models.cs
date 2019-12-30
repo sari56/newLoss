@@ -148,45 +148,46 @@ namespace Web_Api.Models
         public virtual Find Find { get; set; }
         public virtual Picture Picture { get; set; }
         public virtual Status Status { get; set; }
-
-        public class FindLoss
-        {
-            public int FindLossCode { get; set; }
-            public string LoseID { get; set; }
-            public Nullable<int> CategoryCode { get; set; }
-            public string FindLossDesc { get; set; }
-            public string FindLossColor { get; set; }
-            public Nullable<System.DateTime> FindLossDate { get; set; }
-            public Nullable<int> FindLoss_X { get; set; }
-            public Nullable<int> FindLoss_Y { get; set; }
-            public Nullable<int> StatusCode { get; set; }
-            public Nullable<int> PictureCode { get; set; }
-            public Nullable<System.DateTime> Date { get; set; }
-
-            public virtual Category Category { get; set; }
-            public virtual Find Find { get; set; }
-            public virtual Picture Picture { get; set; }
-            public virtual Status Status { get; set; }
-        }
-
-        public class AskFound
-        {
-            public int AskFoundCode { get; set; }
-            public string FindID { get; set; }
-            public Nullable<int> CategoryCode { get; set; }
-            public string AskFoundDesc { get; set; }
-            public string AskFoundColor { get; set; }
-            public Nullable<System.DateTime> AskFoundDate { get; set; }
-            public Nullable<int> AskFound_X { get; set; }
-            public Nullable<int> AskFound_Y { get; set; }
-            public Nullable<int> StatusCode { get; set; }
-            public Nullable<int> PictureCode { get; set; }
-            public Nullable<System.DateTime> Date { get; set; }
-
-            public virtual Category Category { get; set; }
-            public virtual Find Find { get; set; }
-            public virtual Picture Picture { get; set; }
-            public virtual Status Status { get; set; }
-        }
     }
+
+    public class FindLoss
+    {
+        public int FindLossCode { get; set; }
+        public string LoseID { get; set; }
+        public Nullable<int> CategoryCode { get; set; }
+        public string FindLossDesc { get; set; }
+        public string FindLossColor { get; set; }
+        public Nullable<System.DateTime> FindLossDate { get; set; }
+        public Nullable<int> FindLoss_X { get; set; }
+        public Nullable<int> FindLoss_Y { get; set; }
+        public Nullable<int> StatusCode { get; set; }
+        public Nullable<int> PictureCode { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+
+        public virtual Category Category { get; set; }
+        public virtual Find Find { get; set; }
+        public virtual Picture Picture { get; set; }
+        public virtual Status Status { get; set; }
+    }
+
+    public class AskFound
+    {
+        public int AskFoundCode { get; set; }
+        public string FindID { get; set; }
+        public Nullable<int> CategoryCode { get; set; }
+        public string AskFoundDesc { get; set; }
+        public string AskFoundColor { get; set; }
+        public Nullable<System.DateTime> AskFoundDate { get; set; }
+        public Nullable<int> AskFound_X { get; set; }
+        public Nullable<int> AskFound_Y { get; set; }
+        public Nullable<int> StatusCode { get; set; }
+        public Nullable<int> PictureCode { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+
+        public virtual Category Category { get; set; }
+        public virtual Find Find { get; set; }
+        public virtual Picture Picture { get; set; }
+        public virtual Status Status { get; set; }
+    }
+
 }
