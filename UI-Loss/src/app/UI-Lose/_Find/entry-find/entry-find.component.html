@@ -1,10 +1,35 @@
-<!-- <p>entry-find works!</p> -->
-<div class="formBorder">
-<button id="btn" type="button" (click)="ChangeLosty()" class="btn btn-default btn-lg active" style="margin: unset;size: 50px" >משתמש קיים</button>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<button id="btn" type="button" (click)="ChangeFind()" class="btn btn-default btn-lg active" style="margin: unset;size: 50px" >משתמש חדש</button>
+<br><br><br><br><br>
 
-<app-find [hidden]="FindHidden" [find_hid]=true></app-find>
-<app-found [hidden]="LostyHidden" [found_hid]=true></app-found>
-</div>
+<body>
+  <div class="formBorder">
+    <label for="pid">:תעודת זהות</label>
+    <input id="pid" name="pid" class="form-control" required minlength="9" maxlength="9" placeholder="תעודת זהות"
+      [(ngModel)]="person.PersonID" #pid="ngModel">
+    <div *ngIf="pid.invalid && (pid.dirty || pid.touched)" class="alert alert-danger">
+      <div *ngIf="pid.errors.required">תעודת זהות חובה</div>
+      <div *ngIf="pid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
+      <div *ngIf="pid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
+    </div>
+    <br><br>
+    <button (click)="MyArea(pid)">כניסה לאזור האישי</button>
+  </div>
+
+  <div>
+    <br><br>
+    <!-- <h2 *ngIf="founds.lengh =! 0">אבדות</h2> -->
+    <br><br>
+    <label *ngFor="let f of founds">
+      <th>{{f.Category}}</th>
+      <br>
+    </label>
+  </div>
+  <div>
+      <br><br>
+      <!-- <h2 *ngIf="loses.lengh =! 0">מציאות</h2> -->
+      <br><br>
+      <label *ngFor="let l of loses">
+        <th>{{l.Category}}</th>
+        <br>
+      </label>
+    </div>
+</body>

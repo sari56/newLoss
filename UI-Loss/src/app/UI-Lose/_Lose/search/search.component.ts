@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebApiService, Found, Category } from '../../Service/web-api.service';
+import { WebApiService, Found, Category, Signs } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-search',
@@ -10,12 +10,13 @@ export class SearchComponent implements OnInit {
   selectedValue: string;
   currentDate: Date = new Date();
   selectedColor: string;
-  info: Array<any>;
+  signs: Signs;
   @Input()
   search_hid: boolean = true;
   ListFound: Array<Found> = new Array<Found>();
-  constructor(private _WebApiService: WebApiService) { }
   ListCategory: Array<Category> = new Array<Category>();
+  constructor(private _WebApiService: WebApiService) { }
+
   ngOnInit() {
     this.selectedValue = null;
     this._WebApiService.GetAllCategory().then(res => {
@@ -25,14 +26,17 @@ export class SearchComponent implements OnInit {
   }
 
   onChange($event) {
+    this.signs.Category = this.ListCategory[this.signs.Category].CategoryCode;
     console.log(this.selectedValue);
+    this.signs.date = this.currentDate;
     console.log(this.currentDate);
+    this.signs.Color = this.selectedColor;
     console.log(this.selectedColor);
   }
 
 
-  SearchLoss(category: number, color: string, date: Date) {
-    this._WebApiService.GetFounds([category, color, date]).then(res => {
+  SearchLoss() {
+    this._WebApiService.GetFounds(this.signs).then(res => {
       if (res)
         this.ListFound = res;
     })

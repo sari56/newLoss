@@ -1,16 +1,15 @@
 <p>lost-map works!</p>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWXwfWSCnsonvPZobjIAaUHYIYU8MQUD0`&callback=initMap"
-type="text/javascript"></script>
-<agm-map 
-[latitude]="latitude" 
-[longitude]="longitude" 
- >
-  <agm-marker 
-  [latitude]="latitude" 
-  [longitude]="longitude"></agm-marker>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWXwfWSCnsonvPZobjIAaUHYIYU8MQUD0`&callback=initMap"
+  type="text/javascript"></script>
+<div>
+  <label for="fcity">:עיר</label>
+  <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+    <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+  </select>
+</div>
+
+<agm-map [latitude]="latitude" [longitude]="longitude">
+  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
 </agm-map>
-
-
-
-      
-

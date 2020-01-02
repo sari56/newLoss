@@ -11,16 +11,11 @@ import { WebApiService, City, Person, Find } from '../../Service/web-api.service
 export class FindComponent implements OnInit {
   @Input()
   find_hid: boolean = true;
-  // find: Find;
   find: Person;
   pass: string;
   selectedCity: string;
   city: City;
   cityName: string = 'בני ברק';
-  //  cities = [ 
-  //    { code: 'א', c: [] },{ code: 'ב', c: [] },{ code: 'ג', c: [] },{ code: 'ד', c: [] },{ code: 'ה', c: [] },{ code: 'ו', c: [] },{ code: 'ז', c: [] },{ code: 'ח', c: [] },{ code: 'ט', c: [] },{ code: 'י', c: [] },{ code: 'כ', c: [] },
-  //    { code: 'ל', c: [] },{ code: 'מ', c: [] },{ code: 'נ', c: [] },{ code: 'ס', c: [] },{ code: 'ע', c: [] },{ code: 'פ', c: [] },{ code: 'צ', c: [] },{ code: 'ק', c: [] },{ code: 'ר', c: [] },{ code: 'ש', c: [] },{ code: 'ת', c: [] }
-  //    ];
   ListCity: Array<City> = new Array<City>();
 
   constructor(private _WebApiService: WebApiService) { }

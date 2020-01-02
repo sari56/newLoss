@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { VirtualTimeScheduler } from 'rxjs';
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable({
@@ -17,7 +18,6 @@ import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 export class WebApiService {
   private body: string
   private isValidate: number = 0;
-
   constructor(private http: HttpClient) { }
   setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     // const requestObj: any = { "InputParams": collection, "identityGuid": identityGuid };
@@ -57,8 +57,8 @@ export class WebApiService {
     return this.setRequstData("Losty/", "InsertFound", params);
   }
 
-  InsertLose(params) {
-    return this.setRequstData("Losty/", "InsertLose", params);
+  InsertLoss(params) {
+    return this.setRequstData("Losty/", "InsertLoss", params);
   }
 
   VerifyUserName(user: string[]) {
@@ -67,6 +67,14 @@ export class WebApiService {
 
   GetFounds(params) {
     return this.setRequstData("Losty/", "GetFounds", params);
+  }
+
+  GetFoundsPersonalArea(params) {
+    return this.setRequstData("Losty/", "GetFoundsPersonalArea", params);
+  }
+
+  GetLosesToPersonalArea(params) {
+    return this.setRequstData("Losty/", "GetLosesToPersonalArea", params);
   }
 
   ChangeStatus(params) {
@@ -127,6 +135,11 @@ export class WebApiService {
   }
 }
 
+export interface Signs {
+    Category: number;
+    Color: string;
+    date: Date;
+}
 
 export interface City {
   CityCode: number;
@@ -143,6 +156,7 @@ export class Found {
   FoundCode: number;
   FindID: string;
   CategoryCode: number;
+  Category: string;
   FoundDesc: string;
   FoundColor: string;
   FoundDate: Date;
@@ -153,17 +167,19 @@ export class Found {
   Date: Date;
 }
 
-export interface Loss {
+export class Loss {
   LossCode: string;
   LoseID: string;
   CategoryCode: number;
+  Category: string;
+  LossDesc: string;
   LossColor: string;
   LossDate: Date;
   Loss_X: number;
   Loss_Y: number;
   StatusCode: number;
   //  PictureCode:number;
-  Today: Date;
+  Date: Date;
 }
 
 export class Lose {

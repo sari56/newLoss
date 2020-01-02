@@ -6,7 +6,7 @@
   <div>
     <!-- <form class="formBorder" #FindForm="ngForm" action="/action_page.php" (ngSubmit)="selected(city)"> -->
       <!-- שם מאבד -->
-      <label for="fname">:שם מאבד</label>
+      <label for="fname">:שם מוצא</label>
       <input id="fname" name="fname" class="form-control" required placeholder="שם מוצא האבדה"
         [(ngModel)]="find.PersonName" #fname="ngModel">
       <div *ngIf="fname.invalid && (fname.dirty || fname.touched)" class="alert alert-danger">

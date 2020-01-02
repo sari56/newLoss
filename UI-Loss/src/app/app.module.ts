@@ -26,12 +26,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 
 const ROUTES:Routes=[
-  { path: "find",component:FindComponent},
-  { path: "found",component:FoundComponent},
-  { path: "lost-map",component:LostMapComponent},
-  { path: "search",component:SearchComponent},
-  { path: "lose",component:LoseComponent},
-  { path: "losty",component:LostyComponent},
+  { path: "find", component:FindComponent},
+  { path: "found", component:FoundComponent},
+  { path: "lost-map", component:LostMapComponent},
+  { path: "search", component:SearchComponent},
+  { path: "lose", component:LoseComponent},
+  { path: "losty", component:LostyComponent},
+  { path: "private_area", component:EntryFindComponent}
   // { path: "",component:AppComponent },
   // { path: "**",component:AppComponent},
  ];

@@ -3,38 +3,37 @@
   <div class="formBorder">
     <form action="/action_page.php">
 
-      <label for="fid">:תעודת זהות</label>
-      <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" placeholder="תעודת זהות" /><br>
-      <div *ngIf="pid.errors && (pid.dirty || pid.touched)" class="alert alert-danger">
-        <div [hidden]="!pid.errors.required">תעודת זהות חובה</div>
-        <div [hidden]="!pid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
-        <div [hidden]="!pid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
-      </div>
-        <label for="pass">:סיסמת אבדה</label>
-        <input type="text" id="pass" name="pass" placeholder="סיסמת אבדה">
+      <label for="lid">:תעודת זהות</label>
+      <input type="text" id="lid" name="lid" [(ngModel)]="loss.LoseID" placeholder="תעודת זהות" /><br>
 
-        <button (click)="Check(fid,pass)">Check</button>
-      
+      <label for="pass">:שם משתמש</label>
+      <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+
+      <label for="email">:דוא"ל</label>
+      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
+      <button (click)="Check(loss.LoseID,userName,email)">אישור</button>
     </form>
-    <form [hidden]="isHidden">
-      <label for="Desc">:תיאור אבידה</label>
-      <input type="text" id="Desc" name="Desc" placeholder="תיאור אבידה">
+    <p [hidden]="isHidden">
+      <label for="Category">:קטגוריה</label>
+      <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+          <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+      </select>
       <br>
-      <label for="Color">:צבע האבידה</label>
-      <input type="color" id="Color" name="Color">
+      <label for="Desc">:תיאור מציאה</label>
+      <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
       <br>
+      <label for="Color">:צבע המציאה</label><br>
+      <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px">
+      <br><br>
       <!-- לבדוק שהתאריך קטן מהיום -->
-      <label for="Date">:תאריך בו נאבד</label><br>
-      <input type="date" id="Date" name="Date">
+      <label for="Date">:תאריך בו נמצא</label><br>
+      <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
       <br>
-      <input value="[(ngModel)]='date.today'">
+      <button (click)="SaveLoss(loss,currentDate)" type="submit">שמירת פרטי מציאה</button>
       <br>
-      <!-- <input type="file"> -->
-      <label class="image-upload-container btn btn-bwm">
-        <span>Select Image</span>
-        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
-      </label>
-    </form>
+    </p>
 
   </div>
 
