@@ -64,11 +64,11 @@ namespace Web_Api.Controllers
 
         [Route("api/Losty/GetFounds")]
         [HttpPost]
-        public List<Found> GetFounds(int CategoryCode, string LossColor, DateTime LossDate)
+        public List<Found> GetFounds(Signs signs)
         {
             SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where((CategoryCode = '{0}' AND FoundColor = '{1}' AND FoundDate > '{2}') " +
                                        "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR(CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
-                                       " '{1}' AND FoundDate > '{2}'))", CategoryCode, LossColor, LossDate));
+                                       " '{1}' AND FoundDate > '{2}'))", signs.Category, signs.Color, signs.date));
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
             while (reader.Read())
@@ -228,8 +228,16 @@ namespace Web_Api.Controllers
             else
             {
                 connection.DisConnectSql();
-                string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' AND FindEmail = '{1}'", user[1], user[3]);
-                cmd = ConnectSql(searchInFindTable);
+                if(user[0].Equals("מוצא"))
+                {
+                    string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' AND FindEmail = '{1}'", user[1], user[3]);
+                    cmd = ConnectSql(searchInFindTable);
+                }
+                if (user[0].Equals("מאבד"))
+                {
+                    string searchInLossTable = string.Format("Select * From Lose Where LoseID = '{0}' AND LoseEmail = '{1}'", user[1], user[3]);
+                    cmd = ConnectSql(searchInLossTable);
+                }
                 reader = cmd.ExecuteReader();
                 if (reader.Read())
                     checkInsert = true;          
@@ -245,7 +253,7 @@ namespace Web_Api.Controllers
             }
 
         }
-        //todo
+       
         [Route("api/Losty/InsertFound")]
         [HttpPost]
         public string InsertFound(Found found)
@@ -271,6 +279,35 @@ namespace Web_Api.Controllers
             catch (Exception e)
             {
                 return "Exception Occre while inserting found:" + e.Message + "\t" + e.GetType();
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        [Route("api/Losty/InsertLoss")]
+        [HttpPost]
+        public string InsertLoss(Loss loss)
+        {
+            SqlCommand cmd = ConnectSql("Insert into Loss Values(@LoseID , @CategoryCode , @LossDesc , @LossColor , @LossDate , @Loss_X , @Loss_Y , @StatusCode , @Date)");
+            try
+            {
+                cmd.Parameters.AddWithValue("@LoseID", loss.LoseID);
+                cmd.Parameters.AddWithValue("@CategoryCode", loss.CategoryCode);
+                cmd.Parameters.AddWithValue("@LossDesc", loss.LossDesc);
+                cmd.Parameters.AddWithValue("@LossColor", loss.LossColor);
+                cmd.Parameters.AddWithValue("@LossDate", loss.LossDate);
+                cmd.Parameters.AddWithValue("@Loss_X", loss.Loss_X);
+                cmd.Parameters.AddWithValue("@Loss_Y", loss.Loss_Y);
+                cmd.Parameters.AddWithValue("@StatusCode", loss.StatusCode);
+                cmd.Parameters.AddWithValue("@Date", loss.Date);
+                cmd.ExecuteNonQuery();
+                return "Inserting Loss Seccessfuly";
+            }
+            catch (Exception e)
+            {
+                return "Exception Occre while inserting loss:" + e.Message + "\t" + e.GetType();
             }
             finally
             {
@@ -366,6 +403,55 @@ namespace Web_Api.Controllers
             //if (IsInsertUserName == true)
             return mail.sendMail();
             //return "Incorrect email Address";
+        }
+
+        [HttpPost]
+        [Route("api/Losty/GetFoundsPersonalArea")]
+        public List<Found> GetFoundsPersonalArea(string id)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where FindID = ", id));
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Found> resultFound = new List<Found>();
+            while (reader.Read())
+            {
+                Found found = new Found()
+                {
+                    FoundCode = (int)reader["FoundCode"],
+                    FindID = reader["FindID"].ToString(),
+                    CategoryCode = (int)reader["CategoryCode"],
+                    FoundColor = reader["FoundColor"].ToString(),
+                    FoundDate = (DateTime)reader["FoundDate"],
+                };
+                var cityName = reader["CityName"];
+                resultFound.Add(found);
+            }
+            connection.DisConnectSql();
+            int x = resultFound.Count();
+            return resultFound;
+        }
+
+        [HttpPost]
+        [Route("api/Losty/GetLosesToPersonalArea")]
+        public List<Loss> GetLossesToPersonalArea(string pid)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Loss Where LossID = ", pid));
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Loss> resultLoss= new List<Loss>();
+            while (reader.Read())
+            {
+                Loss loss = new Loss()
+                {
+                    LossCode = (int)reader["LossCode"],
+                    LoseID = reader["LoseID"].ToString(),
+                    CategoryCode = (int)reader["CategoryCode"],
+                    LossColor = reader["LossColor"].ToString(),
+                    LossDate = (DateTime)reader["LossDate"],
+                };
+                resultLoss.Add(loss);
+            }
+            connection.DisConnectSql();
+            int x = resultLoss.Count();
+            return resultLoss;
         }
 
         [HttpPost]

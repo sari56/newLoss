@@ -86,7 +86,7 @@ namespace Web_Api.Models
 
         public virtual Category Category { get; set; }
         public virtual Lose Lose { get; set; }
-        public virtual Picture Picture { get; set; }
+        //public virtual Picture Picture { get; set; }
         public virtual Status Status { get; set; }
     }
 
@@ -106,7 +106,7 @@ namespace Web_Api.Models
 
         public virtual Category Category { get; set; }
         public virtual Find Find { get; set; }
-        public virtual Picture Picture { get; set; }
+        //public virtual Picture Picture { get; set; }
         public virtual Status Status { get; set; }
     }
 
@@ -190,4 +190,10 @@ namespace Web_Api.Models
         public virtual Status Status { get; set; }
     }
 
+    public class Signs
+    {
+        public int Category { get; set; }
+        public string Color { get; set; }
+        public DateTime date { get; set; }
+    }
 }
