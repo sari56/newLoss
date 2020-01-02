@@ -89,7 +89,7 @@ Create Table Loss
  Loss_X int,
  Loss_Y int,
  StatusCode int foreign key references [Status],
- PictureCode int foreign key references Picture,
+-- PictureCode int foreign key references Picture,
  [Date] date
 )
 --drop table found 
@@ -97,7 +97,7 @@ Create Table Loss
 Create Table Found
 (
  FoundCode int identity(100,1) primary key,
- FindID varchar(9) foreign key references Person,
+ FindID varchar(9) foreign key references Find,
  CategoryCode int foreign key references Category,
  FoundDesc varchar(20),
  FoundColor varchar(20),
@@ -108,7 +108,6 @@ Create Table Found
 -- PictureCode int foreign key references Picture,
  [Date] date
 )
-select * from found
 --ארכיון אבדות
 Create Table ArchivesLoss
 (
@@ -225,8 +224,13 @@ select * from [Status]
                              
 select * from person
 select * from [User]
-select * from Find
-delete from Find
+select * from Found
+select * from Loss
+select * from Category
+select * from Found
+delete from [User] where UserID = 208094391
+delete from Find where FindID = 208094391
+delete from Find where FindID = 315244178
 delete from person where PersonID = 027859511
-delete from person where PersonID = 208094391
+delete from person where PersonID = 027859511
 
