@@ -135,7 +135,7 @@ export class WebApiService {
   }
 }
 
-export interface Signs {
+export class Signs {
     Category: number;
     Color: string;
     date: Date;
