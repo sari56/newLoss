@@ -62,10 +62,15 @@ export class SearchComponent implements OnInit {
     this._WebApiService.GetFounds(this.signs).then(res => {
       if (res)
         this.ListFound = res;
-    })
+          for (let i = 0; i < this.ListFound.length; i++) {
+            this.ListFound[i].Category = this.ListCategory[this.ListFound[i].CategoryCode - 1 ].CategoryDesc;
+            console.log(this.ListFound[i].Category);
+          }
+    });
   }
 
   SelectFound(FoundID: string) {
     this._WebApiService.ChangeStatus(FoundID);
   }
+
 }

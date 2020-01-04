@@ -11,25 +11,28 @@
       <div *ngIf="pid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
     </div>
     <br><br>
-    <button (click)="MyArea(pid)">כניסה לאזור האישי</button>
-  </div>
+    <button (click)="MyArea(person.PersonID)">כניסה לאזור האישי</button>
 
-  <div>
-    <br><br>
-    <!-- <h2 *ngIf="founds.lengh =! 0">אבדות</h2> -->
-    <br><br>
-    <label *ngFor="let f of founds">
-      <th>{{f.Category}}</th>
-      <br>
-    </label>
-  </div>
-  <div>
-      <br><br>
-      <!-- <h2 *ngIf="loses.lengh =! 0">מציאות</h2> -->
-      <br><br>
-      <label *ngFor="let l of loses">
-        <th>{{l.Category}}</th>
-        <br>
-      </label>
+
+    <div [hidden]="isHidden">
+      <div>
+        <br><br>
+        <!-- <h2 *ngIf="founds.lengh =! 0">אבדות</h2> -->
+        <br><br>
+        <label *ngFor="let f of founds">
+          <th>{{f.CategoryCode}}:{{f.Category}}</th>
+          <br>
+        </label>
+      </div>
+      <div>
+        <br><br>
+        <!-- <h2 *ngIf="loses.lengh =! 0">מציאות</h2> -->
+        <br><br>
+        <label *ngFor="let l of loses">
+          <th>{{l.Category}}</th>
+          <br>
+        </label>
+      </div>
     </div>
+  </div>
 </body>

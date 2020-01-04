@@ -8,6 +8,7 @@ import { Person, WebApiService, Found, Category, Loss } from '../../Service/web-
 })
 export class EntryFindComponent implements OnInit {
   person: Person;
+  isHidden: boolean = true;
   founds: Array<Found> = new Array();
   losses: Array<Loss> = new Array();
   founds_category: Array<string> = new Array();
@@ -26,27 +27,31 @@ export class EntryFindComponent implements OnInit {
 
   MyArea(pid: string) {
     console.log(pid);
-      this._WebApiService.GetFoundsPersonalArea(pid).then(res => {
+    // console.log(this.isHidden);
+    // this.isHidden = false;
+    // console.log(this.isHidden);
+    this.person.PersonID = pid;
+    this._WebApiService.GetFoundsPersonalArea(this.person).then(res => {
       if (res) {
         this.founds = res;
+        for (let index = 0; index < this.founds.length; index++) {
+          this.founds[index].Category = this.category[this.founds[index].CategoryCode - 1].CategoryDesc;
+          console.log(this.founds[index].Category);
+        }
       }
     });
-    this._WebApiService.GetLosesToPersonalArea(pid).then(res => {
+    this._WebApiService.GetLosesToPersonalArea(this.person).then(res => {
       if (res) {
         this.losses = res;
+        for (let index = 0; index < this.losses.length; index++) {
+          this.losses[index].Category = this.category[this.losses[index].CategoryCode - 1].CategoryDesc;
+        }
       }
     });
-    if(this.founds.length != null) {
-      for (let index = 0; index < this.founds.length; index++) {
-        this.founds[index].Category = this.category[this.founds[index].CategoryCode].CategoryDesc;
-      }
-    }
-    if(this.losses.length != null) {
-      for (let index = 0; index < this.losses.length; index++) {
-        this.losses[index].Category = this.category[this.losses[index].CategoryCode].CategoryDesc;
-      }
-    }
-  }
 
+    console.log(this.isHidden);
+    this.isHidden = false;
+    console.log(this.isHidden);
+  }
 }
 

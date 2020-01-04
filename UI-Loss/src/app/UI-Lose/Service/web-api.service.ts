@@ -201,7 +201,7 @@ export class Find {
 }
 
 export class Person {
-  PersonID: number;
+  PersonID: string;
   PersonName: string;
   PersonCityCode: number;
   PersonAddress: string;
