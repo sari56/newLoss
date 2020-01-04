@@ -194,6 +194,6 @@ namespace Web_Api.Models
     {
         public int Category { get; set; }
         public string Color { get; set; }
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

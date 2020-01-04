@@ -66,9 +66,10 @@ namespace Web_Api.Controllers
         [HttpPost]
         public List<Found> GetFounds(Signs signs)
         {
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where((CategoryCode = '{0}' AND FoundColor = '{1}' AND FoundDate > '{2}') " +
-                                       "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR(CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
-                                       " '{1}' AND FoundDate > '{2}'))", signs.Category, signs.Color, signs.date));
+            //SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where((CategoryCode = '{0}' AND FoundColor = '{1}' AND FoundDate > '{2}') " +
+            //                           "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR (CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
+            //                           " '{1}' AND FoundDate > '{2}'))", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where CategoryCode = '{0}'", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
             while (reader.Read())
@@ -223,12 +224,12 @@ namespace Web_Api.Controllers
                         checkInsert = InsertFind(person);
                     else
                         checkInsert = InsertLose(person);
-                }            
-            }    
+                }
+            }
             else
             {
                 connection.DisConnectSql();
-                if(user[0].Equals("מוצא"))
+                if (user[0].Equals("מוצא"))
                 {
                     string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' AND FindEmail = '{1}'", user[1], user[3]);
                     cmd = ConnectSql(searchInFindTable);
@@ -240,7 +241,7 @@ namespace Web_Api.Controllers
                 }
                 reader = cmd.ExecuteReader();
                 if (reader.Read())
-                    checkInsert = true;          
+                    checkInsert = true;
             }
             connection.DisConnectSql();
             if (checkInsert == true)
@@ -253,7 +254,7 @@ namespace Web_Api.Controllers
             }
 
         }
-       
+
         [Route("api/Losty/InsertFound")]
         [HttpPost]
         public string InsertFound(Found found)
@@ -407,9 +408,10 @@ namespace Web_Api.Controllers
 
         [HttpPost]
         [Route("api/Losty/GetFoundsPersonalArea")]
-        public List<Found> GetFoundsPersonalArea(string id)
+        public List<Found> GetFoundsPersonalArea(Person person)
         {
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where FindID = ", id));
+            //string Id = "208094391";
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where FindID = '{0}'", person.PersonID));
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFound = new List<Found>();
             while (reader.Read())
@@ -421,8 +423,11 @@ namespace Web_Api.Controllers
                     CategoryCode = (int)reader["CategoryCode"],
                     FoundColor = reader["FoundColor"].ToString(),
                     FoundDate = (DateTime)reader["FoundDate"],
+                    Found_X = (int)reader["Found_X"],
+                    Found_Y = (int)reader["Found_Y"],
+                    StatusCode = (int)reader["StatusCode"],
+                    Date = (DateTime)reader["Date"]
                 };
-                var cityName = reader["CityName"];
                 resultFound.Add(found);
             }
             connection.DisConnectSql();
@@ -432,20 +437,25 @@ namespace Web_Api.Controllers
 
         [HttpPost]
         [Route("api/Losty/GetLosesToPersonalArea")]
-        public List<Loss> GetLossesToPersonalArea(string pid)
+        public List<Loss> GetLosesToPersonalArea(Person person)
         {
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Loss Where LossID = ", pid));
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Loss Where LoseID = '{0}'", person.PersonID));
             SqlDataReader reader = cmd.ExecuteReader();
-            List<Loss> resultLoss= new List<Loss>();
+            List<Loss> resultLoss = new List<Loss>();
             while (reader.Read())
             {
                 Loss loss = new Loss()
                 {
                     LossCode = (int)reader["LossCode"],
                     LoseID = reader["LoseID"].ToString(),
+                    // LossDesc = reader["LossDesc"],
                     CategoryCode = (int)reader["CategoryCode"],
                     LossColor = reader["LossColor"].ToString(),
                     LossDate = (DateTime)reader["LossDate"],
+                    Loss_X = (int)reader["Loss_X"],
+                    Loss_Y = (int)reader["Loss_Y"],
+                    StatusCode = (int)reader["StatusCode"],
+                    Date = (DateTime)reader["Date"]
                 };
                 resultLoss.Add(loss);
             }
@@ -469,7 +479,7 @@ namespace Web_Api.Controllers
             }
             catch (Exception ex)
             {
-               return ex.Message;
+                return ex.Message;
             }
             finally
             {
