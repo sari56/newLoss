@@ -70,6 +70,7 @@ namespace Web_Api.Controllers
             //                           "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR (CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
             //                           " '{1}' AND FoundDate > '{2}'))", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
             SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where CategoryCode = '{0}'", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
+            //SqlCommand cmd = new SqlCommand("Select * From Found");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
             while (reader.Read())
@@ -88,6 +89,21 @@ namespace Web_Api.Controllers
             connection.DisConnectSql();
             if (resultFounds.Count() == 0)
                 return null;
+
+            //int flag = 0;
+            //for (int i = 0; i < resultFounds.Count(); i++)
+            //{
+            //    if (resultFounds[i].CategoryCode == signs.Category)
+            //        flag++;
+            //    if (resultFounds[i].FoundColor == signs.Color)
+            //        flag++;
+            //    if (resultFounds[i].FoundDate <= signs.Date)
+            //        flag++;
+            //    if (flag == 1)
+            //        resultFounds.Remove(resultFounds[i]);
+            //}
+
+            //resultFounds.ForEach(f => f.CategoryCode == signs.Category && f.FoundColor == signs.Color && f.Date == signs.Date).ToList();
             return resultFounds;
         }
 
