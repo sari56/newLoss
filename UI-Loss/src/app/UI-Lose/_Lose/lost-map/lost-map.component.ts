@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
-import { Found, City, WebApiService } from '../../Service/web-api.service';
+import { Found, City, WebApiService, CityLocation } from '../../Service/web-api.service';
 declare var google: any;
 
 
@@ -61,9 +61,12 @@ export class LostMapComponent implements OnInit {
   academicsId: Array<any> = [];
   geocoder: any;
   circleRadius: number = 15;
+  lat: number = 31.778860;
+  lng:number = 35.203072; 
+  CityLocation: Array<CityLocation>;
   public location: Location = {
-    lat: 31.778860,
-    lng: 35.203072,
+    lat: this.lat,
+    lng: this.lng,
     markers: [],
     circles: [],
     triple: [],
@@ -72,7 +75,6 @@ export class LostMapComponent implements OnInit {
     academics: [],
     zoom: 15
   };
-
 
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader,private _WebApiService: WebApiService) {
@@ -85,6 +87,7 @@ export class LostMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedCity = null;
+    this.CityLocation = new Array<CityLocation>();
     this._WebApiService.GetAllCity().then(res => {
       if (res) {
         this.ListCity = res;

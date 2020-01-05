@@ -15,24 +15,79 @@
 
 
     <div [hidden]="isHidden">
-      <div>
-        <br><br>
-        <!-- <h2 *ngIf="founds.lengh =! 0">אבדות</h2> -->
-        <br><br>
+      <!-- <div> -->
+      <!-- <h2 *ngIf="founds.lengh =! 0">אבדות</h2> -->
+      <!-- <br>
+        <h3>אבדות</h3><br>
+        
         <label *ngFor="let f of founds">
-          <th>{{f.CategoryCode}}:{{f.Category}}</th>
+          <th>{{f.FoundDate}}</th>
+          <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor">ooo</th>
+          <th>{{f.Category}}</th>
           <br>
         </label>
       </div>
-      <div>
-        <br><br>
-        <!-- <h2 *ngIf="loses.lengh =! 0">מציאות</h2> -->
-        <br><br>
+      <div> -->
+      <!-- <h2 *ngIf="loses.lengh =! 0">מציאות</h2> -->
+      <!-- <h3>מציאות</h3><br>
         <label *ngFor="let l of loses">
-          <th>{{l.Category}}</th>
+            <th>{{l.LoseDate}}</th>
+            <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor">ooo</th>
+            <th>{{l.Category}}</th>
           <br>
         </label>
       </div>
+    </div> -->
+
+      <h3>מציאות</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">תאריך מצאיה</th>
+            <th scope="col">צבע המציאה</th>
+            <th scope="col">קטגוריה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of founds" style="text-align: center">
+            <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+            <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor"></th>
+            <th>{{f.Category}}</th>
+            <td>
+              <button (click)="delete(employee)" class="btn btn-danger btn-sm">
+                <span class="oi oi-trash"></span>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="loading">
+            <td colspan="5" align="center">Fetching Employees</td>
+          </tr>
+        </tbody>
+      </table>  
+
+      <h3>אבדות</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">תאריך האבדה</th>
+            <th scope="col">צבע האבדה</th>
+            <th scope="col">קטגוריה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of loses" style="text-align: center">
+            <td>{{l.LossDate | date:'yyyy/MM/dd'}}</td>
+            <th [style.background-color]="l.LossColor" [style.color]="l.LossColor"></th>
+            <th>{{l.Category}}</th>
+            <td>
+              <button (click)="delete(employee)" class="btn btn-danger btn-sm">
+                <span class="oi oi-trash"></span>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="loading">
+            <td colspan="5" align="center">Fetching Employees</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
-</body>

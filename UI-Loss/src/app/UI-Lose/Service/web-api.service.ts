@@ -18,6 +18,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class WebApiService {
   private body: string
   private isValidate: number = 0;
+  CityLocation: Array<CityLocation>;
   constructor(private http: HttpClient) { }
   setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     // const requestObj: any = { "InputParams": collection, "identityGuid": identityGuid };
@@ -209,4 +210,9 @@ export class Person {
   PersonEmail: string;
 }
 
+export class CityLocation {
+  CityCode: number;
+  lat: number;
+  lng:number;
+}
 

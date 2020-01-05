@@ -22,11 +22,29 @@
 
     <div>
         <button (click)="SearchLoss(selectedCategory,selectedColor, currentDate)">חיפוש</button>
-
-        <div *ngFor="let f of ListFound" (click)="SelectFound(f.FindID)">
-                {{f.Category}}
-               <div>צבע&nbsp;<div id="color" [style.background-color]="f.FoundColor" [style.color]="f.FoundColor">ooo</div>
-            {{f.FoundDate}}:תאריך מציאה&nbsp;
-        </div>
+                <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">תאריך מצאיה</th>
+                            <th scope="col">צבע המציאה</th>
+                            <th scope="col">קטגוריה</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let f of ListFound" style="text-align: center"> 
+                            <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+                            <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor"></th>
+                            <th>{{f.Category}}</th>
+                            <td>
+                              <button (click)="SelectFound(f.FindID)" class="btn btn-danger btn-sm">
+                                <span class="oi oi-trash"></span>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr *ngIf="loading">
+                            <td colspan="5" align="center">Fetching Employees</td>
+                          </tr>
+                        </tbody>
+                      </table>
     </div>
     <!-- <button>?אבדתך לא נמצאה</button> -->
