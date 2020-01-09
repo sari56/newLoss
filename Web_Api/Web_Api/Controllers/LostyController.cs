@@ -15,6 +15,11 @@ namespace Web_Api.Controllers
     public class LostyController : ApiController
     {
         public Connection connection = new Connection();
+        public const string PERSON = "Person";
+        public const string FIND = "Find";
+        public const string LOSE = "Lose";
+        public const string _FIND = "מוצא";
+        public const string _LOSE = "מאבד";
 
         //[Route("http://localhost:59282/api/Home/GetCity")]
         [Route("api/Losty/GetCity")]
@@ -24,16 +29,10 @@ namespace Web_Api.Controllers
             SqlCommand cmd = ConnectSql("Select * from City");
             SqlDataReader reader = cmd.ExecuteReader();
             List<City> resultCity = new List<City>();
+            City city = new City();
             while (reader.Read())
             {
-                City city = new City()
-                {
-                    CityCode = (int)reader["CityCode"],
-                    CityName = reader["CityName"].ToString(),
-                    CityTavCode = reader["CityTavCode"].ToString(),
-                };
-                var cityName = reader["CityName"];
-                resultCity.Add(city);
+                resultCity.Add(city.Initialization(reader));
             }
             connection.DisConnectSql();
             int x = resultCity.Count();
@@ -47,19 +46,31 @@ namespace Web_Api.Controllers
             SqlCommand cmd = ConnectSql("Select * from Category");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Category> resultCategory = new List<Category>();
+            Category category = new Category();
             while (reader.Read())
             {
-                Category category = new Category()
-                {
-                    CategoryCode = (int)reader["CategoryCode"],
-                    CategoryDesc = reader["CategoryDesc"].ToString(),
-
-                };
-                resultCategory.Add(category);
+                resultCategory.Add(category.Initialization(reader));
             }
             connection.DisConnectSql();
             var cnt = resultCategory.Count();
             return resultCategory;
+        }
+
+        [Route("api/Losty/GetColors")]
+        [HttpPost]
+        public List<Color> GetColors()
+        {
+            SqlCommand cmd = ConnectSql("Select * from Color");
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Color> resultColor = new List<Color>();
+            Color _color = new Color();
+            while (reader.Read())
+            {              
+                resultColor.Add(_color.Initialization(reader));
+            }
+            connection.DisConnectSql();
+            var cnt = resultColor.Count();
+            return resultColor;
         }
 
         [Route("api/Losty/GetFounds")]
@@ -73,18 +84,10 @@ namespace Web_Api.Controllers
             //SqlCommand cmd = new SqlCommand("Select * From Found");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
+            Found found = new Found();
             while (reader.Read())
-            {
-                Found found = new Found()
-                {
-                    FoundCode = (int)reader["FoundCode"],
-                    FindID = reader["FindID"].ToString(),
-                    CategoryCode = (int)reader["CategoryCode"],
-                    FoundColor = reader["FoundColor"].ToString(),
-                    FoundDate = (DateTime)reader["FoundDate"],
-
-                };
-                resultFounds.Add(found);
+            {                
+                resultFounds.Add(found.Initialization(reader));
             }
             connection.DisConnectSql();
             if (resultFounds.Count() == 0)
@@ -141,16 +144,13 @@ namespace Web_Api.Controllers
         [HttpPost]
         public bool DeleteUser(Person person)
         {
-            //string strSQL = string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID);
             SqlCommand cmd = ConnectSql(string.Format("Delete From Person Where PersonID = '{0}'", person.PersonID));
-            //SqlCommand cmd = ConnectSql("Delete From Person Where PersonID = '@PersonId'");
             try
             {
-                //cmd.Parameters.AddWithValue("@PersonId", person.PersonID.ToString());
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -216,59 +216,82 @@ namespace Web_Api.Controllers
         [HttpPost]
         public bool VerifyUserName(string[] user)
         {
-            string searchInPersonTable = string.Format("Select * From Person Where PersonID = '{0}' AND PersonEmail = '{1}'", user[1], user[3]);
-            bool checkInsert = false;
-            SqlCommand cmd = ConnectSql(searchInPersonTable);
-            //cmd.Parameters.AddWithValue("@id", user[1]);
-            //cmd.Parameters.AddWithValue("@email", user[3]);
+            string userID = "";
+            Person person = new Person();
+            //Get User ID
+            string searchUser = string.Format("Select UserID From [User] Where UserName = '{0}' AND UserEmail = '{1}' ", user[1], user[2]);
+            SqlCommand cmd = ConnectSql(searchUser);
             SqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
-                Person person = new Person()
-                {
-                    PersonID = reader["PersonID"].ToString(),
-                    PersonName = reader["PersonName"].ToString(),
-                    PersonCityCode = (int)reader["PersonCityCode"],
-                    PersonAddress = reader["PersonAddress"].ToString(),
-                    PersonPhone = reader["PersonPhone"].ToString(),
-                    PersonEmail = reader["personEmail"].ToString()
-                };
+                userID = reader["UserID"].ToString();
+            }
+            connection.DisConnectSql();
+            //Search if User appear in Person Table? Delete & Add To Find/Lose Table : Search in Find/Lose Tables
+            string searchInPersonTable = string.Format("Select * From Person Where PersonID = '{0}' ", userID);
+            bool checkInsert = false;
+            cmd = ConnectSql(searchInPersonTable);
+            reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                person = person.Initialization(reader, PERSON);
                 connection.DisConnectSql();
                 if (DeleteUser(person) == true)
                 {
-                    if (user[0].Equals("מוצא"))
+                    if (user[0].Equals(_FIND))
                         checkInsert = InsertFind(person);
                     else
                         checkInsert = InsertLose(person);
                 }
             }
+            //Search in Find / Lose Tables if User Find/Lose appear in the different table copy to the relevant table
             else
             {
                 connection.DisConnectSql();
-                if (user[0].Equals("מוצא"))
-                {
-                    string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' AND FindEmail = '{1}'", user[1], user[3]);
-                    cmd = ConnectSql(searchInFindTable);
-                }
-                if (user[0].Equals("מאבד"))
-                {
-                    string searchInLossTable = string.Format("Select * From Lose Where LoseID = '{0}' AND LoseEmail = '{1}'", user[1], user[3]);
-                    cmd = ConnectSql(searchInLossTable);
-                }
+                string searchInFindTable = string.Format("Select * From Find Where FindID = '{0}' ", userID);
+                cmd = ConnectSql(searchInFindTable);
                 reader = cmd.ExecuteReader();
                 if (reader.Read())
-                    checkInsert = true;
+                {
+                    if (user[0].Equals(_FIND))
+                    {
+                        checkInsert = true;
+                    }
+                    else
+                    {
+                        person = person.Initialization(reader, FIND);
+                    }
+                }
+                connection.DisConnectSql();
+                if (checkInsert == false)
+                {
+                    string searchInLoseTable = string.Format("Select * From Lose Where LoseID = '{0}' ", userID);
+                    cmd = ConnectSql(searchInLoseTable);
+                    reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        if (user[0].Equals(_LOSE))
+                        {
+                            checkInsert = true;
+                        }
+                        else
+                        {
+                            person = person.Initialization(reader, LOSE);
+                            connection.DisConnectSql();
+                            checkInsert = InsertFind(person);
+                        }
+                    }
+                    else
+                    {
+                        if(person != null)
+                        {
+                            connection.DisConnectSql();
+                            checkInsert = InsertLose(person);
+                        }
+                    }
+                }
             }
-            connection.DisConnectSql();
-            if (checkInsert == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return checkInsert;
         }
 
         [Route("api/Losty/InsertFound")]
@@ -395,7 +418,7 @@ namespace Web_Api.Controllers
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -416,7 +439,7 @@ namespace Web_Api.Controllers
             //mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
             mail.NewMail(person.PersonEmail, person.PersonName, "RS.Losty@gmail.com", "Losty", "LOSTY שם משתמש כניסה למערכת ", "שלום ל" + person.PersonName + " שם המשתמש שלך: " + userName, "");
             mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
-            bool IsInsertUserName = InsertUserName(person.PersonID, person.PersonEmail, userName);
+            InsertUserName(person.PersonID, person.PersonEmail, userName);
             //if (IsInsertUserName == true)
             return mail.sendMail();
             //return "Incorrect email Address";
@@ -437,7 +460,7 @@ namespace Web_Api.Controllers
                     FoundCode = (int)reader["FoundCode"],
                     FindID = reader["FindID"].ToString(),
                     CategoryCode = (int)reader["CategoryCode"],
-                    FoundColor = reader["FoundColor"].ToString(),
+                    FoundColor = (int)reader["FoundColor"],
                     FoundDate = (DateTime)reader["FoundDate"],
                     Found_X = (int)reader["Found_X"],
                     Found_Y = (int)reader["Found_Y"],
@@ -466,7 +489,7 @@ namespace Web_Api.Controllers
                     LoseID = reader["LoseID"].ToString(),
                     // LossDesc = reader["LossDesc"],
                     CategoryCode = (int)reader["CategoryCode"],
-                    LossColor = reader["LossColor"].ToString(),
+                    LossColor = (int)reader["LossColor"],
                     LossDate = (DateTime)reader["LossDate"],
                     Loss_X = (int)reader["Loss_X"],
                     Loss_Y = (int)reader["Loss_Y"],
