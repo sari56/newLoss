@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebApiService, Category, Found } from '../../Service/web-api.service';
+import { WebApiService, Category, Found, Color } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-found',
@@ -8,7 +8,6 @@ import { WebApiService, Category, Found } from '../../Service/web-api.service';
 })
 
 export class FoundComponent implements OnInit {
-  selectedColor: string;
   @Input()
   found_hid: boolean = true;
   isVerifyUser: boolean = false;
@@ -18,10 +17,13 @@ export class FoundComponent implements OnInit {
   status: string = "מוצא";
   email: string;
   selectedCategory: string;
+  selectedColor: string;
   today: Date;
   currentDate: Date = new Date();
   constructor(private _WebApiService: WebApiService) { }
   ListCategory: Array<Category> = new Array<Category>();
+  Colors: Array<Color> = new Array<Color>();
+
   ngOnInit() {
     // console.log(this.today);
     this.today = new Date();
@@ -32,11 +34,20 @@ export class FoundComponent implements OnInit {
         this.ListCategory = res;
     })
     console.log(this.ListCategory.length);
+
+    this._WebApiService.GetColors().then(res => {
+      if (res)
+        this.Colors = res;
+      console.log(this.Colors.length);
+    })
   }
 
   onChange_Color($event) {
     console.log(this.selectedColor);
-    this.found.FoundColor = this.selectedColor;
+    let i;
+    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].Color; i++);
+    this.found.FoundColor = this.Colors[i].ColorCode;
+    //this.found.FoundColor = this.selectedColor;
   }
 
   onChange_Category($event) {
@@ -52,11 +63,11 @@ export class FoundComponent implements OnInit {
     console.log(this.currentDate);
   }
 
-  Check(id: string, userName: string, email: string) {
+  Check(userName: string, email: string) {
     // console.log("Check   id" + id.toString() + "pass  " + userName.toString() + "email  " + email.toString());
     // if (this._WebApiService.VerifyUserName([{Value: status, Name: "status"}, {Value: id, Name: "id"}, {Value: userName, Name: "userName"}, {Value: email, Name: "email"}]) == true)
 
-    this._WebApiService.VerifyUserName([this.status, id, userName, email]).then(res => {
+    this._WebApiService.VerifyUserName([this.status, userName, email]).then(res => {
       if (res == true) {
         this.isHidden = false;
       }

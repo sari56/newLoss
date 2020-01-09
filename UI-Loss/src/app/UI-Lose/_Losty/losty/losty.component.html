@@ -3,15 +3,15 @@
   <div class="formBorder">
     <form action="/action_page.php">
 
-      <label for="lid">:תעודת זהות</label>
-      <input type="text" id="lid" name="lid" [(ngModel)]="loss.LoseID" placeholder="תעודת זהות" /><br>
+      <!-- <label for="lid">:תעודת זהות</label>
+      <input type="text" id="lid" name="lid" [(ngModel)]="loss.LoseID" placeholder="תעודת זהות" /><br> -->
 
       <label for="pass">:שם משתמש</label>
       <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
 
       <label for="email">:דוא"ל</label>
       <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
-      <button (click)="Check(loss.LoseID,userName,email)">אישור</button>
+      <button (click)="Check(userName,email)">אישור</button>
     </form>
     <p [hidden]="isHidden">
       <label for="Category">:קטגוריה</label>
@@ -19,17 +19,25 @@
           <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
       </select>
       <br>
-      <label for="Desc">:תיאור מציאה</label>
-      <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
+      <label for="Desc">:תיאור האבדה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="loss.LossDesc" placeholder="תיאור מציאה">
       <br>
-      <label for="Color">:צבע המציאה</label><br>
-      <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
-        style="width: 120px">
+      <label for="Color">:צבע האבדה</label><br>
+    <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+      <option *ngFor="let c of Colors" [ngValue]="c.Color">{{c.Color}}</option>
+    </select>
+      <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
       <br><br>
       <!-- לבדוק שהתאריך קטן מהיום -->
-      <label for="Date">:תאריך בו נמצא</label><br>
+      <label for="Date">:תאריך בו נאבד</label><br>
       <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
         (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+      <br>
+      <br>
+      <label for="Remark">:הערות</label>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="loss.Remarks" placeholder="הערות">
+      <br>
       <br>
       <button (click)="SaveLoss(loss,currentDate)" type="submit">שמירת פרטי מציאה</button>
       <br>

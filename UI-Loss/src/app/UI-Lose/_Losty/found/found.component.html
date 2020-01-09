@@ -3,8 +3,8 @@
   <div class="formBorder">
     <form action="/action_page.php">
 
-      <label for="fid">:תעודת זהות</label>
-      <input type="text" id="fid" name="fid" [(ngModel)]="found.FindID" placeholder="תעודת זהות" /><br>
+      <!-- <label for="fid">:תעודת זהות</label>
+      <input type="text" id="fid" name="fid" [(ngModel)]="found.FindID" placeholder="תעודת זהות" /><br> -->
       <!-- <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
         placeholder="תעודת זהות" /><br> -->
 
@@ -18,26 +18,42 @@
         <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
           <div *ngIf="femail.errors.required">שדה זה חובה</div>
         </div> -->
-      <button (click)="Check(found.FindID,userName,email)">אישור</button>
+      <button (click)="Check(userName,email)">אישור</button>
     </form>
     <p [hidden]="isHidden">
       <label for="Category">:קטגוריה</label>
       <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
-          <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+        <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
       </select>
       <br>
-      <label for="Desc">:תיאור מציאה</label>
-      <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
+      <label for="Desc">:תיאור המציאה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור מציאה">
       <br>
-      <label for="Color">:צבע המציאה</label><br>
-      <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
-        style="width: 120px">
+      <label for="color">:צבע המציאה</label><br>
+      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+        <option *ngFor="let Cat of Colors" [ngValue]="Cat.Color">{{Cat.Color}}</option>
+      </select>
+      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+        <option *ngFor="let c of Colors" [ngValue]="c.Color">{{c.Color}}</option>
+      </select>
+      <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
+        <br>
+      <label for="Desc">:מקום המציאה</label>
+      <input type="text" id="location" name="Desc" [(ngModel)]="location" placeholder="מקום המציאה">
+      <br>
+      <br>
+      <label for="Desc">:תיאור המציאה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור מציאה">
+      <br>
       <br><br>
       <!-- לבדוק שהתאריך קטן מהיום -->
       <label for="Date">:תאריך בו נמצא</label><br>
       <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
         (change)="onChange_Date($event)" [(ngModel)]="currentDate">
-
+      <br>
+      <label for="Remark">:הערות</label>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="found.Remarks" placeholder="הערות">
       <br>
       <button (click)="SaveFound(found,currentDate)" type="submit">שמירת פרטי מציאה</button>
       <br>

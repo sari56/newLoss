@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebApiService, Category, Loss, Lose } from '../../Service/web-api.service';
+import { WebApiService, Category, Loss, Lose, Color } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-losty',
@@ -21,6 +21,7 @@ export class LostyComponent implements OnInit {
   currentDate: Date = new Date();
   constructor(private _WebApiService: WebApiService) { }
   ListCategory: Array<Category> = new Array<Category>();
+  Colors: Array<Color> = new Array<Color>();
   ngOnInit() {
     this.today = new Date();
     this.loss = new Loss();
@@ -29,12 +30,20 @@ export class LostyComponent implements OnInit {
       if (res)
         this.ListCategory = res;
     })
-    console.log(this.ListCategory.length);
+    
+    this._WebApiService.GetColors().then(res => {
+      if (res)
+        this.Colors = res;
+      console.log(this.Colors.length);
+    })
   }
 
   onChange_Color($event) {
     console.log(this.selectedColor);
-    this.loss.LossColor = this.selectedColor;
+    let i;
+    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].Color; i++);
+    this.loss.LossColor = this.Colors[i].ColorCode;
+    //this.loss.LossColor = this.selectedColor;
   }
 
   onChange_Category($event) {
@@ -50,9 +59,9 @@ export class LostyComponent implements OnInit {
     console.log(this.currentDate);
   }
 
-  Check(id: string, userName: string, email: string) {
+  Check(userName: string, email: string) {
 
-    this._WebApiService.VerifyUserName([this.status, id, userName, email]).then(res => {
+    this._WebApiService.VerifyUserName([this.status, userName, email]).then(res => {
       if (res == true) {
         this.isHidden = false;
       }
