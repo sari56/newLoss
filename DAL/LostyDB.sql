@@ -18,8 +18,11 @@ StatusName varchar(20)
 Create Table Color 
 (
  ColorCode int identity(1,1) primary key,
- Color varchar(20)
+ Color varchar(20),
+ RelevantColors varchar(50)
 )
+ALTER TABLE Color
+ADD RelevantColors varchar(50)
 --תמונות
 Create Table Picture
 (
@@ -228,16 +231,16 @@ values ('ש','שדות ים'),('ש','שדרות'),('ש','שוהם'),('ש','שפיים'),('ש','שריד'),('ש
 Insert into City
 values ('ת','תימורים'),('ת','תל אביב -יפו'),('ת','תל מונד'),('ת','תנובות'),('ת','תמרת'),('ת','תלמי ביל"ו'),('ת','תלמי אלעזר'),('ת','תלמי אליהו'),('ת','תלמי יפה'),('ת','תלמי יחיאל')
 select *  from City
-Insert into [Status] values('נאבד'),('נמצא')
+Insert into [Status] values('נאבד'),('נמצא'),('מבוקש')
 Insert Into Color 
-values ('לבן'),('בז'),('צהוב'),('חרדל'),('כתום'),('אדום'),('בורדו'),('סגול'),('סגלגל'),('ורוד'),('אפור'),('כסף'),('זהב'),('חום'),('ירוק'),('ירוק מנטה'),('טורקיז'),('תכלת'),('כחול'),('שחור')
+values ('לבן','1,2'),('בז','1,2,3,4'),('צהוב','2,3,4,5'),('חרדל','2,3,4,14'),('כתום','3,4,5,14'),('אדום','5,6,7,10'),('בורדו','6,7,14'),('סגול','7,8,9,10'),('סגלגל','8,9,10'),('ורוד','6,7,8,9,10'),('אפור','1,11,12'),('כסף','11,12'),('זהב','2,3,4,13'),('חום','3,4,5,14'),('ירוק','3,15,16,17'),('ירוק מנטה','3,15,16,17'),('טורקיז','3,15,16,17,18,19'),('תכלת','16,17,18,19'),('כחול','17,18,19'),('שחור','20')
 
 select * from [Status]
 select * from color                             
 select * from person
 select * from [User]
 select * from Find
-select * from Lose
+select * from Loss
 select * from Category
 select * from Found
 delete from [User] where UserID = 208094391
@@ -247,3 +250,4 @@ delete from Find where FindID = 315244178
 delete from person where PersonID = 027859511
 delete from person where PersonID = 027859511
 
+UPDATE Color SET RelevantColors = '20' Where ColorCode = 20
