@@ -39,6 +39,7 @@ namespace Web_Api.Models
     {
         public int ColorCode { get; set; }
         public string color { get; set; }
+        public string RelevantColors { get; set; }
 
         public override Color Initialization(SqlDataReader reader)
         {
@@ -46,7 +47,7 @@ namespace Web_Api.Models
             {
                 ColorCode = (int)reader["ColorCode"],
                 color = reader["color"].ToString(),
-
+                RelevantColors = reader["RelevantColors"].ToString()
             };
             return _color;
         }
@@ -155,15 +156,15 @@ namespace Web_Api.Models
         {
             Loss loss = new Loss()
             {
-                //FoundCode = (int)reader["FoundCode"],
+                LossCode = (int)reader["LossCode"],
                 LoseID = reader["LoseID"].ToString(),
-                CategoryCode = (int)reader["CategoryCode"],
                 LossDesc = reader["LossDesc"].ToString(),
+                CategoryCode = (int)reader["CategoryCode"],
                 LossColor = (int)reader["LossColor"],
                 LossDate = (DateTime)reader["LossDate"],
                 Loss_X = (int)reader["Loss_X"],
                 Loss_Y = (int)reader["Loss_Y"],
-                Remarks = reader.ToString(),
+                Remarks = reader["Remarks"].ToString(),
                 StatusCode = (int)reader["StatusCode"],
                 Date = (DateTime)reader["Date"]
             };
@@ -196,7 +197,7 @@ namespace Web_Api.Models
         {
             Found found = new Found()
             {
-                //FoundCode = (int)reader["FoundCode"],
+                FoundCode = (int)reader["FoundCode"],
                 FindID = reader["FindID"].ToString(),
                 CategoryCode = (int)reader["CategoryCode"],
                 FoundDesc = reader["FoundDesc"].ToString(),
@@ -204,7 +205,7 @@ namespace Web_Api.Models
                 FoundDate = (DateTime)reader["FoundDate"],
                 Found_X = (int)reader["Found_X"],
                 Found_Y = (int)reader["Found_Y"],
-                Remarks = reader.ToString(),
+                Remarks = reader["Remarks"].ToString(),
                 StatusCode = (int)reader["StatusCode"],
                 Date = (DateTime)reader["Date"]
             };
@@ -303,7 +304,9 @@ namespace Web_Api.Models
     public class Signs
     {
         public int Category { get; set; }
-        public string Color { get; set; }
+        public string Description { get; set; }
+        public int Color { get; set; }
         public DateTime Date { get; set; }
+        public string Remarks { get; set; }
     }
 }
