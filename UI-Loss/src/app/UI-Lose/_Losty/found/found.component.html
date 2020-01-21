@@ -1,5 +1,5 @@
+<br><br>
 <body>
-  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <div class="formBorder">
     <form action="/action_page.php">
 
@@ -27,25 +27,17 @@
       </select>
       <br>
       <label for="Desc">:תיאור המציאה</label>
-      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור מציאה">
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור המציאה">
       <br>
       <label for="color">:צבע המציאה</label><br>
       <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
-        <option *ngFor="let Cat of Colors" [ngValue]="Cat.Color">{{Cat.Color}}</option>
-      </select>
-      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
-        <option *ngFor="let c of Colors" [ngValue]="c.Color">{{c.Color}}</option>
+        <option *ngFor="let c of Colors" [ngValue]="c.color">{{c.color}}</option>
       </select>
       <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
         style="width: 120px"> -->
         <br>
       <label for="Desc">:מקום המציאה</label>
       <input type="text" id="location" name="Desc" [(ngModel)]="location" placeholder="מקום המציאה">
-      <br>
-      <br>
-      <label for="Desc">:תיאור המציאה</label>
-      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור מציאה">
-      <br>
       <br><br>
       <!-- לבדוק שהתאריך קטן מהיום -->
       <label for="Date">:תאריך בו נמצא</label><br>

@@ -561,52 +561,37 @@
   </nav>
 <router-outlet></router-outlet> -->
 
+<!-- style="background-image: url('assets/img/Losty.jpg');" -->
 <body>
-  <!-- <a class="navbar-item">
-      <img src="assets/img/Losty.jpg">
-  </a> -->
   <ul>
-    <!-- <li><a href="#home">Home</a></li> -->
     <li class="dropdown">
-      <a href="javascript:void(0)" class="dropbtn">מוצא אבדה</a>
-      <div class="dropdown">
+      <button class="dropbtn"><span class="glyphicon glyphicon-equalizer"></span>מוצא אבדה</button>
+      <div class="dropdown-content">
         <a routerLink="found">כניסה</a>
         <a routerLink="find">הרשמה</a>
       </div>
     </li>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
     <li class="dropdown">
-      <a href="javascript:void(0)" class="dropbtn">מחפש אבדה</a>
-      <div class="dropdown">
+      <button class="dropbtn"><span class="glyphicon glyphicon-equalizer"></span>מחפש אבדה</button>
+      <div class="dropdown-content">
         <a routerLink="losty">כניסה</a>
         <a routerLink="lose">הרשמה</a>
       </div>
     </li>
-    <li>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    </li>
-    <li>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <li class="dropdown">
+          <button class="dropbtn" routerLink="lost-map"><span class="glyphicon glyphicon-search"></span>חיפוש במפת האבדות</button>
+        </li>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <li class="dropdown">
+      <button class="dropbtn" routerLink="search">חיפוש עפ"י סימנים</button>
     </li>
-    <!-- <li>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    </li> -->
-    <li>
-      <a routerLink="lost-map">חיפוש במפת האבדות</a>
-    </li>
-    <li>
-      <a routerLink="search">חיפוש עפ"י סימנים</a>
-    </li>
-    <li>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    </li>
-    <li>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    </li>
-    <li>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    </li>
-    <li>
-      <a routerLink="private_area">לאזור האישי</a>
+    <li class="dropdown">
+      <button class="dropbtn" routerLink="personal-area">לאזור האישי</button>
     </li>
   </ul>
 

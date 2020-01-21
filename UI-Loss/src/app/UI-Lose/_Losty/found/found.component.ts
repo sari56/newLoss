@@ -45,7 +45,7 @@ export class FoundComponent implements OnInit {
   onChange_Color($event) {
     console.log(this.selectedColor);
     let i;
-    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].Color; i++);
+    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].color; i++);
     this.found.FoundColor = this.Colors[i].ColorCode;
     //this.found.FoundColor = this.selectedColor;
   }
@@ -94,17 +94,13 @@ export class FoundComponent implements OnInit {
       window.alert("תאריך לא חוקי");
     }
     else {
-
-      // f.FoundCode = 1;
+      f.FindID = this.userName;
       f.CategoryCode = this.found.CategoryCode;
-      f.FoundDesc = " ";
+      f.FoundColor = this.found.FoundColor;
       f.Found_X = 1;
       f.Found_Y = 1;
-      // f.PictureCode = 1;
-
       f.StatusCode = 2;
       f.Date = this.today;
-      // this._WebApiService.InsertFound(f);
       this._WebApiService.InsertFound(f).then(res => {
         if (res == "Inserting Found Seccessfuly") {
           window.alert("המציאה התווספה בהצלחה!");
@@ -113,7 +109,6 @@ export class FoundComponent implements OnInit {
           window.alert("שגיאה");
         }
       });
-      //  this._WebApiService.InsertFound([{Value: f.FindID} , {Value: f.CategoryCode} , {Value: f.FoundColor} , {Value: f.FoundDate} , {Value: f.StatusCode} , {Value: f.Date}]);
     }
   }
 }

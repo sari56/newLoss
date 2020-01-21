@@ -39,50 +39,61 @@
       </div>
     </div> -->
 
-      <h3>מציאות</h3>
+    <a routerLink="personal-found">מציאות</a>&nbsp;&nbsp;&nbsp;
+    <a routerLink="personal-loss">אבדות</a>&nbsp;&nbsp;&nbsp;
+    <a routerLink="edit">עריכת פרטים אישיים</a>&nbsp;&nbsp;&nbsp;
+
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">תאריך מצאיה</th>
+            <th scope="col">הערות</th>
+            <th scope="col">תאריך המציאה</th>
             <th scope="col">צבע המציאה</th>
+            <th scope="col">תיאור</th>
             <th scope="col">קטגוריה</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let f of founds" style="text-align: center">
+            <td>{{f.Remarks}}</td>
             <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
-            <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor"></th>
-            <th>{{f.Category}}</th>
+            <td>{{f.color}}</td>
+            <td>{{f.FoundDesc}}</td>
+            <td>{{f.Category}}</td>
             <td>
-              <button (click)="delete(employee)" class="btn btn-danger btn-sm">
-                <span class="oi oi-trash"></span>
-              </button>
+              <!-- <button (click)="delete(employee)" class="btn btn-danger btn-sm"> -->
+              <span class="oi oi-trash"></span>
+              <!-- </button> -->
             </td>
           </tr>
           <tr *ngIf="loading">
             <td colspan="5" align="center">Fetching Employees</td>
           </tr>
         </tbody>
-      </table>  
+      </table>
 
-      <h3>אבדות</h3>
       <table class="table">
         <thead>
           <tr>
+            <th scope="col">הערות</th>
             <th scope="col">תאריך האבדה</th>
             <th scope="col">צבע האבדה</th>
+            <th scope="col">תיאור</th>
             <th scope="col">קטגוריה</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let l of loses" style="text-align: center">
+          <tr *ngFor="let l of losses" style="text-align: center">
+            <td>{{l.Remarks}}</td>
             <td>{{l.LossDate | date:'yyyy/MM/dd'}}</td>
-            <th [style.background-color]="l.LossColor" [style.color]="l.LossColor"></th>
+            <td>{{l.color}}</td>
+            <td>{{l.LossDesc}}</td>
             <th>{{l.Category}}</th>
             <td>
-              <button (click)="delete(employee)" class="btn btn-danger btn-sm">
-                <span class="oi oi-trash"></span>
-              </button>
+              <!-- <th [style.background-color]="l.LossColor" [style.color]="l.LossColor"></th> -->
+              <!-- <button (click)="delete(employee)" class="btn btn-danger btn-sm"> -->
+              <span class="oi oi-trash"></span>
+              <!-- </button> -->
             </td>
           </tr>
           <tr *ngIf="loading">

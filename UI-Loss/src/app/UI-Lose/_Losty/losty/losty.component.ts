@@ -41,7 +41,7 @@ export class LostyComponent implements OnInit {
   onChange_Color($event) {
     console.log(this.selectedColor);
     let i;
-    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].Color; i++);
+    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].color; i++);
     this.loss.LossColor = this.Colors[i].ColorCode;
     //this.loss.LossColor = this.selectedColor;
   }
@@ -78,18 +78,16 @@ export class LostyComponent implements OnInit {
       window.alert("תאריך לא חוקי");
     }
     else {
-      // f.FoundCode = 1;
+      l.LoseID = this.userName;
       l.CategoryCode = this.loss.CategoryCode;
+      l.LossColor = this.loss.LossColor;
       l.Loss_X = 1;
       l.Loss_Y = 1;
-      // f.PictureCode = 1;
-      l.LossDesc =" ";
-      l.StatusCode = 2;
-      l.LossColor = this.loss.LossColor;
+      l.StatusCode = 1;
       l.Date = this.today;
       this._WebApiService.InsertLoss(l).then(res => {
         if (res == "Inserting Loss Seccessfuly") {
-          window.alert("המציאה התווספה בהצלחה!");
+          window.alert("האבדה התווספה בהצלחה!");
         }
         else {
           window.alert("שגיאה");

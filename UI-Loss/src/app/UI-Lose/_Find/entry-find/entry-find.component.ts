@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Person, WebApiService, Found, Category, Loss } from '../../Service/web-api.service';
+import { Person, WebApiService, Found, Category, Loss, Color } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-entry-find',
@@ -14,6 +14,7 @@ export class EntryFindComponent implements OnInit {
   founds_category: Array<string> = new Array();
   losess_category: Array<string> = new Array();
   category: Array<Category> = new Array();
+  Colors: Array<Color> = new Array<Color>();
   constructor(private _WebApiService: WebApiService) { }
 
   ngOnInit() {
@@ -22,6 +23,12 @@ export class EntryFindComponent implements OnInit {
       if (res) {
         this.category = res;
       }
+    })
+
+    this._WebApiService.GetColors().then(res => {
+      if (res)
+        this.Colors = res;
+      console.log(this.Colors.length);
     })
   }
 
@@ -36,6 +43,7 @@ export class EntryFindComponent implements OnInit {
         this.founds = res;
         for (let index = 0; index < this.founds.length; index++) {
           this.founds[index].Category = this.category[this.founds[index].CategoryCode - 1].CategoryDesc;
+          this.founds[index].color = this.Colors[this.founds[index].FoundColor - 1].color;
           console.log(this.founds[index].Category);
         }
       }
@@ -45,6 +53,7 @@ export class EntryFindComponent implements OnInit {
         this.losses = res;
         for (let index = 0; index < this.losses.length; index++) {
           this.losses[index].Category = this.category[this.losses[index].CategoryCode - 1].CategoryDesc;
+          this.losses[index].color = this.Colors[this.losses[index].LossColor - 1].color;
         }
       }
     });

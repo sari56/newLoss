@@ -2,7 +2,7 @@
 <html>
 
 <body>
-  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
   <div>
     <!-- <form class="formBorder" #FindForm="ngForm" action="/action_page.php" (ngSubmit)="selected(city)"> -->
     <!-- שם מאבד -->
@@ -49,6 +49,7 @@
     <div *ngIf="faddress.invalid && (faddress.dirty || faddress.touched)" class="alert alert-danger">
       <div *ngIf="faddress.errors.required">שדה זה חובה</div>
     </div>
+    <br>
     <input type="submit" value="שמירת פרטי מאבד" (click)="SaveUser(lose)">
   </div>
 

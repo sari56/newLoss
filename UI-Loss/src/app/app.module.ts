@@ -24,6 +24,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
+import { PersonalAreaComponent } from './UI-Lose/PersonalArea/personal-area/personal-area.component';
+import { PersonalFoundComponent } from './UI-Lose/PersonalArea/personal-found/personal-found.component';
+import { PersonalLossComponent } from './UI-Lose/PersonalArea/personal-loss/personal-loss.component';
+import { EditComponent } from './UI-Lose/PersonalArea/edit/edit.component';
 
 const ROUTES:Routes=[
   { path: "find", component:FindComponent},
@@ -32,7 +36,11 @@ const ROUTES:Routes=[
   { path: "search", component:SearchComponent},
   { path: "lose", component:LoseComponent},
   { path: "losty", component:LostyComponent},
-  { path: "private_area", component:EntryFindComponent}
+  { path: "private_area", component:EntryFindComponent},
+  { path: "personal-area", component:PersonalAreaComponent},
+  { path: "personal-area/personal-found", component:PersonalFoundComponent},
+  { path: "personal-area/personal-loss", component:PersonalLossComponent},
+  { path: "personal-area/edit", component:EditComponent},
   // { path: "",component:AppComponent },
   // { path: "**",component:AppComponent},
  ];
@@ -49,6 +57,10 @@ const ROUTES:Routes=[
     LostyComponent,
     FoundComponent,
     EntryLoseComponent,
+    PersonalAreaComponent,
+    PersonalFoundComponent,
+    PersonalLossComponent,
+    EditComponent,
     // ImageSnippetComponent
   ],
   imports: [

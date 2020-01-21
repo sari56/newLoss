@@ -1,50 +1,71 @@
 <br><br><br>
 
 <body>
-    <br><br><br>
-    <label for="Category">:מה נאבד</label>
+  <br><br><br>
+  <label for="Category">:מה נאבד</label>
+  <br>
+  <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+    <option *ngFor="let Cat of _Category" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+  </select>
+  <br>
+  <label for="Desc">:תיאור האבדה</label>
+  <br>
+  <input type="text" id="Desc" name="Desc" [(ngModel)]="signs.Description" placeholder="תיאור מציאה">
+  <br>
+  <label for="Color">:צבע האבדה</label><br>
+  <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+    <option *ngFor="let c of _Colors" [ngValue]="c.color">{{c.color}}</option>
+  </select>
+  <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
+  <br><br>
+  <!-- לבדוק שהתאריך קטן מהיום -->
+  <label for="Date">:תאריך בו נאבד</label><br>
+  <div>החיפוש יעשה מטווח של שבוע קודם</div>
+  <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+    (change)="onChange_Date($event)" [(ngModel)]="currentDate">
     <br>
-    <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
-        <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
-    </select>
     <br>
-    <!-- <label for="Desc">:תיאור מציאה</label>
-    <input type="text" id="Desc" name="Desc" placeholder="תיאור מציאה">
-    <br> -->
-    <label for="Color">:צבע האבדה</label><br>
-    <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
-        style="width: 120px">
-    <br><br>
-    <!-- לבדוק שהתאריך קטן מהיום -->
-    <label for="Date">:תאריך בו נאבד</label><br>
-    <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
-        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
-
-    <div>
-        <button (click)="SearchLoss(selectedCategory,selectedColor, currentDate)">חיפוש</button>
-                <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">תאריך מצאיה</th>
-                            <th scope="col">צבע המציאה</th>
-                            <th scope="col">קטגוריה</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let f of ListFound" style="text-align: center"> 
-                            <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
-                            <th [style.background-color]="f.FoundColor" [style.color]="f.FoundColor"></th>
-                            <th>{{f.Category}}</th>
-                            <td>
-                              <button (click)="SelectFound(f.FindID)" class="btn btn-danger btn-sm">
-                                <span class="oi oi-trash"></span>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr *ngIf="loading">
-                            <td colspan="5" align="center">Fetching Employees</td>
-                          </tr>
-                        </tbody>
-                      </table>
-    </div>
-    <!-- <button>?אבדתך לא נמצאה</button> -->
+      <label for="Remark">:הערות</label>
+      <br>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="signs.Remarks" placeholder="הערות">
+      <br>
+    <br>
+  <div>
+    
+    <button (click)="SearchLoss()">חיפוש</button><br><br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">הערות</th>
+          <th scope="col">סטטוס</th>
+          <th scope="col">תאריך המציאה</th>
+          <th scope="col">צבע המציאה</th>
+          <th scope="col">תיאור</th>
+          <th scope="col">קטגוריה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of _Founds" style="text-align: center">
+          <td>{{f.Remarks}}</td>
+          <td>{{f.Status}}</td>
+          <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+          <td>{{f.color}}</td> 
+          <td>{{f.FoundDesc}}</td>
+          <td>{{f.Category}}</td>
+          <!-- <input [(ngModel)] = "f.FoundCode"> -->
+          <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+          <td>
+            <button (click)="SelectFound(f)" class="btn btn-danger btn-sm">
+              <span class="oi oi-trash"></span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" align="center">Fetching Employees</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </body>
+  <!-- <button>?אבדתך לא נמצאה</button> -->

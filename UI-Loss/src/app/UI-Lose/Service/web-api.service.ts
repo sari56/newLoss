@@ -46,8 +46,8 @@ export class WebApiService {
     return this.setRequstData("Losty/", "GetCity", {});
   }
 
-  GetColors(){
-   return this.setRequstData("Losty/","GetColors", {});
+  GetColors() {
+    return this.setRequstData("Losty/", "GetColors", {});
   }
 
   InsertUser(params) {
@@ -84,6 +84,10 @@ export class WebApiService {
 
   SendEmail(params) {
     return this.setRequstData("Losty/", "SendEmail", params);
+  }
+
+  VerifyUserId(params) {
+    return this.setRequstData("Losty/", "VerifyUserId", params);
   }
 
   CheckEmail(email: string) {
@@ -137,9 +141,11 @@ export class WebApiService {
 }
 
 export class Signs {
-    Category: number;
-    Color: string;
-    date: Date;
+  Category: number;
+  Description: string;
+  Color: number;
+  date: Date;
+  Remarks: string;
 }
 
 export interface City {
@@ -155,7 +161,7 @@ export class Category {
 
 export class Color {
   ColorCode: number;
-  Color: string;
+  color: string;
 }
 
 export class Found {
@@ -165,10 +171,12 @@ export class Found {
   Category: string;
   FoundDesc: string;
   FoundColor: number;
+  color: string;
   FoundDate: Date;
   Found_X: number;
   Found_Y: number;
   Remarks: string;
+  Status: string;
   StatusCode: number;
   // PictureCode:number;
   Date: Date;
@@ -181,6 +189,7 @@ export class Loss {
   Category: string;
   LossDesc: string;
   LossColor: number;
+  color: string;
   LossDate: Date;
   Loss_X: number;
   Loss_Y: number;
@@ -220,6 +229,6 @@ export class Person {
 export class CityLocation {
   CityCode: number;
   lat: number;
-  lng:number;
+  lng: number;
 }
 
