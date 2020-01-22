@@ -14,8 +14,9 @@ namespace Web_Api.Models
     public class City : Model<City>
     {
         public int CityCode { get; set; }
-        public string CityTavCode { get; set; }
         public string CityName { get; set; }
+        public long Lat { get; set; }
+        public long Lang { get; set; }
 
         public override City Initialization(SqlDataReader reader)
         {
@@ -23,7 +24,8 @@ namespace Web_Api.Models
             {
                 CityCode = (int)reader["CityCode"],
                 CityName = reader["CityName"].ToString(),
-                CityTavCode = reader["CityTavCode"].ToString(),
+                Lat = (long)reader["Lat"],
+                Lang = (long)reader["Lang"],
             };
             return city;
         }
