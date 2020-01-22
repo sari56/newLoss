@@ -88,6 +88,7 @@ getLatlang() {
         icon:'//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       }
       
+      
       this.mapElement.triggerResize();
       // debugger;
       

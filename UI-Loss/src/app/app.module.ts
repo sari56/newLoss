@@ -28,11 +28,13 @@ import { PersonalAreaComponent } from './UI-Lose/PersonalArea/personal-area/pers
 import { PersonalFoundComponent } from './UI-Lose/PersonalArea/personal-found/personal-found.component';
 import { PersonalLossComponent } from './UI-Lose/PersonalArea/personal-loss/personal-loss.component';
 import { EditComponent } from './UI-Lose/PersonalArea/edit/edit.component';
+import { MapComponent } from './UI-Lose/_Lose/map/map.component';
 
 const ROUTES:Routes=[
   { path: "find", component:FindComponent},
   { path: "found", component:FoundComponent},
   { path: "lost-map", component:LostMapComponent},
+  { path: "map", component:MapComponent},
   { path: "search", component:SearchComponent},
   { path: "lose", component:LoseComponent},
   { path: "losty", component:LostyComponent},
@@ -61,6 +63,7 @@ const ROUTES:Routes=[
     PersonalFoundComponent,
     PersonalLossComponent,
     EditComponent,
+    MapComponent
     // ImageSnippetComponent
   ],
   imports: [
