@@ -148,10 +148,11 @@ export class Signs {
   Remarks: string;
 }
 
-export interface City {
+export class City {
   CityCode: number;
-  CityTavCode: number;
   CityName: string;
+  Lat: number;
+  Lng: number;
 }
 
 export class Category {
