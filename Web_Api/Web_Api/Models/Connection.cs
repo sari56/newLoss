@@ -11,6 +11,11 @@ namespace Web_Api.Models
     {
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
 
+        /// <summary>
+        /// Connect to SQL
+        /// </summary>
+        /// <param name="query">Query</param>
+        /// <returns>command result</returns>
         public SqlCommand connectToSql(string query)
         {
             conn.Open();
@@ -18,6 +23,9 @@ namespace Web_Api.Models
             return command;
         }
 
+        /// <summary>
+        /// Disonnect from SQL
+        /// </summary>
         public void DisConnectSql()
         {
             conn.Close();

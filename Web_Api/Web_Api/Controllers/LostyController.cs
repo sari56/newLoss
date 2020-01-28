@@ -35,7 +35,6 @@ namespace Web_Api.Controllers
                 resultCity.Add(city.Initialization(reader));
             }
             connection.DisConnectSql();
-            int x = resultCity.Count();
             return resultCity;
         }
 
@@ -76,7 +75,7 @@ namespace Web_Api.Controllers
         public string GetRelevantColors(int color)
         {
             List<int> resultColors = new List<int>();
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Color Where Color Code = '{0}' ", color));
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Color Where ColorCode = '{0}' ", color));
             SqlDataReader reader = cmd.ExecuteReader();
             Color _color = new Color();
             _color.Initialization(reader);
@@ -92,6 +91,11 @@ namespace Web_Api.Controllers
             //return resultColors;
         }
 
+        /// <summary>
+        /// Get Founds by signs
+        /// </summary>
+        /// <param name="signs">lose's signs for search</param>
+        /// <returns>list of relevant founds</returns>
         [Route("api/Losty/GetFounds")]
         [HttpPost]
         public List<Found> GetFounds(Signs signs)
@@ -137,7 +141,8 @@ namespace Web_Api.Controllers
                 {
                     flag += 10;
                 }
-                if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
+                //if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
+                if(signs.Color == resultFounds[i].FoundColor)
                     flag += 20;
                 if (resultFounds[i].FoundDate >= signs.Date.AddDays(-7))
                     flag += 20;
