@@ -9,6 +9,14 @@ CityCode int primary key identity(1,1),
 CityTavCode varchar(1),
 CityName varchar(20)
 )
+ALTER TABLE City
+DROP COLUMN CityTavCode
+
+ALTER TABLE City
+ADD Lat float
+
+ALTER TABLE City
+ADD Lng float
 --сииес
 Create Table [Status]
 (
@@ -243,6 +251,7 @@ select * from Find
 select * from Loss
 select * from Category
 select * from Found
+select * from City
 delete from [User] where UserID = 208094391
 delete from Find where FindID = 208094391
 delete from Lose where LoseID = 208094391
