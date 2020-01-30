@@ -22,6 +22,11 @@ namespace Web_Api.Controllers
         public const string _LOSE = "מאבד";
 
         //[Route("http://localhost:59282/api/Home/GetCity")]
+
+        /// <summary>
+        /// GetCity
+        /// </summary>
+        /// <returns>List of all City></returns>
         [Route("api/Losty/GetCity")]
         [HttpPost]
         public List<City> GetCity()
@@ -38,6 +43,10 @@ namespace Web_Api.Controllers
             return resultCity;
         }
 
+        /// <summary>
+        /// GetCategory
+        /// </summary>
+        /// <returns>List of all Category</returns>
         [Route("api/Losty/GetCategory")]
         [HttpPost]
         public List<Category> GetCategory()
@@ -55,6 +64,10 @@ namespace Web_Api.Controllers
             return resultCategory;
         }
 
+        /// <summary>
+        /// GetColors
+        /// </summary>
+        /// <returns>List of Color</returns>
         [Route("api/Losty/GetColors")]
         [HttpPost]
         public List<Color> GetColors()
@@ -72,6 +85,11 @@ namespace Web_Api.Controllers
             return resultColor;
         }
 
+        /// <summary>
+        /// GetRelevantColors
+        /// </summary>
+        /// <param name="color">color</param>
+        /// <returns>relevant colors</returns>
         public string GetRelevantColors(int color)
         {
             List<int> resultColors = new List<int>();
@@ -175,6 +193,11 @@ namespace Web_Api.Controllers
             return resultFounds;
         }
 
+        /// <summary>
+        /// InsertUser
+        /// </summary>
+        /// <param name="person">person</param>
+        /// <returns>answer</returns>
         [Route("api/Losty/InsertUser")]
         [HttpPost]
         public string InsertUser(Person person)
@@ -205,6 +228,11 @@ namespace Web_Api.Controllers
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
         [Route("api/Losty/DeleteUser")]
         [HttpPost]
         public bool DeleteUser(Person person)
@@ -277,6 +305,11 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// VerifyUserName
+        /// </summary>
+        /// <param name="user">user</param>
+        /// <returns>is insert?</returns>
         [Route("api/Losty/VerifyUserName")]
         [HttpPost]
         public bool VerifyUserName(string[] user)
@@ -468,6 +501,11 @@ namespace Web_Api.Controllers
         //    }
         //}
 
+        /// <summary>
+        /// GetUserName
+        /// </summary>
+        /// <param name="reciveName">reciveName</param>
+        /// <returns>User Name</returns>
         [HttpGet]
         [Route("api/Losty/GetUserName")]
         public string GetUserName(string reciveName)
@@ -510,6 +548,11 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// SendEmail
+        /// </summary>
+        /// <param name="person">person</param>
+        /// <returns>answer</returns>
         [HttpPost]
         [Route("api/Losty/SendEmail")]
         public string SendEmail(Person person)
