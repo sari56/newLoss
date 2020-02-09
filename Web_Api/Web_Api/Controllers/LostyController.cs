@@ -21,8 +21,6 @@ namespace Web_Api.Controllers
         public const string _FIND = "מוצא";
         public const string _LOSE = "מאבד";
 
-        //[Route("http://localhost:59282/api/Home/GetCity")]
-
         /// <summary>
         /// GetCity
         /// </summary>
@@ -194,6 +192,28 @@ namespace Web_Api.Controllers
         }
 
         /// <summary>
+        /// GetLosses
+        /// </summary>
+        /// <returns>list of all losses</returns>
+        [Route("api/Losty/GetLosses")]
+        [HttpPost]
+        public List<Loss> GetLosses()
+        {
+            SqlCommand cmd = ConnectSql("Select * Loss");
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Loss> resultLosses = new List<Loss>();
+            Loss loss = new Loss();
+            while (reader.Read())
+            {
+                resultLosses.Add(loss.Initialization(reader));
+            }
+            connection.DisConnectSql();
+            if (resultLosses.Count() == 0)
+                return null;
+            return resultLosses;
+        }
+
+        /// <summary>
         /// InsertUser
         /// </summary>
         /// <param name="person">person</param>
@@ -229,10 +249,10 @@ namespace Web_Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Delete user from peson table
         /// </summary>
         /// <param name="person"></param>
-        /// <returns></returns>
+        /// <returns>deleted?</returns>
         [Route("api/Losty/DeleteUser")]
         [HttpPost]
         public bool DeleteUser(Person person)
@@ -253,6 +273,11 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// InsertFind
+        /// </summary>
+        /// <param name="person1">person to Insert into Find table</param>
+        /// <returns>insert ?  true : false</returns>
         public bool InsertFind(Person person1)
         {
             SqlCommand cmd = ConnectSql("Insert into Find values (@FindId,@FindName,@FindCityCode,@FindAddress,@FindPhone,@FindEmail)"
@@ -279,6 +304,11 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// InsertLose
+        /// </summary>
+        /// <param name="person1">person to Insert into Lose table</param>
+        /// <returns>insert ?  true : false</returns>
         public bool InsertLose(Person person2)
         {
             SqlCommand cmd = ConnectSql("Insert into Lose values (@LoseId,@LoseName,@LoseCityCode,@LoseAddress,@LosePhone,@LoseEmail)"
@@ -392,7 +422,11 @@ namespace Web_Api.Controllers
             return checkInsert;
         }
 
-
+        /// <summary>
+        /// GetUserID
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <returns>user ID by username</returns>
         public string GetUserID(string userName)
         {
             string userID = "";
@@ -408,6 +442,11 @@ namespace Web_Api.Controllers
             return userID;
         }
 
+        /// <summary>
+        /// InsertFound
+        /// </summary>
+        /// <param name="found">found</param>
+        /// <returns>insert?</returns>
         [Route("api/Losty/InsertFound")]
         [HttpPost]
         public string InsertFound(Found found)
@@ -439,12 +478,18 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// InsertLoss
+        /// </summary>
+        /// <param name="loss">loss</param>
+        /// <returns>insert ?</returns>
         [Route("api/Losty/InsertLoss")]
         [HttpPost]
         public string InsertLoss(Loss loss)
         {
             loss.LoseID = GetUserID(loss.LoseID);
-            SqlCommand cmd = ConnectSql("Insert into Loss Values(@LoseID , @CategoryCode , @LossDesc , @LossColor , @LossDate , @Loss_X , @Loss_Y , @Remarks, @StatusCode , @Date)");
+            SqlCommand cmd = ConnectSql("Insert into Loss Values(@LoseID , @CategoryCode , @LossDesc , @LossColor , @LossDate ," +
+                " @Loss_X , @Loss_Y , @Remarks, @StatusCode , @Date)");
             try
             {
                 cmd.Parameters.AddWithValue("@LoseID", loss.LoseID);
@@ -470,37 +515,6 @@ namespace Web_Api.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("api/Losty/SendEmail")]
-        //public string SendEmail()
-        //{
-        //    MailMessage mail = new MailMessage();
-        //    mail.Subject = strSubject;
-        //    mail.From = new MailAddress("xyz@gmail.com");
-        //    mail.To.Add(ToEmail);
-        //    mail.Bcc.Add("abc@gmail.com");
-        //    mail.Subject = strSubject;
-        //    mail.Body = strBody;
-        //    mail.IsBodyHtml = true;
-
-        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 25);
-        //    smtp.EnableSsl = true;
-        //    NetworkCredential netCre = new NetworkCredential("xyz@gmail.com", "myPassword");
-        //    smtp.Credentials = netCre;
-        //    try
-        //    {
-        //        smtp.Send(mail);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.InnerException != null)
-        //        {
-        //            string exInner = ex.InnerException.ToString();
-        //        }
-        //        msg = false;
-        //    }
-        //}
-
         /// <summary>
         /// GetUserName
         /// </summary>
@@ -525,6 +539,13 @@ namespace Web_Api.Controllers
             return userName;
         }
 
+        /// <summary>
+        /// InsertUserName
+        /// </summary>
+        /// <param name="PersonID">PersonID</param>
+        /// <param name="PersonEmail">PersonEmail</param>
+        /// <param name="userName">userName</param>
+        /// <returns>Insert ? true: false</returns>
         [HttpPost]
         [Route("api/Losty/InsertUserName")]
         public bool InsertUserName(string PersonID, string PersonEmail, string userName)
@@ -570,6 +591,11 @@ namespace Web_Api.Controllers
             //return "Incorrect email Address";
         }
 
+        /// <summary>
+        /// VerifyUserId
+        /// </summary>
+        /// <param name="p">person</param>
+        /// <returns>verify ? true : false</returns>
         public bool VerifyUserId(Person p)
         {
             string searchUser = string.Format("Select * From [User] Where UserId = '{0}' ", p.PersonID);
@@ -581,6 +607,37 @@ namespace Web_Api.Controllers
             return false;
         }
 
+        //public Find GetUser(Find user)
+        //{
+        //    SqlCommand cmd = ConnectSql(string.Format("Select * From Find Where FindId = '{0}' ", user.FindID));         
+        //    SqlDataReader reader = cmd.ExecuteReader();
+        //    Find find = new Find();
+        //    if(reader.Read())
+        //    {
+        //        find.Initialization(reader);
+        //    }
+        //    connection.DisConnectSql();          
+        //    return find;
+        //}
+
+        //public Lose GetUser(Lose user)
+        //{
+        //    SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where FindId = '{0}' ", user.LoseID));
+        //    SqlDataReader reader = cmd.ExecuteReader();
+        //    Lose lose = new Lose();
+        //    if (reader.Read())
+        //    {
+        //        lose.Initialization(reader);
+        //    }
+        //    connection.DisConnectSql();
+        //    return lose;
+        //}
+
+        /// <summary>
+        /// GetFoundsPersonalArea
+        /// </summary>
+        /// <param name="person">person</param>
+        /// <returns>List of user's Founds</returns>
         [HttpPost]
         [Route("api/Losty/GetFoundsPersonalArea")]
         public List<Found> GetFoundsPersonalArea(Person person)
@@ -598,6 +655,11 @@ namespace Web_Api.Controllers
             return resultFound;
         }
 
+        /// <summary>
+        /// GetLosesToPersonalArea
+        /// </summary>
+        /// <param name="person">person</param>
+        /// <returns>List of user's Loss</returns>
         [HttpPost]
         [Route("api/Losty/GetLosesToPersonalArea")]
         public List<Loss> GetLosesToPersonalArea(Person person)
@@ -615,6 +677,11 @@ namespace Web_Api.Controllers
             return resultLoss;
         }
 
+        /// <summary>
+        /// ChangeStatus
+        /// </summary>
+        /// <param name="_found"></param>
+        /// <returns>answer</returns>
         [HttpPost]
         [Route("api/Losty/ChangeStatus")]
         public string ChangeStatus(Found _found)
@@ -639,6 +706,11 @@ namespace Web_Api.Controllers
             }
         }
 
+        /// <summary>
+        /// ConnectSql
+        /// </summary>
+        /// <param name="query">SQL Query</param>
+        /// <returns>SqlCommand</returns>
         public SqlCommand ConnectSql(string query)
         {
             return connection.connectToSql(query);

@@ -24,8 +24,8 @@ namespace Web_Api.Models
             {
                 CityCode = (int)reader["CityCode"],
                 CityName = reader["CityName"].ToString(),
-                Lat = (long)reader["Lat"],
-                Lng = (long)reader["Lng"],
+                //Lat = (long)reader["Lat"],
+                //Lng = (long)reader["Lng"],
             };
             return city;
         }
@@ -112,7 +112,7 @@ namespace Web_Api.Models
         }
     }
 
-    public class Lose
+    public class Lose 
     {
         public string LoseID { get; set; }
         public string LoseName { get; set; }
@@ -120,9 +120,23 @@ namespace Web_Api.Models
         public string LoseAddress { get; set; }
         public string LosePhone { get; set; }
         public string LoseEmail { get; set; }
+
+        //public override Lose Initialization(SqlDataReader reader)
+        //{
+        //    Lose lose = new Lose()
+        //    {
+        //        LoseID = reader["LoseID"].ToString(),
+        //        LoseName = reader["LoseName"].ToString(),
+        //        LoseCityCode = (int)reader["LoseCityCode"],
+        //        LoseAddress = reader["LoseAddress"].ToString(),
+        //        LosePhone = reader["LosePhone"].ToString(),
+        //        LoseEmail = reader["LoseEmail"].ToString()
+        //    };
+        //    return lose;
+        //}
     }
 
-    public class Find
+    public class Find 
     {
         public string FindID { get; set; }
         public string FindName { get; set; }
@@ -130,6 +144,20 @@ namespace Web_Api.Models
         public string FindAddress { get; set; }
         public string FindPhone { get; set; }
         public string FindEmail { get; set; }
+
+        //public override Find Initialization(SqlDataReader reader)
+        //{
+        //    Find find = new Find()
+        //    {
+        //        FindID = reader["FindID"].ToString(),
+        //        FindName = reader["FindName"].ToString(),
+        //        FindCityCode = (int)reader["FindCityCode"],
+        //        FindAddress = reader["FindAddress"].ToString(),
+        //        FindPhone = reader["FindPhone"].ToString(),
+        //        FindEmail = reader["FindEmail"].ToString()
+        //    };
+        //    return find;
+        //}
     }
 
     public class Loss : Model<Loss>
