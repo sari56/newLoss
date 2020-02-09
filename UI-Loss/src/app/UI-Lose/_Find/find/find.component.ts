@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, resolveForwardRef } from '@angular/core';
-import { LocalStorageService } from '../../Service/local-storage.service';
 import { WebApiService, City, Person, Find } from '../../Service/web-api.service';
 
 

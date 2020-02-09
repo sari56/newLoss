@@ -9,7 +9,7 @@
         placeholder="תעודת זהות" /><br> -->
 
       <label for="pass">:שם משתמש</label>
-      <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+      <input type="password" type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
 
       <label for="femail">:דוא"ל</label>
       <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
@@ -43,10 +43,10 @@
       <label for="Date">:תאריך בו נמצא</label><br>
       <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
         (change)="onChange_Date($event)" [(ngModel)]="currentDate">
-      <br>
+      <br><br>
       <label for="Remark">:הערות</label>
       <input type="text" id="Remark" name="Remark" [(ngModel)]="found.Remarks" placeholder="הערות">
-      <br>
+      <br><br>
       <button (click)="SaveFound(found,currentDate)" type="submit">שמירת פרטי מציאה</button>
       <br>
       <!-- <input type="file"> -->

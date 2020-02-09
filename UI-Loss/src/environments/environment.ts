@@ -9,7 +9,7 @@ export const environment = {
   //     tichnon: { url: 'tichnon' },
   //   },
   // },
-  _Url: 'http://localhost:65308/api/',
+  _Url: 'http://localhost:65308/api/Losty/',
 };
 
 /*

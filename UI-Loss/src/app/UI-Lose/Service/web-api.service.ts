@@ -20,12 +20,11 @@ export class WebApiService {
   private isValidate: number = 0;
   CityLocation: Array<CityLocation>;
   constructor(private http: HttpClient) { }
-  setRequstData(controllerName: string, actionName: string, collection: any, isObservable = false, identityGuid = null): any {
-    // const requestObj: any = { "InputParams": collection, "identityGuid": identityGuid };
+  setRequstData(actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     this.body = JSON.stringify(collection);
     return this.http
       .post(
-        environment._Url + controllerName + actionName,
+        environment._Url + actionName,
         this.body,
         {
           headers: { 'Content-Type': 'application/json' }
@@ -34,60 +33,63 @@ export class WebApiService {
       .toPromise()
       .catch(error => {
         console.log(error);
-        // this.toastr.error(error.statusText, 'Error');
       });
   }
 
   GetAllCategory() {
-    return this.setRequstData("Losty/", "GetCategory", {});
+    return this.setRequstData("GetCategory", {});
   }
 
   GetAllCity() {
-    return this.setRequstData("Losty/", "GetCity", {});
+    return this.setRequstData("GetCity", {});
   }
 
   GetColors() {
-    return this.setRequstData("Losty/", "GetColors", {});
+    return this.setRequstData("GetColors", {});
   }
 
   InsertUser(params) {
-    return this.setRequstData("Losty/", "InsertUser", params);
+    return this.setRequstData("InsertUser", params);
   }
 
   InsertFound(params) {
-    return this.setRequstData("Losty/", "InsertFound", params);
+    return this.setRequstData("InsertFound", params);
   }
 
   InsertLoss(params) {
-    return this.setRequstData("Losty/", "InsertLoss", params);
+    return this.setRequstData("InsertLoss", params);
   }
 
   VerifyUserName(user: string[]) {
-    return this.setRequstData("Losty/", "VerifyUserName", user);
+    return this.setRequstData("VerifyUserName", user);
+  }
+
+  GetLosses() {
+    return this.setRequstData("GetLosses", {});
   }
 
   GetFounds(params) {
-    return this.setRequstData("Losty/", "GetFounds", params);
+    return this.setRequstData("GetFounds", params);
   }
 
   GetFoundsPersonalArea(params) {
-    return this.setRequstData("Losty/", "GetFoundsPersonalArea", params);
+    return this.setRequstData("GetFoundsPersonalArea", params);
   }
 
   GetLosesToPersonalArea(params) {
-    return this.setRequstData("Losty/", "GetLosesToPersonalArea", params);
+    return this.setRequstData("GetLosesToPersonalArea", params);
   }
 
   ChangeStatus(params) {
-    return this.setRequstData("Losty/", "ChangeStatus", params);
+    return this.setRequstData("ChangeStatus", params);
   }
 
   SendEmail(params) {
-    return this.setRequstData("Losty/", "SendEmail", params);
+    return this.setRequstData("SendEmail", params);
   }
 
   VerifyUserId(params) {
-    return this.setRequstData("Losty/", "VerifyUserId", params);
+    return this.setRequstData("VerifyUserId", params);
   }
 
   CheckEmail(email: string) {
@@ -194,6 +196,8 @@ export class Loss {
   LossDate: Date;
   Loss_X: number;
   Loss_Y: number;
+  // Lat: number;
+  // Lng: number;
   Remarks: string;
   StatusCode: number;
   //  PictureCode:number;
