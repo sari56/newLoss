@@ -99,7 +99,7 @@ namespace Web_Api.Controllers
 
             return _color.RelevantColors;
             //string[] colors = _color.RelevantColors.Split(',');
-            
+
             //foreach (string c in colors)
             //{
             //    resultColors.Add(int.Parse(c));
@@ -158,7 +158,7 @@ namespace Web_Api.Controllers
                     flag += 10;
                 }
                 //if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
-                if(signs.Color == resultFounds[i].FoundColor)
+                if (signs.Color == resultFounds[i].FoundColor)
                     flag += 20;
                 if (resultFounds[i].FoundDate >= signs.Date.AddDays(-7))
                     flag += 20;
@@ -197,20 +197,20 @@ namespace Web_Api.Controllers
         /// <returns>list of all losses</returns>
         [Route("api/Losty/GetLosses")]
         [HttpPost]
-        public List<Loss> GetLosses()
+        public List<Found> GetLosses()
         {
-            SqlCommand cmd = ConnectSql("Select * Loss");
+            SqlCommand cmd = ConnectSql("Select * from Found");
             SqlDataReader reader = cmd.ExecuteReader();
-            List<Loss> resultLosses = new List<Loss>();
-            Loss loss = new Loss();
+            List<Found> resultFounds = new List<Found>();
+            Found found = new Found();
             while (reader.Read())
             {
-                resultLosses.Add(loss.Initialization(reader));
+                resultFounds.Add(found.Initialization(reader));
             }
             connection.DisConnectSql();
-            if (resultLosses.Count() == 0)
+            if (resultFounds.Count() == 0)
                 return null;
-            return resultLosses;
+            return resultFounds;
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Web_Api.Controllers
         public string InsertFound(Found found)
         {
             found.FindID = GetUserID(found.FindID);
-            SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Found_X , @Found_Y, @Remarks, @StatusCode , @Date)");
+            SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Remarks, @StatusCode , @Date, @FoundCityCode, @FoundLat, @FoundLng)");
             try
             {
                 cmd.Parameters.AddWithValue("@FindID", found.FindID);
@@ -460,11 +460,12 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@FoundDesc", found.FoundDesc);
                 cmd.Parameters.AddWithValue("@FoundColor", found.FoundColor);
                 cmd.Parameters.AddWithValue("@FoundDate", found.FoundDate);
-                cmd.Parameters.AddWithValue("@Found_X", found.Found_X);
-                cmd.Parameters.AddWithValue("@Found_Y", found.Found_Y);
                 cmd.Parameters.AddWithValue("@Remarks", found.Remarks);
                 cmd.Parameters.AddWithValue("@StatusCode", found.StatusCode);
                 cmd.Parameters.AddWithValue("@Date", found.Date);
+                cmd.Parameters.AddWithValue("@FoundCityCode", found.FoundCityCode);
+                cmd.Parameters.AddWithValue("@FoundLat", found.FoundLat);
+                cmd.Parameters.AddWithValue("@FoundLng", found.FoundLng);
                 cmd.ExecuteNonQuery();
                 return "Inserting Found Seccessfuly";
             }
@@ -497,8 +498,8 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@LossDesc", loss.LossDesc);
                 cmd.Parameters.AddWithValue("@LossColor", loss.LossColor);
                 cmd.Parameters.AddWithValue("@LossDate", loss.LossDate);
-                cmd.Parameters.AddWithValue("@Loss_X", loss.Loss_X);
-                cmd.Parameters.AddWithValue("@Loss_Y", loss.Loss_Y);
+                cmd.Parameters.AddWithValue("@LossLat", loss.LossLat);
+                cmd.Parameters.AddWithValue("@LossLng", loss.LossLng);
                 cmd.Parameters.AddWithValue("@Remarks", loss.Remarks);
                 cmd.Parameters.AddWithValue("@StatusCode", loss.StatusCode);
                 cmd.Parameters.AddWithValue("@Date", loss.Date);
@@ -550,23 +551,46 @@ namespace Web_Api.Controllers
         [Route("api/Losty/InsertUserName")]
         public bool InsertUserName(string PersonID, string PersonEmail, string userName)
         {
-            SqlCommand cmd = ConnectSql("Insert into [User] values (@UserID , @UserName , @UserEmail)");
-            try
+            Person person = new Person();
+            person.PersonID = PersonID;
+            if (VerifyUserId(person) == true)
             {
-                cmd.Parameters.AddWithValue("@UserID", PersonID);
-                cmd.Parameters.AddWithValue("@UserName", userName);
-                cmd.Parameters.AddWithValue("@UserEmail", PersonEmail);
-                cmd.ExecuteNonQuery();
-                return true;
+                SqlCommand cmd = ConnectSql(string.Format("UPDATE [USER] SET UserName = '{0}' , UserEmail = '{1}' where UserID= '{2}'", userName, PersonEmail, PersonID));
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    connection.DisConnectSql();
+                }
             }
-            catch
+            else
             {
-                return false;
+                SqlCommand cmd = ConnectSql("Insert into [User] values (@UserID , @UserName , @UserEmail)");
+                try
+                {
+                    cmd.Parameters.AddWithValue("@UserID", PersonID);
+                    cmd.Parameters.AddWithValue("@UserName", userName);
+                    cmd.Parameters.AddWithValue("@UserEmail", PersonEmail);
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    connection.DisConnectSql();
+                }
             }
-            finally
-            {
-                connection.DisConnectSql();
-            }
+
         }
 
         /// <summary>
@@ -596,42 +620,96 @@ namespace Web_Api.Controllers
         /// </summary>
         /// <param name="p">person</param>
         /// <returns>verify ? true : false</returns>
+        [HttpPost]
+        [Route("api/Losty/VerifyUserId")]
         public bool VerifyUserId(Person p)
         {
             string searchUser = string.Format("Select * From [User] Where UserId = '{0}' ", p.PersonID);
             SqlCommand cmd = ConnectSql(searchUser);
             SqlDataReader reader = cmd.ExecuteReader();
-            connection.DisConnectSql();
+            
             if (reader.Read())
+            {
+                connection.DisConnectSql();
                 return true;
+            }
+            connection.DisConnectSql();
             return false;
         }
 
-        //public Find GetUser(Find user)
-        //{
-        //    SqlCommand cmd = ConnectSql(string.Format("Select * From Find Where FindId = '{0}' ", user.FindID));         
-        //    SqlDataReader reader = cmd.ExecuteReader();
-        //    Find find = new Find();
-        //    if(reader.Read())
-        //    {
-        //        find.Initialization(reader);
-        //    }
-        //    connection.DisConnectSql();          
-        //    return find;
-        //}
+        [HttpPost]
+        [Route("api/Losty/GetFind")]
+        public Find GetFind(Person p)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Find Where FindId = '{0}' ", p.PersonID));
+            SqlDataReader reader = cmd.ExecuteReader();
+            Find find = new Find();
+            if (reader.Read())
+            {
+                find = find.Initialization(reader);
+            }
+            connection.DisConnectSql();
+            return find;
+        }
 
-        //public Lose GetUser(Lose user)
-        //{
-        //    SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where FindId = '{0}' ", user.LoseID));
-        //    SqlDataReader reader = cmd.ExecuteReader();
-        //    Lose lose = new Lose();
-        //    if (reader.Read())
-        //    {
-        //        lose.Initialization(reader);
-        //    }
-        //    connection.DisConnectSql();
-        //    return lose;
-        //}
+        public Lose GetUser(Lose user)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where FindId = '{0}' ", user.LoseID));
+            SqlDataReader reader = cmd.ExecuteReader();
+            Lose lose = new Lose();
+            if (reader.Read())
+            {
+                lose.Initialization(reader);
+            }
+            connection.DisConnectSql();
+            return lose;
+        }
+
+        public string EditFind(Find f)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Find SET FindName = '{0}' , FindCityCode = '{1}' , FindAddress = '{2}' , FindPhone = '{3}' , FindEmail = '{4}' where FindID= '{5}'", f.FindName, f.FindCityCode, f.FindAddress, f.FindPhone, f.FindEmail, f.FindID));
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return "Data updated!";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        public string EditLose(Find f)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Lose SET LoseName = '{0}' , LoseCityCode = '{1}' , LoseAddress = '{2}' , LosePhone = '{3}' , LoseEmail = '{4}' where LoseID= '{5}'", f.FindName, f.FindCityCode, f.FindAddress, f.FindPhone, f.FindEmail, f.FindID));
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return "Data updated!";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Losty/EditUser")]
+        public void EditUser(Find f)
+        {
+            EditFind(f);
+            EditLose(f);
+            //SqlCommand cmd = ConnectSql(string.Format("UPDATE Find SET FindName = '{0}' where FindID= '{1}'", f.FindName, f.FindID));
+            
+        }
 
         /// <summary>
         /// GetFoundsPersonalArea
@@ -687,8 +765,8 @@ namespace Web_Api.Controllers
         public string ChangeStatus(Found _found)
         {
             int status = 3;
-           SqlCommand cmd = ConnectSql(string.Format("UPDATE Found SET StatusCode = '{0}' Where FoundCode = '{1}'", status, _found.FoundCode));
-           // SqlCommand cmd = ConnectSql("UPDATE Found SET StatusCode = ('@StatusCode') WHERE FoundCode ='@FoundCode'");
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Found SET StatusCode = '{0}' Where FoundCode = '{1}'", status, _found.FoundCode));
+            // SqlCommand cmd = ConnectSql("UPDATE Found SET StatusCode = ('@StatusCode') WHERE FoundCode ='@FoundCode'");
             try
             {
                 cmd.Parameters.AddWithValue("@StatusCode", 3);

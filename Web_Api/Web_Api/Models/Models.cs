@@ -15,8 +15,8 @@ namespace Web_Api.Models
     {
         public int CityCode { get; set; }
         public string CityName { get; set; }
-        public long Lat { get; set; }
-        public long Lng { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
 
         public override City Initialization(SqlDataReader reader)
         {
@@ -24,8 +24,8 @@ namespace Web_Api.Models
             {
                 CityCode = (int)reader["CityCode"],
                 CityName = reader["CityName"].ToString(),
-                //Lat = (long)reader["Lat"],
-                //Lng = (long)reader["Lng"],
+                Lat = (double)reader["Lat"],
+                Lng = (double)reader["Lng"],
             };
             return city;
         }
@@ -86,7 +86,7 @@ namespace Web_Api.Models
         public string UserEmail { get; set; }
     }
 
-    public class Person 
+    public class Person
     {
         public string PersonID { get; set; }
         public string PersonName { get; set; }
@@ -112,7 +112,7 @@ namespace Web_Api.Models
         }
     }
 
-    public class Lose 
+    public class Lose : Model<Lose>
     {
         public string LoseID { get; set; }
         public string LoseName { get; set; }
@@ -121,22 +121,22 @@ namespace Web_Api.Models
         public string LosePhone { get; set; }
         public string LoseEmail { get; set; }
 
-        //public override Lose Initialization(SqlDataReader reader)
-        //{
-        //    Lose lose = new Lose()
-        //    {
-        //        LoseID = reader["LoseID"].ToString(),
-        //        LoseName = reader["LoseName"].ToString(),
-        //        LoseCityCode = (int)reader["LoseCityCode"],
-        //        LoseAddress = reader["LoseAddress"].ToString(),
-        //        LosePhone = reader["LosePhone"].ToString(),
-        //        LoseEmail = reader["LoseEmail"].ToString()
-        //    };
-        //    return lose;
-        //}
+        public override Lose Initialization(SqlDataReader reader)
+        {
+            Lose lose = new Lose()
+            {
+                LoseID = reader["LoseID"].ToString(),
+                LoseName = reader["LoseName"].ToString(),
+                LoseCityCode = (int)reader["LoseCityCode"],
+                LoseAddress = reader["LoseAddress"].ToString(),
+                LosePhone = reader["LosePhone"].ToString(),
+                LoseEmail = reader["LoseEmail"].ToString()
+            };
+            return lose;
+        }
     }
 
-    public class Find 
+    public class Find : Model<Find>
     {
         public string FindID { get; set; }
         public string FindName { get; set; }
@@ -145,19 +145,19 @@ namespace Web_Api.Models
         public string FindPhone { get; set; }
         public string FindEmail { get; set; }
 
-        //public override Find Initialization(SqlDataReader reader)
-        //{
-        //    Find find = new Find()
-        //    {
-        //        FindID = reader["FindID"].ToString(),
-        //        FindName = reader["FindName"].ToString(),
-        //        FindCityCode = (int)reader["FindCityCode"],
-        //        FindAddress = reader["FindAddress"].ToString(),
-        //        FindPhone = reader["FindPhone"].ToString(),
-        //        FindEmail = reader["FindEmail"].ToString()
-        //    };
-        //    return find;
-        //}
+        public override Find Initialization(SqlDataReader reader)
+        {
+            Find find = new Find()
+            {
+                FindID = reader["FindID"].ToString(),
+                FindName = reader["FindName"].ToString(),
+                FindCityCode = (int)reader["FindCityCode"],
+                FindAddress = reader["FindAddress"].ToString(),
+                FindPhone = reader["FindPhone"].ToString(),
+                FindEmail = reader["FindEmail"].ToString()
+            };
+            return find;
+        }
     }
 
     public class Loss : Model<Loss>
@@ -168,19 +168,21 @@ namespace Web_Api.Models
         public string LossDesc { get; set; }
         public Nullable<int> LossColor { get; set; }
         public Nullable<System.DateTime> LossDate { get; set; }
-        public Nullable<int> Loss_X { get; set; }
-        public Nullable<int> Loss_Y { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> StatusCode { get; set; }
         //public Nullable<int> PictureCode { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> LossCityCode { get; set; }
+        public double LossLat { get; set; }
+        public double LossLng { get; set; }
+
 
         public virtual Category Category { get; set; }
         public virtual Lose Lose { get; set; }
         public virtual Color Color { get; set; }
         //public virtual Picture Picture { get; set; }
         public virtual Status Status { get; set; }
-
+        public virtual City City { get; set; }
 
         public override Loss Initialization(SqlDataReader reader)
         {
@@ -192,11 +194,12 @@ namespace Web_Api.Models
                 CategoryCode = (int)reader["CategoryCode"],
                 LossColor = (int)reader["LossColor"],
                 LossDate = (DateTime)reader["LossDate"],
-                Loss_X = (int)reader["Loss_X"],
-                Loss_Y = (int)reader["Loss_Y"],
                 Remarks = reader["Remarks"].ToString(),
                 StatusCode = (int)reader["StatusCode"],
-                Date = (DateTime)reader["Date"]
+                Date = (DateTime)reader["Date"],
+                LossCityCode = (int)reader["LossCityCode"],
+                LossLat = (double)reader["LossLat"],
+                LossLng = (double)reader["LossLng"],
             };
             return loss;
         }
@@ -210,18 +213,20 @@ namespace Web_Api.Models
         public string FoundDesc { get; set; }
         public Nullable<int> FoundColor { get; set; }
         public Nullable<System.DateTime> FoundDate { get; set; }
-        public Nullable<int> Found_X { get; set; }
-        public Nullable<int> Found_Y { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> StatusCode { get; set; }
         //public Nullable<int> PictureCode { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> FoundCityCode { get; set; }
+        public double FoundLat { get; set; }
+        public double FoundLng { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Find Find { get; set; }
         public virtual Color Color { get; set; }
         //public virtual Picture Picture { get; set; }
         public virtual Status Status { get; set; }
+        public virtual City City { get; set; }
 
         public override Found Initialization(SqlDataReader reader)
         {
@@ -233,11 +238,12 @@ namespace Web_Api.Models
                 FoundDesc = reader["FoundDesc"].ToString(),
                 FoundColor = (int)reader["FoundColor"],
                 FoundDate = (DateTime)reader["FoundDate"],
-                Found_X = (int)reader["Found_X"],
-                Found_Y = (int)reader["Found_Y"],
                 Remarks = reader["Remarks"].ToString(),
                 StatusCode = (int)reader["StatusCode"],
-                Date = (DateTime)reader["Date"]
+                Date = (DateTime)reader["Date"],
+                FoundCityCode = (int)reader["FoundCityCode"],
+                FoundLat = (double)reader["FoundLat"],
+                FoundLng = (double)reader["FoundLng"],
             };
             return found;
         }
