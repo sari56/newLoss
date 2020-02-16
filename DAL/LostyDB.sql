@@ -109,6 +109,20 @@ Create Table Loss
 -- PictureCode int foreign key references Picture,
  [Date] date
 )
+ALTER TABLE Loss 
+ADD LossCityCode int foreign key references City
+
+ALTER TABLE Loss
+DROP COLUMN Loss_X 
+
+ALTER TABLE Loss
+DROP COLUMN Loss_Y
+
+ALTER TABLE Loss
+ADD LossLat Float
+
+ALTER TABLE Loss
+ADD LossLng Float
 --drop table found 
 --מציאות
 Create Table Found
@@ -126,6 +140,20 @@ Create Table Found
 -- PictureCode int foreign key references Picture,
  [Date] date
 )
+ALTER TABLE Found
+ADD FoundCityCode int foreign key references City
+
+ALTER TABLE Found
+DROP COLUMN Found_X 
+
+ALTER TABLE Found
+DROP COLUMN Found_Y
+
+ALTER TABLE Found
+ADD FoundLat Float
+
+ALTER TABLE Found
+ADD FoundLng Float
 --ארכיון אבדות
 Create Table ArchivesLoss
 (
@@ -248,10 +276,11 @@ select * from color
 select * from person
 select * from [User]
 select * from Find
-select * from Loss
+select * from Lose
 select * from Category
 select * from Found
-select * from City
+
+
 delete from [User] where UserID = 208094391
 delete from Find where FindID = 208094391
 delete from Lose where LoseID = 208094391
@@ -260,3 +289,7 @@ delete from person where PersonID = 027859511
 delete from person where PersonID = 027859511
 
 UPDATE Color SET RelevantColors = '20' Where ColorCode = 20
+
+UPDATE Find SET FindName = ' ',  FindEmail = ' '  where FindID = ' '
+
+Select * From Find Where FindId = '208094391'
