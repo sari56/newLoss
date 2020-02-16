@@ -81,8 +81,8 @@ export class LostyComponent implements OnInit {
       l.LoseID = this.userName;
       l.CategoryCode = this.loss.CategoryCode;
       l.LossColor = this.loss.LossColor;
-      l.Loss_X = 1;
-      l.Loss_Y = 1;
+      // l.Loss_X = 1;
+      // l.Loss_Y = 1;
       l.StatusCode = 1;
       l.Date = this.today;
       this._WebApiService.InsertLoss(l).then(res => {

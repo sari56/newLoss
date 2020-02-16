@@ -44,6 +44,10 @@ export class WebApiService {
     return this.setRequstData("GetCity", {});
   }
 
+  UpdateCity(params) {
+    return this.setRequstData("UpdateCity", {});
+  }
+
   GetColors() {
     return this.setRequstData("GetColors", {});
   }
@@ -90,6 +94,14 @@ export class WebApiService {
 
   VerifyUserId(params) {
     return this.setRequstData("VerifyUserId", params);
+  }
+
+  GetUser(params) {
+    return this.setRequstData("GetFind", params);
+  }
+
+  EditUser(params) {
+    return this.setRequstData("EditUser", params);
   }
 
   CheckEmail(email: string) {
@@ -176,13 +188,15 @@ export class Found {
   FoundColor: number;
   color: string;
   FoundDate: Date;
-  Found_X: number;
-  Found_Y: number;
   Remarks: string;
   Status: string;
   StatusCode: number;
   // PictureCode:number;
   Date: Date;
+  FoundLat: number;
+  FoundLng: number;
+  FoundCityCode: number;
+  FoundCity: string;
 }
 
 export class Loss {
@@ -194,14 +208,14 @@ export class Loss {
   LossColor: number;
   color: string;
   LossDate: Date;
-  Loss_X: number;
-  Loss_Y: number;
-  // Lat: number;
-  // Lng: number;
   Remarks: string;
   StatusCode: number;
   //  PictureCode:number;
   Date: Date;
+  LossLat: number;
+  LossLng: number;
+  LossCityCode: number;
+  LossCity: string;
 }
 
 export class Lose {
@@ -214,7 +228,7 @@ export class Lose {
 }
 
 export class Find {
-  FindID: number;
+  FindID: string;
   FindName: string;
   FindCityCode: number;
   FindAddress: string;
@@ -233,7 +247,8 @@ export class Person {
 
 export class CityLocation {
   CityCode: number;
-  lat: number;
-  lng: number;
+  CityName: string;
+  Lat: number;
+  Lng: number;
 }
 

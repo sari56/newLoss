@@ -1,4 +1,5 @@
 <br><br>
+
 <body>
   <div class="formBorder">
     <form action="/action_page.php">
@@ -35,10 +36,16 @@
       </select>
       <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
         style="width: 120px"> -->
-        <br>
-      <label for="Desc">:מקום המציאה</label>
-      <input type="text" id="location" name="Desc" [(ngModel)]="location" placeholder="מקום המציאה">
-      <br><br>
+      <br>
+      <label for="Desc">:כתובת המציאה</label>
+      <input type="text" id="locationFound" name="locationFound" [(ngModel)]="locationFound" placeholder="מקום המציאה">
+      <br>
+      <!-- עיר -->
+      <label for="fcity">:עיר המציאה</label>
+      <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+      </select><button (click) = "getLatlang()"></button>
+      <br>
       <!-- לבדוק שהתאריך קטן מהיום -->
       <label for="Date">:תאריך בו נמצא</label><br>
       <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
