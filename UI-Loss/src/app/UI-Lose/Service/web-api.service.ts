@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { VirtualTimeScheduler } from 'rxjs';
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { TouchSequence } from 'selenium-webdriver';
 
 
 @Injectable({
@@ -18,7 +19,6 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class WebApiService {
   private body: string
   private isValidate: number = 0;
-  CityLocation: Array<CityLocation>;
   constructor(private http: HttpClient) { }
   setRequstData(actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     this.body = JSON.stringify(collection);
@@ -76,6 +76,10 @@ export class WebApiService {
     return this.setRequstData("GetFounds", params);
   }
 
+  SearchLosses(params) {
+    return this.setRequstData("SearchLosses", params);
+  }
+
   GetFoundsPersonalArea(params) {
     return this.setRequstData("GetFoundsPersonalArea", params);
   }
@@ -86,6 +90,10 @@ export class WebApiService {
 
   ChangeStatus(params) {
     return this.setRequstData("ChangeStatus", params);
+  }
+
+  ChangeLossStatus(params) {
+    return this.setRequstData("ChangeLossStatus", params);
   }
 
   SendEmail(params) {
@@ -160,6 +168,22 @@ export class Signs {
   Color: number;
   date: Date;
   Remarks: string;
+
+  constructor(Category?: number, Description?: string, Color?: number, date?: Date, Remarks?: string) {
+    this.Category = Category;
+    this.Color = Color;
+    this.date = date;
+    if (Description != undefined)
+      this.Description = Description;
+    else
+      this.Description = " ";
+
+    if (Remarks != undefined)
+      this.Remarks = Remarks;
+    else {
+      this.Remarks = " ";
+    }
+  }
 }
 
 export class City {
@@ -209,6 +233,7 @@ export class Loss {
   color: string;
   LossDate: Date;
   Remarks: string;
+  Status: string;
   StatusCode: number;
   //  PictureCode:number;
   Date: Date;
@@ -243,12 +268,14 @@ export class Person {
   PersonAddress: string;
   PersonPhone: string;
   PersonEmail: string;
-}
 
-export class CityLocation {
-  CityCode: number;
-  CityName: string;
-  Lat: number;
-  Lng: number;
+  constructor(PersonID?: string, PersonName?: string, PersonCityCode?: number, PersonAddress?: string, PersonPhone?: string, PersonEmail?: string) {
+    this.PersonID = PersonID;
+    this.PersonName = PersonName;
+    this.PersonCityCode = PersonCityCode;
+    this.PersonAddress = PersonAddress;
+    this.PersonPhone = PersonPhone;
+    this.PersonEmail = PersonEmail;
+  }
 }
 

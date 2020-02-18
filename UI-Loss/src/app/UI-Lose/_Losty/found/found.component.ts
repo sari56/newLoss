@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { WebApiService, Category, Found, Color, City } from '../../Service/web-api.service';
+import { WebApiService, Category, Found, Color, City, Signs, Loss } from '../../Service/web-api.service';
 import { AgmMap, MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -23,23 +23,26 @@ export class FoundComponent implements OnInit {
   cityName: string;
   selectedCity: string;
   today: Date;
-  locationFound:string;
+  locationFound: string;
+  showLosses: boolean = true;
   currentDate: Date = new Date();
   // constructor(private _WebApiService: WebApiService) { }
-  ListCategory: Array<Category> = new Array<Category>();
-  Colors: Array<Color> = new Array<Color>();
+  signs: Signs = new Signs();
   ListCity: Array<City> = new Array<City>();
+  _Losses: Array<Loss> = new Array<Loss>();
+  _Category: Array<Category> = new Array<Category>();
+  _Colors: Array<Color> = new Array<Color>();
+  _Status: string[] = ["נאבד", "מבוקש"];
 
-  @ViewChild('mapRef', {static: true }) mapElement: AgmMap;
-  @ViewChild('map',{static:true}) public map: AgmMap;
+  @ViewChild('mapRef', { static: true }) mapElement: AgmMap;
+  @ViewChild('map', { static: true }) public map: AgmMap;
   constructor(private _WebApiService: WebApiService, public mapsApiLoader: MapsAPILoader) {
-    // debugger;
     this.mapsApiLoader = mapsApiLoader;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
     });
   }
-  
+
   ngOnInit() {
     // console.log(this.today);
     this.today = new Date();
@@ -47,18 +50,18 @@ export class FoundComponent implements OnInit {
     this.selectedColor = null;
     this._WebApiService.GetAllCategory().then(res => {
       if (res)
-        this.ListCategory = res;
+        this._Category = res;
     })
-    console.log(this.ListCategory.length);
+    console.log(this._Category.length);
 
     this._WebApiService.GetColors().then(res => {
       if (res)
-        this.Colors = res;
-      console.log(this.Colors.length);
+        this._Colors = res;
+      console.log(this._Colors.length);
     })
 
-    this._WebApiService.GetAllCity().then(res=>{
-      if(res)
+    this._WebApiService.GetAllCity().then(res => {
+      if (res)
         this.ListCity = res;
     })
   }
@@ -66,15 +69,15 @@ export class FoundComponent implements OnInit {
   onChange_Color($event) {
     console.log(this.selectedColor);
     let i;
-    for (i = 1; i < this.Colors.length && this.selectedColor != this.Colors[i].color; i++);
-    this.found.FoundColor = this.Colors[i].ColorCode;
+    for (i = 1; i < this._Colors.length && this.selectedColor != this._Colors[i].color; i++);
+    this.found.FoundColor = this._Colors[i].ColorCode;
     //this.found.FoundColor = this.selectedColor;
   }
 
   onChange_Category($event) {
     let i;
-    for (i = 1; i < this.ListCategory.length && this.selectedCategory != this.ListCategory[i].CategoryDesc; i++);
-    this.found.CategoryCode = this.ListCategory[i].CategoryCode;
+    for (i = 1; i < this._Category.length && this.selectedCategory != this._Category[i].CategoryDesc; i++);
+    this.found.CategoryCode = this._Category[i].CategoryCode;
     console.log(this.selectedCategory)
     console.log(this.selectedCategory + "  " + this.found.CategoryCode.toString())
   }
@@ -123,40 +126,38 @@ export class FoundComponent implements OnInit {
   }
 
   getLatlang() {
-   //getLatlang;
-   debugger;
-   let address = this.locationFound + ' ' + this.selectedCity + ' ' + 'ישראל';
-   console.log("address:  " + address)
-   this.geocoder.geocode({ 'address': address }, (results) => {
-     if (results[0]) {
-       console.log(results[0])
-       console.log(results[0].geometry.location.lat())
-       console.log(results[0].geometry.location.lng())
-       this.found.FoundLat = results[0].geometry.location.lat();
-       this.found.FoundLng = results[0].geometry.location.lng();
-     }
-   });
-        // this.location.ListLosty[this.location.ListLosty.length] = {
-        //   lat:results[0].geometry.location.lat(),
-        //   lng:results[0].geometry.location.lng(),
-        //   name:'צמיד',
-        //   address: address,
-        //   icon:'//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-          
-        // }
-        
-        //  this.mapElement.triggerResize();
-        // debugger;
-        // this.clickPlace = {
-        //   lat: event.coords.lat,
-        //   lng: event.coords.lng,
-        //   isOpen: true,
-        //   address: results[0].formatted_address,
-        //   shortAddress: results[0].formatted_address.replace("ישראל", ''),
-        //   iscollectPoint: true,
-        // }
-  //     }
-  //   });
+    let address = this.locationFound + ' ' + this.selectedCity + ' ' + 'ישראל';
+    console.log("address:  " + address)
+    this.geocoder.geocode({ 'address': address }, (results) => {
+      if (results[0]) {
+        console.log(results[0])
+        console.log(results[0].geometry.location.lat())
+        console.log(results[0].geometry.location.lng())
+        this.found.FoundLat = results[0].geometry.location.lat();
+        this.found.FoundLng = results[0].geometry.location.lng();
+      }
+    });
+    // this.location.ListLosty[this.location.ListLosty.length] = {
+    //   lat:results[0].geometry.location.lat(),
+    //   lng:results[0].geometry.location.lng(),
+    //   name:'צמיד',
+    //   address: address,
+    //   icon:'//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+
+    // }
+
+    //  this.mapElement.triggerResize();
+    // debugger;
+    // this.clickPlace = {
+    //   lat: event.coords.lat,
+    //   lng: event.coords.lng,
+    //   isOpen: true,
+    //   address: results[0].formatted_address,
+    //   shortAddress: results[0].formatted_address.replace("ישראל", ''),
+    //   iscollectPoint: true,
+    // }
+    //     }
+    //   });
   }
 
   SaveFound(f: Found, currentDate: Date) {
@@ -169,27 +170,41 @@ export class FoundComponent implements OnInit {
       f.FindID = this.userName;
       f.CategoryCode = this.found.CategoryCode;
       f.FoundColor = this.found.FoundColor;
-      
-      if(this.found.FoundDesc == null) {
+      if (this.found.FoundDesc == null) {
         this.found.FoundDesc = " ";
       }
-      if(this.found.Remarks == null) {
+      if (this.found.Remarks == null) {
         this.found.Remarks = " ";
       }
-      // f. = 1;
-      // f.Found_Y = 1;
-      f.FoundCityCode = 19;
       f.StatusCode = 2;
       f.Date = this.today;
       this._WebApiService.InsertFound(f).then(res => {
         if (res == "Inserting Found Seccessfuly") {
           window.alert("המציאה התווספה בהצלחה!");
+          //Search
+          this.signs = new Signs(f.CategoryCode, f.FoundDesc, f.FoundColor, f.FoundDate, f.Remarks);
+          this._WebApiService.SearchLosses(this.signs).then(res => {
+            if (res)
+              this._Losses = res;
+            this.showLosses = false;
+            for (let i = 0; i < this._Losses.length; i++) {
+              this._Losses[i].Category = this._Category[this._Losses[i].CategoryCode - 1].CategoryDesc;
+              this._Losses[i].color = this._Colors[this._Losses[i].LossColor - 1].color;
+              this._Losses[i].Status = this._Status[this._Losses[i].StatusCode - 1];
+              console.log(this._Losses[i].Category + " " + this._Losses[i].color);
+            }
+          });
         }
         else {
           window.alert("שגיאה");
         }
       });
     }
+  }
+
+  SelectLoss(l: Loss) {
+    console.log(l.LossCode);
+    this._WebApiService.ChangeLossStatus(l);
   }
 }
 

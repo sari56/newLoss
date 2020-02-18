@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
-import { Found, WebApiService, CityLocation } from '../../Service/web-api.service';
+import { Found, WebApiService } from '../../Service/web-api.service';
 declare var google: any;
 
 
