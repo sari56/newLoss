@@ -192,6 +192,82 @@ namespace Web_Api.Controllers
         }
 
         /// <summary>
+        /// Get Founds by signs
+        /// </summary>
+        /// <param name="signs">lose's signs for search</param>
+        /// <returns>list of relevant founds</returns>
+        [Route("api/Losty/SearchLosses")]
+        [HttpPost]
+        public List<Loss> SearchLosses(Signs signs)
+        {
+            SqlCommand cmd = ConnectSql("Select * From Loss");   
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Loss> resultLosses = new List<Loss>();
+            Loss loss = new Loss();
+            while (reader.Read())
+            {
+                resultLosses.Add(loss.Initialization(reader));
+            }
+            connection.DisConnectSql();
+
+            int flag, i, j;
+            for (i = resultLosses.Count() - 1; i >= 0; i--)
+            {
+                flag = 0;
+                if (resultLosses[i].CategoryCode == signs.Category)
+                    flag += 20;
+                if (signs.Description != " ")
+                {
+                    string[] description = signs.Description.Split(' ');
+                    j = 0;
+                    foreach (string word in description)
+                    {
+                        string[] FoundDesc = resultLosses[i].LossDesc.Split(' ');
+                        foreach (string desc in FoundDesc)
+                        {
+                            j += word.Contains(desc) == true ? 1 : 0;
+                        }
+                    }
+                    if (j != 0)
+                        flag += 20;
+                }
+                else
+                {
+                    flag += 10;
+                }
+                //if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
+                if (signs.Color == resultLosses[i].LossColor)
+                    flag += 20;
+                if (resultLosses[i].LossDate >= signs.Date.AddDays(-7))
+                    flag += 20;
+                if (signs.Remarks != " ")
+                {
+                    string[] remarks = signs.Remarks.Split(' ');
+                    j = 0;
+                    foreach (string word in remarks)
+                    {
+                        string[] FoundRemark = resultLosses[i].Remarks.Split(' ');
+                        foreach (string remark in FoundRemark)
+                        {
+                            j += word.Contains(remark) == true ? 1 : 0;
+                        }
+                    }
+                    if (j != 0)
+                        flag += 20;
+                    if (signs.Remarks.Contains(resultLosses[i].Remarks))
+                        flag += 20;
+                }
+                else
+                {
+                    flag += 10;
+                }
+                if (flag < 50)
+                    resultLosses.Remove(resultLosses[i]);
+            }
+            return resultLosses;
+        }
+
+        /// <summary>
         /// GetLosses
         /// </summary>
         /// <returns>list of all losses</returns>
@@ -490,7 +566,7 @@ namespace Web_Api.Controllers
         {
             loss.LoseID = GetUserID(loss.LoseID);
             SqlCommand cmd = ConnectSql("Insert into Loss Values(@LoseID , @CategoryCode , @LossDesc , @LossColor , @LossDate ," +
-                " @Loss_X , @Loss_Y , @Remarks, @StatusCode , @Date)");
+                " @Remarks, @StatusCode , @Date, @LossCityCode, @LossLat, @LossLng)");
             try
             {
                 cmd.Parameters.AddWithValue("@LoseID", loss.LoseID);
@@ -498,11 +574,12 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@LossDesc", loss.LossDesc);
                 cmd.Parameters.AddWithValue("@LossColor", loss.LossColor);
                 cmd.Parameters.AddWithValue("@LossDate", loss.LossDate);
-                cmd.Parameters.AddWithValue("@LossLat", loss.LossLat);
-                cmd.Parameters.AddWithValue("@LossLng", loss.LossLng);
                 cmd.Parameters.AddWithValue("@Remarks", loss.Remarks);
                 cmd.Parameters.AddWithValue("@StatusCode", loss.StatusCode);
                 cmd.Parameters.AddWithValue("@Date", loss.Date);
+                cmd.Parameters.AddWithValue("@LossCityCode", loss.LossCityCode);
+                cmd.Parameters.AddWithValue("@LossLat", loss.LossLat);
+                cmd.Parameters.AddWithValue("@LossLng", loss.LossLng);
                 cmd.ExecuteNonQuery();
                 return "Inserting Loss Seccessfuly";
             }
@@ -654,7 +731,7 @@ namespace Web_Api.Controllers
 
         public Lose GetUser(Lose user)
         {
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where FindId = '{0}' ", user.LoseID));
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where LoseId = '{0}' ", user.LoseID));
             SqlDataReader reader = cmd.ExecuteReader();
             Lose lose = new Lose();
             if (reader.Read())
@@ -773,6 +850,29 @@ namespace Web_Api.Controllers
                 cmd.Parameters.AddWithValue("@FoundCode", _found.FoundCode);
                 cmd.ExecuteNonQuery();
                 return _found.FoundCode + "Data updated!";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                connection.DisConnectSql();
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Losty/ChangeLossStatus")]
+        public string ChangeLossStatus(Loss _loss)
+        {
+            int status = 3;
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Loss SET StatusCode = '{0}' Where LossCode = '{1}'", status, _loss.LossCode));
+            try
+            {
+                cmd.Parameters.AddWithValue("@StatusCode", 3);
+                cmd.Parameters.AddWithValue("@LossCode", _loss.LossCode);
+                cmd.ExecuteNonQuery();
+                return _loss.LossCode + "Data updated!";
             }
             catch (Exception ex)
             {
