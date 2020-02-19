@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { WebApiService, Category, Found, Color, City, Signs, Loss } from '../../Service/web-api.service';
+import { WebApiService, Category, Found, Color, City, Signs, Loss, Lose, Person } from '../../Service/web-api.service';
 import { AgmMap, MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -14,6 +14,7 @@ export class FoundComponent implements OnInit {
   found_hid: boolean = true;
   isVerifyUser: boolean = false;
   isHidden: boolean = true;
+  buttonHidden: boolean = false;
   found: Found;
   userName: string;
   status: string = "מוצא";
@@ -24,10 +25,13 @@ export class FoundComponent implements OnInit {
   selectedCity: string;
   today: Date;
   locationFound: string;
+  result: string;
   showLosses: boolean = true;
   currentDate: Date = new Date();
   // constructor(private _WebApiService: WebApiService) { }
   signs: Signs = new Signs();
+  person: Person = new Person();
+  lose: Lose = new Lose();
   ListCity: Array<City> = new Array<City>();
   _Losses: Array<Loss> = new Array<Loss>();
   _Category: Array<Category> = new Array<Category>();
@@ -204,7 +208,23 @@ export class FoundComponent implements OnInit {
 
   SelectLoss(l: Loss) {
     console.log(l.LossCode);
-    this._WebApiService.ChangeLossStatus(l);
+    this.person.PersonID = l.LoseID;
+    this._WebApiService.GetLose(this.person).then(res => {
+      if (res) {
+        this.lose = res;
+      }
+    })
+    this._WebApiService.ChangeLossStatus(l).then(res => {
+      this.result = res;
+    });
+    this.buttonHidden = true;
+  }
+
+  Select() {
+    // debugger;
+    // if (this.result == "Data updated!") {  
+      window.alert("פרטי מאבד:                                                                         " + " שם: " + this.lose.LoseName + " טלפון: " + this.lose.LosePhone + " אימייל: " + this.lose.LoseEmail)
+    // }
   }
 }
 

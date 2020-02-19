@@ -1,0 +1,23 @@
+<br><br><br><br>
+<body>
+    <div class="formBorder">
+        <label for="pid">:תעודת זהות</label>
+        <input id="pid" name="pid" class="form-control" required minlength="9" maxlength="9" placeholder="תעודת זהות"
+            [(ngModel)]="userId" #pid="ngModel">
+        <div *ngIf="pid.invalid && (pid.dirty || pid.touched)" class="alert alert-danger">
+            <div *ngIf="pid.errors.required">תעודת זהות חובה</div>
+            <div *ngIf="pid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
+            <div *ngIf="pid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
+        </div>
+        <br><br>
+        <button (click)="MyArea()">כניסה לאזור האישי</button>
+
+        <div [hidden]="showArea">
+            <button class="btn btn-link" (click)="ShowFounds()">מצאתי</button>
+            <app-personal-found [hidden] = "foundHidden" [userId]="person.PersonID"></app-personal-found>
+            <!-- <a routerLink="personal-found" [userId] = "person.PersonID">מצאתי</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
+            <a routerLink="personal-loss">נאבד לי</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a routerLink="edit">עריכת פרטים</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+</body>

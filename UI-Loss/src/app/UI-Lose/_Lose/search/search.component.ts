@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebApiService, Found, Category, Signs, Color } from '../../Service/web-api.service';
+import { WebApiService, Found, Category, Signs, Color, Find, Person } from '../../Service/web-api.service';
 
 @Component({
   selector: 'app-search',
@@ -11,9 +11,16 @@ export class SearchComponent implements OnInit {
   currentDate: Date = new Date();
   selectedColor: string;
   signs: Signs;
+  result: string;
+  isValidate: boolean = true;
   @Input()
   search_hid: boolean = true;
+  tableHidden: boolean = true;
+  buttonHidden: boolean = false;
   found: Found;
+  date: Date = new Date();
+  find: Find = new Find();
+  person: Person = new Person();
   _Founds: Array<Found> = new Array<Found>();
   _Category: Array<Category> = new Array<Category>();
   _Colors: Array<Color> = new Array<Color>();
@@ -53,6 +60,8 @@ export class SearchComponent implements OnInit {
     let i;
     for (i = 1; i < this._Colors.length && this.selectedColor != this._Colors[i].color; i++);
     this.signs.Color = this._Colors[i].ColorCode;
+    this.isValidate = false;
+    console.log(this.isValidate)
   }
 
   onChange_Category($event) {
@@ -64,7 +73,12 @@ export class SearchComponent implements OnInit {
 
   onChange_Date($event) {
     this.signs.date = this.currentDate;
-    console.log(this.currentDate);
+    console.log(this.currentDate.toString());
+    console.log("date:   " + this.date.toLocaleDateString())
+    console.log("date:   " + this.date.toLocaleString())
+    console.log(this.currentDate.toString() == this.date.toLocaleDateString())
+    // if(this.currentDate <= this.)
+    this.isValidate = false;
   }
 
   SearchLoss() {
@@ -72,18 +86,34 @@ export class SearchComponent implements OnInit {
     this._WebApiService.GetFounds(this.signs).then(res => {
       if (res)
         this._Founds = res;
-          for (let i = 0; i < this._Founds.length; i++) {
-            this._Founds[i].Category = this._Category[this._Founds[i].CategoryCode - 1 ].CategoryDesc;
-            this._Founds[i].color = this._Colors[this._Founds[i].FoundColor - 1].color;
-            this._Founds[i].Status = this._Status[this._Founds[i].StatusCode - 2];
-            console.log(this._Founds[i].Category + " " + this._Founds[i].color);
-          }
+      this.tableHidden = false;
+      for (let i = 0; i < this._Founds.length; i++) {
+        this._Founds[i].Category = this._Category[this._Founds[i].CategoryCode - 1].CategoryDesc;
+        this._Founds[i].color = this._Colors[this._Founds[i].FoundColor - 1].color;
+        this._Founds[i].Status = this._Status[this._Founds[i].StatusCode - 2];
+        console.log(this._Founds[i].Category + " " + this._Founds[i].color);
+      }
     });
   }
 
   SelectFound(f: Found) {
     console.log(f.FoundCode);
-    this._WebApiService.ChangeStatus(f);
+    this.person.PersonID = f.FindID;
+    this._WebApiService.GetFind(this.person).then(res => {
+      if (res) {
+        this.find = res;
+      }
+    })
+    this._WebApiService.ChangeStatus(f).then(res => {
+      this.result = res;
+    });
+    this.buttonHidden = true;  
   }
 
+  Select() {
+    // debugger;
+    // if (this.result == "Data updated!") {  
+      window.alert("פרטי מוצא האבדה:                                                                         " + " שם: " + this.find.FindName + " טלפון: " + this.find.FindPhone + " אימייל: " + this.find.FindEmail)
+    // }
+  }
 }

@@ -1,0 +1,30 @@
+<body>
+  <table class="table">
+    <thead>
+      <tr> 
+        <th scope="col">קטגוריה</th>
+        <th scope="col">תיאור</th>
+        <th scope="col">צבע המציאה</th>
+        <th scope="col">תאריך המציאה</th>
+        <th scope="col">הערות</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let f of FOUNDS" style="text-align: center">
+        <td>{{f.Category}}</td>
+        <td>{{f.FoundDesc}}</td>
+        <td>{{f.color}}</td>
+        <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+        <td>{{f.Remarks}}</td>
+        <td>
+          <!-- <button (click)="delete(employee)" class="btn btn-danger btn-sm"> -->
+          <span class="oi oi-trash"></span>
+          <!-- </button> -->
+        </td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="5" align="center">Fetching Employees</td>
+      </tr>
+    </tbody>
+  </table>
+</body>

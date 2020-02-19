@@ -88,13 +88,18 @@ namespace Web_Api.Controllers
         /// </summary>
         /// <param name="color">color</param>
         /// <returns>relevant colors</returns>
+        [Route("api/Losty/GetRelevantColors/{color}")]
+        [HttpPost]
         public string GetRelevantColors(int color)
         {
             List<int> resultColors = new List<int>();
             SqlCommand cmd = ConnectSql(string.Format("Select * From Color Where ColorCode = '{0}' ", color));
             SqlDataReader reader = cmd.ExecuteReader();
             Color _color = new Color();
-            _color.Initialization(reader);
+            if (reader.Read())
+            {
+                _color = _color.Initialization(reader);
+            }
             connection.DisConnectSql();
 
             return _color.RelevantColors;
@@ -120,7 +125,6 @@ namespace Web_Api.Controllers
             //                           "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR (CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
             //                           " '{1}' AND FoundDate > '{2}'))", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
             SqlCommand cmd = ConnectSql("Select * From Found");
-            //SqlCommand cmd = new SqlCommand("Select * From Found");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
             Found found = new Found();
@@ -157,11 +161,11 @@ namespace Web_Api.Controllers
                 {
                     flag += 10;
                 }
-                //if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
-                if (signs.Color == resultFounds[i].FoundColor)
+                //if (signs.Color == resultFounds[i].FoundColor)
+                if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
                     flag += 20;
-                if (resultFounds[i].FoundDate >= signs.Date.AddDays(-7))
-                    flag += 20;
+                //if (resultFounds[i].FoundDate >= signs.Date.AddDays(-7))
+                //    flag += 20;
                 if (signs.Remarks != " ")
                 {
                     string[] remarks = signs.Remarks.Split(' ');
@@ -176,8 +180,8 @@ namespace Web_Api.Controllers
                     }
                     if (j != 0)
                         flag += 20;
-                    if (signs.Remarks.Contains(resultFounds[i].Remarks))
-                        flag += 20;
+                    //if (signs.Remarks.Contains(resultFounds[i].Remarks))
+                    //    flag += 20;
                 }
                 else
                 {
@@ -200,7 +204,7 @@ namespace Web_Api.Controllers
         [HttpPost]
         public List<Loss> SearchLosses(Signs signs)
         {
-            SqlCommand cmd = ConnectSql("Select * From Loss");   
+            SqlCommand cmd = ConnectSql("Select * From Loss");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Loss> resultLosses = new List<Loss>();
             Loss loss = new Loss();
@@ -704,7 +708,7 @@ namespace Web_Api.Controllers
             string searchUser = string.Format("Select * From [User] Where UserId = '{0}' ", p.PersonID);
             SqlCommand cmd = ConnectSql(searchUser);
             SqlDataReader reader = cmd.ExecuteReader();
-            
+
             if (reader.Read())
             {
                 connection.DisConnectSql();
@@ -727,6 +731,21 @@ namespace Web_Api.Controllers
             }
             connection.DisConnectSql();
             return find;
+        }
+
+        [HttpPost]
+        [Route("api/Losty/GetLose")]
+        public Lose GetLose(Person p)
+        {
+            SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where LoseId = '{0}' ", p.PersonID));
+            SqlDataReader reader = cmd.ExecuteReader();
+            Lose lose = new Lose();
+            if (reader.Read())
+            {
+                lose = lose.Initialization(reader);
+            }
+            connection.DisConnectSql();
+            return lose;
         }
 
         public Lose GetUser(Lose user)
@@ -785,7 +804,7 @@ namespace Web_Api.Controllers
             EditFind(f);
             EditLose(f);
             //SqlCommand cmd = ConnectSql(string.Format("UPDATE Find SET FindName = '{0}' where FindID= '{1}'", f.FindName, f.FindID));
-            
+
         }
 
         /// <summary>

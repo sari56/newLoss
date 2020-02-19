@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 import { VirtualTimeScheduler } from 'rxjs';
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { TouchSequence } from 'selenium-webdriver';
 
 
 @Injectable({
@@ -50,6 +49,14 @@ export class WebApiService {
 
   GetColors() {
     return this.setRequstData("GetColors", {});
+  }
+
+  GetFind(params) {
+    return this.setRequstData("GetFind", params);
+  }
+
+  GetLose(params) {
+    return this.setRequstData("GetLose", params);
   }
 
   InsertUser(params) {

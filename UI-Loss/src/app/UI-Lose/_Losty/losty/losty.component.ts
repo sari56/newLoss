@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { WebApiService, Category, Loss, Lose, Color, Signs, Found, City } from '../../Service/web-api.service';
+import { WebApiService, Category, Loss, Lose, Color, Signs, Found, City, Person, Find } from '../../Service/web-api.service';
 import { AgmMap, MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -14,6 +14,7 @@ export class LostyComponent implements OnInit {
   lose_hid: boolean = true;
   isVerifyUser: boolean = false;
   isHidden: boolean = true;
+  buttonHidden: boolean = false;
   loss: Loss;
   userName: string;
   status: string = "מאבד";
@@ -25,6 +26,9 @@ export class LostyComponent implements OnInit {
   currentDate: Date = new Date();
   locationLoss: string;
   signs: Signs;
+  result: string;
+  person: Person = new Person();
+  find: Find = new Find();
   ListCity: Array<City> = new Array<City>();
   _Founds: Array<Found> = new Array<Found>();
   _Category: Array<Category> = new Array<Category>();
@@ -165,6 +169,22 @@ export class LostyComponent implements OnInit {
 
   SelectFound(f: Found) {
     console.log(f.FoundCode);
-    this._WebApiService.ChangeStatus(f);
+    this.person.PersonID = f.FindID;
+    this._WebApiService.GetFind(this.person).then(res => {
+      if (res) {
+        this.find = res;
+      }
+    })
+    this._WebApiService.ChangeStatus(f).then(res => {
+      this.result = res;
+    });
+    this.buttonHidden = true;
+  }
+
+  Select() {
+    // debugger;
+    // if (this.result == "Data updated!") {  
+      window.alert("פרטי מוצא האבדה:                                                                         " + " שם: " + this.find.FindName + " טלפון: " + this.find.FindPhone + " אימייל: " + this.find.FindEmail)
+    // }
   }
 }

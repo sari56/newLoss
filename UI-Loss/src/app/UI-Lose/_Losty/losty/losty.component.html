@@ -8,7 +8,7 @@
       <input type="text" id="lid" name="lid" [(ngModel)]="loss.LoseID" placeholder="תעודת זהות" /><br> -->
 
       <label for="pass">:שם משתמש</label>
-      <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+      <input type="password" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
 
       <label for="email">:דוא"ל</label>
       <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
@@ -37,7 +37,7 @@
       <label for="fcity">:עיר האבדה</label>
       <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
         <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
-      </select><button (click) = "getLatlang()"></button>
+      </select><button (click)="getLatlang()"></button>
       <br>
       <!-- לבדוק שהתאריך קטן מהיום -->
       <label for="Date">:תאריך בו נאבד</label><br>
@@ -53,40 +53,42 @@
       <br>
     </p>
   </div>
-  <div [hidden] = "showFounds">
-      <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th scope="col">קטגוריה</th>
-              <th scope="col">תיאור</th>
-              <th scope="col">צבע המציאה</th>
-              <th scope="col">תאריך המציאה</th>
-              <th scope="col">סטטוס</th>
-              <th scope="col">הערות</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let f of _Founds" style="text-align: center">
-                <button (click)="SelectFound(f)" class="btn btn-danger btn-sm">
-                    <span class="oi oi-trash"></span>
-                  </button>
-              <td>{{f.Category}}</td>
-              <td>{{f.FoundDesc}}</td>
-              <td>{{f.color}}</td> 
-              <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
-              <td>{{f.Status}}</td>
-              <td>{{f.Remarks}}</td>
-              <!-- <input [(ngModel)] = "f.FoundCode"> -->
-              <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
-              <td>
-               
-              </td>
-            </tr>
-            <tr *ngIf="loading">
-              <td colspan="5" align="center">Fetching Employees</td>
-            </tr>
-          </tbody>
-        </table>
+  <div [hidden]="showFounds">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">לפרטי מוצא</th>
+          <th scope="col">קטגוריה</th>
+          <th scope="col">תיאור</th>
+          <th scope="col">צבע המציאה</th>
+          <th scope="col">תאריך המציאה</th>
+          <th scope="col">סטטוס</th>
+          <th scope="col">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of _Founds" style="text-align: center">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden] = "buttonHidden">
+            <span class="oi oi-trash">ביקוש</span>
+          </button>
+          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden] = "!buttonHidden"><span class="oi oi-trash">פרטי מוצא</span>
+          </button>
+          <td>{{f.Category}}</td>
+          <td>{{f.FoundDesc}}</td>
+          <td>{{f.color}}</td>
+          <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+          <td>{{f.Status}}</td>
+          <td>{{f.Remarks}}</td>
+          <!-- <input [(ngModel)] = "f.FoundCode"> -->
+          <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+          <td>
+
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" align="center">Fetching Employees</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </body>

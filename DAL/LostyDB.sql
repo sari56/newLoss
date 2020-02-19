@@ -277,9 +277,9 @@ select * from person
 select * from [User]
 select * from Find
 select * from Lose
+select * from Loss
 select * from Category
 select * from Found
-
 
 delete from [User] where UserID = 208094391
 delete from Find where FindID = 208094391

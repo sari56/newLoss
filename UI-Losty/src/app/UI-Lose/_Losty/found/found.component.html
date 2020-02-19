@@ -1,0 +1,61 @@
+<br><br>
+<body>
+  <div class="formBorder">
+    <form action="/action_page.php">
+
+      <!-- <label for="fid">:תעודת זהות</label>
+      <input type="text" id="fid" name="fid" [(ngModel)]="found.FindID" placeholder="תעודת זהות" /><br> -->
+      <!-- <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
+        placeholder="תעודת זהות" /><br> -->
+
+      <label for="pass">:שם משתמש</label>
+      <input type="text" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+
+      <label for="femail">:דוא"ל</label>
+      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
+      <!-- <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
+          [(ngModel)]="find.FindEmail" #femail="ngModel">
+        <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
+          <div *ngIf="femail.errors.required">שדה זה חובה</div>
+        </div> -->
+      <button (click)="Check(userName,email)">אישור</button>
+    </form>
+    <p [hidden]="isHidden">
+      <label for="Category">:קטגוריה</label>
+      <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+        <option *ngFor="let Cat of ListCategory" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+      </select>
+      <br>
+      <label for="Desc">:תיאור המציאה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור המציאה">
+      <br>
+      <label for="color">:צבע המציאה</label><br>
+      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+        <option *ngFor="let c of Colors" [ngValue]="c.color">{{c.color}}</option>
+      </select>
+      <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
+        <br>
+      <label for="Desc">:מקום המציאה</label>
+      <input type="text" id="location" name="Desc" [(ngModel)]="location" placeholder="מקום המציאה">
+      <br><br>
+      <!-- לבדוק שהתאריך קטן מהיום -->
+      <label for="Date">:תאריך בו נמצא</label><br>
+      <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+      <br>
+      <label for="Remark">:הערות</label>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="found.Remarks" placeholder="הערות">
+      <br>
+      <button (click)="SaveFound(found,currentDate)" type="submit">שמירת פרטי מציאה</button>
+      <br>
+      <!-- <input type="file"> -->
+      <!-- <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+      </label> -->
+    </p>
+
+  </div>
+
+</body>
