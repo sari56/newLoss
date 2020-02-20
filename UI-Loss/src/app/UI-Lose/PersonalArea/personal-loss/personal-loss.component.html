@@ -6,6 +6,7 @@
                     <th scope="col">תיאור</th>
                     <th scope="col">צבע האבדה</th>
                     <th scope="col">תאריך האבדה</th>
+                    <th scope="col">סטטוס</th>
                     <th scope="col">הערות</th>
                   </tr>
                 </thead>
@@ -15,6 +16,11 @@
                     <td>{{l.LossDesc}}</td>
                     <td>{{l.color}}</td>
                     <td>{{l.LossDate | date:'yyyy/MM/dd'}}</td>
+                    <td>{{l.Status}}</td>
+                    <td><select>
+                      <option></option>
+                      <option></option>
+                    </select></td>
                     <td>{{l.Remarks}}</td>
                     <td>
                       <!-- <th [style.background-color]="l.LossColor" [style.color]="l.LossColor"></th> -->

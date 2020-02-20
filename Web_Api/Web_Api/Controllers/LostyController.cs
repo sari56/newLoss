@@ -857,15 +857,14 @@ namespace Web_Api.Controllers
         /// <param name="_found"></param>
         /// <returns>answer</returns>
         [HttpPost]
-        [Route("api/Losty/ChangeStatus")]
-        public string ChangeStatus(Found _found)
+        [Route("api/Losty/ChangeFoundStatus")]
+        public string ChangeFoundStatus(Found _found)
         {
-            int status = 3;
-            SqlCommand cmd = ConnectSql(string.Format("UPDATE Found SET StatusCode = '{0}' Where FoundCode = '{1}'", status, _found.FoundCode));
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Found SET StatusCode = '{0}' Where FoundCode = '{1}'", _found.StatusCode, _found.FoundCode));
             // SqlCommand cmd = ConnectSql("UPDATE Found SET StatusCode = ('@StatusCode') WHERE FoundCode ='@FoundCode'");
             try
             {
-                cmd.Parameters.AddWithValue("@StatusCode", 3);
+                cmd.Parameters.AddWithValue("@StatusCode", _found.StatusCode);
                 cmd.Parameters.AddWithValue("@FoundCode", _found.FoundCode);
                 cmd.ExecuteNonQuery();
                 return _found.FoundCode + "Data updated!";
@@ -884,11 +883,10 @@ namespace Web_Api.Controllers
         [Route("api/Losty/ChangeLossStatus")]
         public string ChangeLossStatus(Loss _loss)
         {
-            int status = 3;
-            SqlCommand cmd = ConnectSql(string.Format("UPDATE Loss SET StatusCode = '{0}' Where LossCode = '{1}'", status, _loss.LossCode));
+            SqlCommand cmd = ConnectSql(string.Format("UPDATE Loss SET StatusCode = '{0}' Where LossCode = '{1}'", _loss.StatusCode, _loss.LossCode));
             try
             {
-                cmd.Parameters.AddWithValue("@StatusCode", 3);
+                cmd.Parameters.AddWithValue("@StatusCode", _loss.StatusCode);
                 cmd.Parameters.AddWithValue("@LossCode", _loss.LossCode);
                 cmd.ExecuteNonQuery();
                 return _loss.LossCode + "Data updated!";

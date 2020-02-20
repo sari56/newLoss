@@ -93,12 +93,13 @@ export class MapComponent implements OnInit {
   SelectFound(f: Found) {
     console.log(f.FoundCode);
     this.person.PersonID = f.FindID;
+    f.StatusCode = 3;
     this._WebApiService.GetFind(this.person).then(res => {
       if (res) {
         this.find = res;
       }
     })
-    this._WebApiService.ChangeStatus(f).then(res => {
+    this._WebApiService.ChangeFoundStatus(f).then(res => {
       this.result = res;
     });
     this.buttonHidden = true;

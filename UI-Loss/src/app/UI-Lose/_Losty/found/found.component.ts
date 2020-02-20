@@ -209,6 +209,7 @@ export class FoundComponent implements OnInit {
   SelectLoss(l: Loss) {
     console.log(l.LossCode);
     this.person.PersonID = l.LoseID;
+    l.StatusCode = 3;
     this._WebApiService.GetLose(this.person).then(res => {
       if (res) {
         this.lose = res;

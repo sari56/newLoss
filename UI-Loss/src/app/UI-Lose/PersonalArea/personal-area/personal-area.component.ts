@@ -17,6 +17,7 @@ export class PersonalAreaComponent implements OnInit {
   lose: Lose = new Lose();
   category: Array<Category> = new Array();
   Colors: Array<Color> = new Array<Color>();
+  _Status: string[] = ["נאבד","נמצא", "מבוקש","הוחזר"];
   founds: Array<Found> = new Array();
   losses: Array<Loss> = new Array();
   constructor(private _WebApiService: WebApiService) { }
@@ -60,6 +61,7 @@ export class PersonalAreaComponent implements OnInit {
         for (let index = 0; index < this.founds.length; index++) {
           this.founds[index].Category = this.category[this.founds[index].CategoryCode - 1].CategoryDesc;
           this.founds[index].color = this.Colors[this.founds[index].FoundColor - 1].color;
+          this.founds[index].Status = this._Status[this.founds[index].StatusCode - 1];
           console.log(this.founds[index].Category);
         }
       }
@@ -72,6 +74,7 @@ export class PersonalAreaComponent implements OnInit {
           this.losses[index].Category = this.category[this.losses[index].CategoryCode - 1].CategoryDesc;
           console.log(this.losses[index].Category)
           this.losses[index].color = this.Colors[this.losses[index].LossColor - 1].color;
+          this.losses[index].Status = this._Status[this.losses[index].StatusCode - 1];
           console.log(this.losses[index].color)
         }
       }

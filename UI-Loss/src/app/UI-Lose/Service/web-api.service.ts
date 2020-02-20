@@ -95,8 +95,8 @@ export class WebApiService {
     return this.setRequstData("GetLosesToPersonalArea", params);
   }
 
-  ChangeStatus(params) {
-    return this.setRequstData("ChangeStatus", params);
+  ChangeFoundStatus(params) {
+    return this.setRequstData("ChangeFoundStatus", params);
   }
 
   ChangeLossStatus(params) {
