@@ -135,8 +135,8 @@ export class LostyComponent implements OnInit {
       if (this.loss.Remarks == null) {
         this.loss.Remarks = " ";
       }
-      l.LossLat = 32;
-      l.LossLng = 34;
+      // l.LossLat = 32;
+      // l.LossLng = 34;
       l.StatusCode = 1;
       l.Date = this.today;
       //Insert Loss

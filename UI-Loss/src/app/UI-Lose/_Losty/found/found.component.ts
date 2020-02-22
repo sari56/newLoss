@@ -26,6 +26,7 @@ export class FoundComponent implements OnInit {
   today: Date;
   locationFound: string;
   result: string;
+  resultSend: string;
   showLosses: boolean = true;
   currentDate: Date = new Date();
   // constructor(private _WebApiService: WebApiService) { }
@@ -218,6 +219,10 @@ export class FoundComponent implements OnInit {
     this._WebApiService.ChangeLossStatus(l).then(res => {
       this.result = res;
     });
+    this._WebApiService.SendEmailMessage(this.person).then(res => {
+      this.resultSend = res;
+      console.log(this.resultSend);
+    })
     this.buttonHidden = true;
   }
 

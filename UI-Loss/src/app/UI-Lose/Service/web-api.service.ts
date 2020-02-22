@@ -59,6 +59,14 @@ export class WebApiService {
     return this.setRequstData("GetLose", params);
   }
 
+  GetUser(params) {
+    return this.setRequstData("GetUser", params);
+  }
+
+  EditUser(params) {
+    return this.setRequstData("EditUser", params);
+  }
+
   InsertUser(params) {
     return this.setRequstData("InsertUser", params);
   }
@@ -103,20 +111,16 @@ export class WebApiService {
     return this.setRequstData("ChangeLossStatus", params);
   }
 
+  SendEmailMessage(params) {
+    return this.setRequstData("SendEmailMessage", params);
+  }
+
   SendEmail(params) {
     return this.setRequstData("SendEmail", params);
   }
 
   VerifyUserId(params) {
     return this.setRequstData("VerifyUserId", params);
-  }
-
-  GetUser(params) {
-    return this.setRequstData("GetFind", params);
-  }
-
-  EditUser(params) {
-    return this.setRequstData("EditUser", params);
   }
 
   CheckEmail(email: string) {
@@ -251,7 +255,7 @@ export class Loss {
 }
 
 export class Lose {
-  LoseID: number;
+  LoseID: string;
   LoseName: string;
   LoseCityCode: number;
   LoseAddress: string;
@@ -266,6 +270,15 @@ export class Find {
   FindAddress: string;
   FindPhone: string;
   FindEmail: string;
+
+  constructor(FindID?: string, FindName?: string, FindCityCode?: number, FindAddress?: string, FindPhone?: string, FindEmail?: string) {
+    this.FindID = FindID;
+    this.FindName = FindName;
+    this.FindCityCode = FindCityCode;
+    this.FindAddress = FindAddress;
+    this.FindPhone = FindPhone;
+    this.FindEmail = FindEmail;
+  }
 }
 
 export class Person {

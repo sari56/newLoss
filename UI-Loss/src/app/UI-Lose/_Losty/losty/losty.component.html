@@ -1,7 +1,7 @@
 <br><br>
 
-<body>
-  <div class="formBorder">
+<body style="width: 805px;">
+  <div class="formBorder" style="width: 800px;">
     <form action="/action_page.php">
 
       <!-- <label for="lid">:תעודת זהות</label>
@@ -68,10 +68,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let f of _Founds" style="text-align: center">
-          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden] = "buttonHidden">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
             <span class="oi oi-trash">ביקוש</span>
           </button>
-          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden] = "!buttonHidden"><span class="oi oi-trash">פרטי מוצא</span>
+          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden]="!buttonHidden"><span
+              class="oi oi-trash">פרטי מוצא</span>
           </button>
           <td>{{f.Category}}</td>
           <td>{{f.FoundDesc}}</td>

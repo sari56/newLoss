@@ -1,7 +1,7 @@
 <body>
   <table class="table">
     <thead>
-      <tr> 
+      <tr>
         <th></th>
         <th scope="col">קטגוריה</th>
         <th scope="col">תיאור</th>
@@ -13,11 +13,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let f of FOUNDS" style="text-align: center">
-        <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden] = "buttonHidden">
-          <span class="oi oi-trash">ביקוש</span>
-        </button>
-        <button (click)="Select()" class="btn btn-danger btn-sm" [hidden] = "!buttonHidden"><span class="oi oi-trash">פרטי מוצא</span>
-        </button>
+        <div *ngIf="f.StatusCode == 3">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
+            <span class="oi oi-trash">הוחזר</span>
+          </button>
+        </div>
+        <div *ngIf="f.StatusCode != 3">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="true">
+            <span class="oi oi-trash">ביקוש</span>
+          </button>
+        </div>
         <td>{{f.Category}}</td>
         <td>{{f.FoundDesc}}</td>
         <td>{{f.color}}</td>

@@ -11,10 +11,9 @@ export class PersonalFoundComponent implements OnInit {
   FOUNDS: Array<Found> = new Array();
   person: Person = new Person();
   find: Find = new Find();
-  ind = new Find();
   buttonHidden: boolean = false;
   result: string;
-  
+
   // userID: string;
   // person: Person = new Person();
   // category: Array<Category> = new Array();
@@ -52,13 +51,12 @@ export class PersonalFoundComponent implements OnInit {
   SelectFound(f: Found) {
     console.log(f.FoundCode);
     this.person.PersonID = f.FindID;
-    // if (f.StatusCode < 3)
-      // f.StatusCode += 1;
-    this._WebApiService.GetFind(this.person).then(res => {
-      if (res) {
-        this.find = res;
-      }
-    })
+    f.StatusCode = 1004;
+    // this._WebApiService.GetFind(this.person).then(res => {
+    //   if (res) {
+    //     this.find = res;
+    //   }
+    // })
     this._WebApiService.ChangeFoundStatus(f).then(res => {
       this.result = res;
     });

@@ -12,12 +12,13 @@ export class PersonalAreaComponent implements OnInit {
   foundHidden: boolean = true;
   lossHidden: boolean = true;
   editHidden: boolean = true;
+  enable: boolean = true;
   person: Person = new Person();
   find: Find = new Find();
   lose: Lose = new Lose();
   category: Array<Category> = new Array();
   Colors: Array<Color> = new Array<Color>();
-  _Status: string[] = ["נאבד","נמצא", "מבוקש","הוחזר"];
+  _Status: string[] = ["נאבד", "נמצא", "מבוקש", "הוחזר"];
   founds: Array<Found> = new Array();
   losses: Array<Loss> = new Array();
   constructor(private _WebApiService: WebApiService) { }
@@ -27,19 +28,19 @@ export class PersonalAreaComponent implements OnInit {
 
   MyArea() {
     //check id
-   this.person.PersonID = this.userID;
+    this.person.PersonID = this.userID;
 
     // this.showArea = false;
     console.log(this.person.PersonID);
 
-      this._WebApiService.VerifyUserId(this.person).then(res => {
-        if (res == true) {
-          this.showArea = false;
-        }
-        else {
-          window.alert("משתמש לא קיים במערכת");
-        }
-      })
+    this._WebApiService.VerifyUserId(this.person).then(res => {
+      if (res == true) {
+        this.showArea = false;
+      }
+      else {
+        window.alert("משתמש לא קיים במערכת");
+      }
+    })
     this._WebApiService.GetAllCategory().then(res => {
       if (res) {
         this.category = res;
@@ -96,13 +97,35 @@ export class PersonalAreaComponent implements OnInit {
   ShowEdit() {
     this.foundHidden = true;
     this.lossHidden = true;
-    this._WebApiService.GetUser(this.person).then(res => {
-      if (res) {
-        this.find = res;
-        this.person = new Person
-        (this.find.FindID, this.find.FindName, this.find.FindCityCode, this.find.FindAddress, this.find.FindPhone, this.find.FindEmail);
+    if (this.founds.length > 0) {
+      this._WebApiService.GetFind(this.person).then(res => {
+        if (res != null) {
+          this.find = res;
+          this.enable = false;
+          this.person = new Person
+            (this.find.FindID, this.find.FindName, this.find.FindCityCode, this.find.FindAddress, this.find.FindPhone, this.find.FindEmail);
+        }
+      })
+    }
+    else {
+      if (this.losses.length > 0) {
+        this._WebApiService.GetLose(this.person).then(res => {
+          if (res != null) {
+            this.lose = res;
+            this.enable = false;
+            this.person = new Person
+              (this.lose.LoseID, this.lose.LoseName, this.lose.LoseCityCode, this.lose.LoseAddress, this.lose.LosePhone, this.lose.LoseEmail);
+              this.find = new Find
+              (this.lose.LoseID, this.lose.LoseName, this.lose.LoseCityCode, this.lose.LoseAddress, this.lose.LosePhone, this.lose.LoseEmail);
+          }
+        })
       }
-    })
+    }
+    if (this.losses.length == 0 && this.founds.length == 0) {
+       this.person = null;
+       this.find = null;
+    }
+     
 
     this.editHidden = false;
     console.log("=======" + this.find.FindName)

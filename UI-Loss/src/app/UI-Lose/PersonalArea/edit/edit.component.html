@@ -1,6 +1,10 @@
 <body>
   <!-- <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-  <div>
+  <div [hidden] = "!enable">
+יש לאמת פרטי התקשרות!
+  </div>
+  <div [hidden] = "enable">
+    <br><br>
     <!-- שם מאבד -->
     <label for="fname">:שם</label>
     <input id="fname" name="fname" class="form-control" required placeholder="שם מוצא האבדה" value="FIND.FindName"
@@ -8,16 +12,6 @@
     <div *ngIf="fname.invalid && (fname.dirty || fname.touched)" class="alert alert-danger">
       <div *ngIf="fname.errors.required">שדה זה חובה</div>
     </div>
-    <!-- תעודת זהות -->
-    <!-- <label for="fid">:תעודת זהות</label>
-    <input id="fid" name="fid" class="form-control" required minlength="9" maxlength="9" placeholder="תעודת זהות"
-      value="" [(ngModel)]="FIND.FindID" #fid="ngModel"> -->
-    <!-- [hidden] = "true" -->
-    <!-- <div *ngIf="fid.invalid && (fid.dirty || fid.touched)" class="alert alert-danger">
-              <div *ngIf="fid.errors.required">תעודת זהות חובה</div>
-              <div *ngIf="fid.errors.minlength">מספר זהות חייב להכיל 9 ספרות</div>
-              <div *ngIf="fid.errors.maxlength">מספר זהות חייב להכיל 9 ספרות</div>
-            </div> -->
     <!-- טלפון -->
     <label for="fphone">:טלפון</label>
     <input id="fphone" name="fphone" class="form-control" required placeholder="טלפון" [(ngModel)]="FIND.FindPhone"
@@ -40,12 +34,14 @@
     <div *ngIf="faddress.invalid && (faddress.dirty || faddress.touched)" class="alert alert-danger">
       <div *ngIf="faddress.errors.required">שדה זה חובה</div>
     </div>
+    <br>
     <!-- עיר -->
     <label for="fcity">:עיר</label><br>
     <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
       <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
-    </select><br>
-
+    </select>
+    <br><br>
     <input type="submit" value="שמירת פרטים" (click)="ChangeDetials()">
+    <br><br>
   </div>
 </body>

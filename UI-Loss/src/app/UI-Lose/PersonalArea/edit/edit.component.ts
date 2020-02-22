@@ -8,9 +8,11 @@ import { Find, City, WebApiService, Person } from '../../Service/web-api.service
 })
 export class EditComponent implements OnInit {
   @Input()
-  FIND: Find = new Find;
+  FIND: Find = new Find();
   @Input()
-  PERSON: Person = new Person();
+  PERSON: Person;
+  @Input()
+  enable: boolean = true;
   isEdit: boolean = true;
   selectedCity: string;
   result: string;
@@ -18,7 +20,7 @@ export class EditComponent implements OnInit {
   constructor(private _WebApiService: WebApiService) { }
 
   ngOnInit() {
-   
+    console.log(this.enable)
     this._WebApiService.GetAllCity().then(res => {
       if (res) {
         this.ListCity = res;
@@ -49,12 +51,12 @@ export class EditComponent implements OnInit {
       })
     }
 
-    if(this.isEdit == true) {
+    if (this.isEdit == true) {
       this._WebApiService.EditUser(this.FIND)
       // .then(res => {
       // this.result = res;
-    //   console.log(this.result);
-    // })
+      //   console.log(this.result);
+      // })
     }
   }
 }
