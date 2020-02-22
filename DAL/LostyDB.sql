@@ -195,12 +195,13 @@ Create Table FindLoss
  FindLossDesc varchar(20),
  FindLossColor int foreign key references Color,
  FindLossDate Date,
- FindLoss_X int,
- FindLoss_Y int,
  Remarks varchar(100),
  StatusCode int foreign key references [Status],
  --PictureCode int foreign key references Picture,
- [Date] date
+ [Date] date,
+ FindLossCityCode int foreign key references City,
+ FindLoss_Lat int,
+ FindLoss_Lng int
 )
 --מציאות שהתבקשו
 Create Table AskFound
@@ -211,12 +212,13 @@ Create Table AskFound
  AskFoundDesc varchar(20),
  AskFoundColor int foreign key references Color,
  AskFoundDate Date,
- AskFound_X int,
- AskFound_Y int,
  Remarks varchar(100),
  StatusCode int foreign key references [Status],
  --PictureCode int foreign key references Picture,
- [Date] date
+ [Date] date,
+ FoundCityCode int foreign key references City,
+ AskFound_Lat int,
+ AskFound_Lng int,
 )
 
 Insert into Category 
@@ -267,9 +269,60 @@ values ('ש','שדות ים'),('ש','שדרות'),('ש','שוהם'),('ש','שפיים'),('ש','שריד'),('ש
 Insert into City
 values ('ת','תימורים'),('ת','תל אביב -יפו'),('ת','תל מונד'),('ת','תנובות'),('ת','תמרת'),('ת','תלמי ביל"ו'),('ת','תלמי אלעזר'),('ת','תלמי אליהו'),('ת','תלמי יפה'),('ת','תלמי יחיאל')
 select *  from City
-Insert into [Status] values('נאבד'),('נמצא'),('מבוקש'),('הוחזר')
+Insert into [Status] values ('נאבד'),('נמצא'),('מבוקש'),('הוחזר')
+insert into [Status] values ('הוחזר')
 Insert Into Color 
 values ('לבן','1,2'),('בז','1,2,3,4'),('צהוב','2,3,4,5'),('חרדל','2,3,4,14'),('כתום','3,4,5,14'),('אדום','5,6,7,10'),('בורדו','6,7,14'),('סגול','7,8,9,10'),('סגלגל','8,9,10'),('ורוד','6,7,8,9,10'),('אפור','1,11,12'),('כסף','11,12'),('זהב','2,3,4,13'),('חום','3,4,5,14'),('ירוק','3,15,16,17'),('ירוק מנטה','3,15,16,17'),('טורקיז','3,15,16,17,18,19'),('תכלת','16,17,18,19'),('כחול','17,18,19'),('שחור','20')
+
+--TRIGGER
+CREATE TRIGGER TR_Status_Found ON dbo.Found
+FOR UPDATE
+AS
+BEGIN
+	DECLARE @deletedStatus INT,@insertedStatus INT, @deletedCode INT, @insertedCode INT
+	SELECT @deletedCode = FoundCode, @deletedStatus=StatusCode FROM deleted
+	SELECT @insertedCode = FoundCode, @insertedStatus=StatusCode FROM inserted
+	IF @deletedStatus = 3 AND @insertedStatus = 1004 AND @deletedCode = @insertedCode
+		BEGIN
+			DECLARE @FindID varchar(9), @CategoryCode int, @FoundDesc varchar(20), @FoundColor int, @FoundDate Date, @Remarks varchar(100),
+			@StatusCode int, @Date date, @FoundCityCode int, @FoundLat Float, @FoundLng Float
+			SELECT @FindID = FindID, @CategoryCode = CategoryCode, @FoundDesc = FoundDesc, @FoundColor = FoundColor, @FoundDate = FoundDate, @Remarks = Remarks,
+			@StatusCode = StatusCode, @Date = [Date], @FoundCityCode = FoundCityCode, @FoundLat = FoundLat, @FoundLng = FoundLng
+			FROM Found
+			WHERE FoundCode = @insertedCode
+
+			DELETE FROM Found WHERE FoundCode = @insertedCode
+			
+			INSERT INTO AskFound VALUES (@insertedCode, @FindID, @CategoryCode, @FoundDesc, @FoundColor, @FoundDate, @Remarks, @StatusCode, @Date, @FoundCityCode, @FoundLat, @FoundLng)
+		END
+END
+GO
+
+ALTER TRIGGER TR_Status_Loss ON dbo.Loss
+FOR UPDATE
+AS
+BEGIN
+	DECLARE @deletedStatus INT,@insertedStatus INT, @deletedCode INT, @insertedCode INT
+	SELECT @deletedCode = LossCode FROM deleted
+	SELECT @insertedCode = LossCode, @insertedStatus=StatusCode FROM inserted
+	IF @insertedStatus = 2 AND @deletedCode = @insertedCode
+		BEGIN
+			DECLARE @LoseID varchar(9), @CategoryCode int, @LossDesc varchar(20), @LossColor int, @LossDate Date, @Remarks varchar(100),
+			@StatusCode int, @Date date, @LossCityCode int, @LossLat Float, @LossLng Float
+			SELECT @LoseID = LoseID, @CategoryCode = CategoryCode, @LossDesc = LossDesc, @LossColor = LossColor, @LossDate = LossDate, @Remarks = Remarks,
+			@StatusCode = StatusCode, @Date = [Date], @LossCityCode = LossCityCode, @LossLat = LossLat, @LossLng = LossLng
+			FROM Loss
+			WHERE LossCode = @insertedCode
+
+			DELETE FROM Loss WHERE LossCode = @insertedCode
+			
+			INSERT INTO FindLoss VALUES (@insertedCode, @LoseID, @CategoryCode, @LossDesc, @LossColor, @LossDate, @Remarks, @StatusCode, @Date, @LossCityCode, @LossLat, @LossLng)
+		END
+END
+GO
+
+UPDATE Found set StatusCode = 1004 where FoundCode = 1126
+
 
 select * from [Status]
 select * from color                             
@@ -278,8 +331,11 @@ select * from [User]
 select * from Find
 select * from Lose
 select * from Loss
+select * from FindLoss
 select * from Category
 select * from Found
+select * from AskFound
+
 
 delete from [User] where UserID = 208094391
 delete from Find where FindID = 208094391
@@ -293,3 +349,4 @@ UPDATE Color SET RelevantColors = '20' Where ColorCode = 20
 UPDATE Find SET FindName = ' ',  FindEmail = ' '  where FindID = ' '
 
 Select * From Find Where FindId = '208094391'
+Select UserID From [User] Where UserName = 'mv278048450' AND UserEmail = ' mi4194424@gmail.com'
