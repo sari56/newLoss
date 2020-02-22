@@ -725,12 +725,16 @@ namespace Web_Api.Controllers
             SqlCommand cmd = ConnectSql(string.Format("Select * From Find Where FindId = '{0}' ", p.PersonID));
             SqlDataReader reader = cmd.ExecuteReader();
             Find find = new Find();
+            bool check = false;
             if (reader.Read())
             {
                 find = find.Initialization(reader);
+                check = true;
             }
             connection.DisConnectSql();
-            return find;
+            if (check == true)
+                return find;
+            return null;
         }
 
         [HttpPost]
@@ -740,25 +744,25 @@ namespace Web_Api.Controllers
             SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where LoseId = '{0}' ", p.PersonID));
             SqlDataReader reader = cmd.ExecuteReader();
             Lose lose = new Lose();
+            bool check = false;
             if (reader.Read())
             {
                 lose = lose.Initialization(reader);
+                check = true;
             }
             connection.DisConnectSql();
-            return lose;
+            if (check == true)
+                 return lose;
+            return null;
+           
         }
 
-        public Lose GetUser(Lose user)
+        public bool GetUser(Person person)
         {
-            SqlCommand cmd = ConnectSql(string.Format("Select * From Lose Where LoseId = '{0}' ", user.LoseID));
-            SqlDataReader reader = cmd.ExecuteReader();
-            Lose lose = new Lose();
-            if (reader.Read())
-            {
-                lose.Initialization(reader);
-            }
-            connection.DisConnectSql();
-            return lose;
+            if (GetFind(person) == null)
+                if (GetLose(person) == null)
+                    return false;
+            return true;
         }
 
         public string EditFind(Find f)
@@ -899,6 +903,22 @@ namespace Web_Api.Controllers
             {
                 connection.DisConnectSql();
             }
+        }
+
+        /// <summary>
+        /// SendEmailMessage
+        /// </summary>
+        /// <param name="person">person</param>
+        /// <returns>answer</returns>
+        [HttpPost]
+        [Route("api/Losty/SendEmailMessage")]
+        public string SendEmailMessage(Person person)
+        {
+            mail_core mail = new mail_core();
+            Find find = GetFind(person);
+            mail.NewMail(find.FindEmail, find.FindName, "RS.Losty@gmail.com", "Losty", " מערכת LOSTY שמחה לבשר כי אבדתך נמצאה", "שלום ל" + find.FindName + " " + "להלן פרטי מוצא אבדתך: " + "/n" + "טלפון: " + find.FindPhone + " כתובת אימייל: " + find.FindEmail, "");
+            mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
+            return mail.sendMail();
         }
 
         /// <summary>
