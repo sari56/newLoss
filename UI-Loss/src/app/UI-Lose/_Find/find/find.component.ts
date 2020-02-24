@@ -72,6 +72,15 @@ export class FindComponent implements OnInit {
     // this._WebApiService.Insert([{ID: f.PersonID} , {Name: f.PersonName} , {Code: "19"} , {Address: f.PersonAddress} , {Phone: f.PersonPhone} , {Email: f.PersonEmail}]);
   }
 
+  Check(femail: string) {
+    console.log("email:  " + this._WebApiService.CheckEmail(femail))
+    return this._WebApiService.CheckEmail(femail);
+  }
+
+  emailIsValid(email) {
+    console.log(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
 
   //   filterForeCasts(filterVal: any) {
   //     if (filterVal == "0")
@@ -79,5 +88,4 @@ export class FindComponent implements OnInit {
   //     else
   //     this.forecasts = this.cacheForecasts.filter((item) => item.summary == filterVal);
   // }
-
 }

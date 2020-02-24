@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WebApiService, Found, Category, Signs, Color, Find, Person } from '../../Service/web-api.service';
-
+// import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  // providers: [MessageService]
 })
 export class SearchComponent implements OnInit {
   selectedCategory: string;
@@ -20,14 +21,18 @@ export class SearchComponent implements OnInit {
   found: Found;
   date: Date = new Date();
   find: Find = new Find();
+  dateString:string;
   person: Person = new Person();
   _Founds: Array<Found> = new Array<Found>();
   _Category: Array<Category> = new Array<Category>();
   _Colors: Array<Color> = new Array<Color>();
   _Status: string[] = ["נמצא", "מבוקש"];
+  submitted: boolean;
+  messageService: any;
   constructor(private _WebApiService: WebApiService) { }
 
   ngOnInit() {
+    // this.date = new Date(this.date.getFullYear(), 2, this.date.getDate())
     this.signs = new Signs();
     this.signs.Description = "";
     this.signs.Remarks = "";
@@ -72,11 +77,13 @@ export class SearchComponent implements OnInit {
   }
 
   onChange_Date($event) {
+    console.log("@@@" + this.date)
     this.signs.date = this.currentDate;
-    console.log(this.currentDate.toString());
+    console.log(this.currentDate);
+    console.log(this.date.toString());
     console.log("date:   " + this.date.toLocaleDateString())
-    console.log("date:   " + this.date.toLocaleString())
-    console.log(this.currentDate.toString() == this.date.toLocaleDateString())
+    console.log("=========" + this.date.getFullYear() + "-" + "02" + "-" + this.date.getDate())
+    console.log(this.currentDate.toString() == this.date.getFullYear() + "-" + "02" + "-" + this.date.getDate())
     // if(this.currentDate <= this.)
     this.isValidate = false;
   }
@@ -117,4 +124,20 @@ export class SearchComponent implements OnInit {
       window.alert("פרטי מוצא האבדה:                                                                         " + " שם: " + this.find.FindName + " טלפון: " + this.find.FindPhone + " אימייל: " + this.find.FindEmail)
     // }
   }
+
+  parseDate(dateString: string): Date {
+    if (dateString) {
+      console.log(dateString)
+      console.log(this.date.toLocaleDateString());
+        return new Date(dateString);
+    }
+    return null;
+}
+
+  onSubmit() {
+    // https://material.angular.io/components/datepicker/overview
+    // https://primefaces.org/primeng/#/validation
+    this.submitted = true;
+    this.messageService.add({severity:'info', summary:'Success', detail:'Form Submitted'});
+}
 }

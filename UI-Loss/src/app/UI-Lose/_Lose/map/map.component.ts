@@ -70,7 +70,8 @@ export class MapComponent implements OnInit {
     this.city = this.ListCity[i];
     console.log(this.ListCity[i])
     console.log(this.city);
-    this.icon = '//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+    this.icon = 'map-icon-art-gallery';
+    //  '//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
   }
 
   getLatlang() {

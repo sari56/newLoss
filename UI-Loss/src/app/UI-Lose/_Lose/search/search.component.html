@@ -1,6 +1,7 @@
 <br><br><br>
 
 <body>
+  <!-- <button (click)="onSubmit()">yyy</button> -->
   <br><br><br>
   <label for="Category">:מה נאבד</label>
   <br>
@@ -24,9 +25,9 @@
   <div>החיפוש יעשה מטווח של שבוע קודם</div>
   <!-- <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
     (change)="onChange_Date($event)" [(ngModel)]="currentDate"> -->
-    <input type="date" id="Date" name="Date" value="" required 
-    (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+    <input type="date" #myDate max="2020-02-23" [value]="currentDate | date:'yyyy-MM-dd'" (input)="currentDate=parseDate($event.target.value)" />
   <br>
+    
   <br>
   <label for="Remark">:הערות</label>
   <br>

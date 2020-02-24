@@ -130,7 +130,7 @@ export class FoundComponent implements OnInit {
     console.log(city.CityName)
   }
 
-  getLatlang() {
+  getLatlang(f: Found, currentDate: Date) {
     let address = this.locationFound + ' ' + this.selectedCity + ' ' + 'ישראל';
     console.log("address:  " + address)
     this.geocoder.geocode({ 'address': address }, (results) => {
@@ -140,30 +140,33 @@ export class FoundComponent implements OnInit {
         console.log(results[0].geometry.location.lng())
         this.found.FoundLat = results[0].geometry.location.lat();
         this.found.FoundLng = results[0].geometry.location.lng();
+        this.SaveFound(f, currentDate);
       }
     });
-    // this.location.ListLosty[this.location.ListLosty.length] = {
-    //   lat:results[0].geometry.location.lat(),
-    //   lng:results[0].geometry.location.lng(),
-    //   name:'צמיד',
-    //   address: address,
-    //   icon:'//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
 
-    // }
-
-    //  this.mapElement.triggerResize();
-    // debugger;
-    // this.clickPlace = {
-    //   lat: event.coords.lat,
-    //   lng: event.coords.lng,
-    //   isOpen: true,
-    //   address: results[0].formatted_address,
-    //   shortAddress: results[0].formatted_address.replace("ישראל", ''),
-    //   iscollectPoint: true,
-    // }
-    //     }
-    //   });
   }
+  // this.location.ListLosty[this.location.ListLosty.length] = {
+  //   lat:results[0].geometry.location.lat(),
+  //   lng:results[0].geometry.location.lng(),
+  //   name:'צמיד',
+  //   address: address,
+  //   icon:'//developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+
+  // }
+
+  //  this.mapElement.triggerResize();
+  // debugger;
+  // this.clickPlace = {
+  //   lat: event.coords.lat,
+  //   lng: event.coords.lng,
+  //   isOpen: true,
+  //   address: results[0].formatted_address,
+  //   shortAddress: results[0].formatted_address.replace("ישראל", ''),
+  //   iscollectPoint: true,
+  // }
+  //     }
+  //   });
+
 
   SaveFound(f: Found, currentDate: Date) {
     console.log(this.currentDate);
@@ -229,7 +232,7 @@ export class FoundComponent implements OnInit {
   Select() {
     // debugger;
     // if (this.result == "Data updated!") {  
-      window.alert("פרטי מאבד:                                                                         " + " שם: " + this.lose.LoseName + " טלפון: " + this.lose.LosePhone + " אימייל: " + this.lose.LoseEmail)
+    window.alert("פרטי מאבד:                                                                         " + " שם: " + this.lose.LoseName + " טלפון: " + this.lose.LosePhone + " אימייל: " + this.lose.LoseEmail)
     // }
   }
 }
@@ -268,3 +271,23 @@ export class FoundComponent implements OnInit {
 // plus_code: {compound_code: "3RFR+J5 Bnei Brak, Israel", global_code: "8G4P3RFR+J5"}
 // types: ["street_address"]
 // status: "OK"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// formatted_address: "Tel Yokneam"
+// geometry: {location: {lat: 32.641111, lng: 35.108333}, location_type: "APPROXIMATE",…}
+// location: {lat: 32.641111, lng: 35.108333}
+// lat: 32.641111
+// lng: 35.108333

@@ -49,6 +49,7 @@ export class PersonalFoundComponent implements OnInit {
   }
 
   SelectFound(f: Found) {
+    debugger;
     console.log(f.FoundCode);
     this.person.PersonID = f.FindID;
     f.StatusCode = 1004;

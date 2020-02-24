@@ -105,7 +105,7 @@ export class LostyComponent implements OnInit {
     });
   }
 
-  getLatlang() {
+  getLatlang(l: Loss, currentDate: Date) {
     let address = this.locationLoss + ' ' + this.selectedCity + ' ' + 'ישראל';
     console.log("address:  " + address)
     this.geocoder.geocode({ 'address': address }, (results) => {
@@ -115,6 +115,7 @@ export class LostyComponent implements OnInit {
         console.log(results[0].geometry.location.lng())
         this.loss.LossLat = results[0].geometry.location.lat();
         this.loss.LossLng = results[0].geometry.location.lng();
+        this.SaveLoss(l, currentDate);
       }
     });
   }
