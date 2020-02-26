@@ -6,17 +6,16 @@ import { FoundComponent } from './components/found/found.component';
 import { LossComponent } from './components/loss/loss.component';
 import { SearchComponent } from './search/search.component';
 import { MapComponent } from './components/map/map.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 const routes: Routes = [
-  { path: "login", component:LoginComponent},
   { path: "home", component:HomeComponent},
+  { path: "header", component:HeaderComponent},
   { path: "found", component:FoundComponent},
   { path: "loss", component:LossComponent},
   { path: "search", component:SearchComponent},
   { path: "map", component:MapComponent},
-  // { path: "/login", component:LoginComponent},
-  // { path: '**', component:LoginComponent},
 ];
 
 @NgModule({

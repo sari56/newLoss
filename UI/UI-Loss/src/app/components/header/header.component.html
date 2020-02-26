@@ -1,10 +1,20 @@
 <body>
-        <button class="button" (click)="AddFound()"><h3>הוספת מציאה</h3></button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button"><h3>הוספת אבדה</h3></button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button"><h3>חיפוש</h3></button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button"><h3>אזור אישי</h3></button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </body>
+        <div class="d-flex justify-content-between container">
+                <a routerLink="found" class="button">
+                        <div class="align-self-center">הוספת מציאה</div>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a routerLink="loss" class="button">
+                        <div>הוספת אבדה</div>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a routerLink="search" class="button">
+                        <div>חיפוש</div>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a routerLink="personal" class="button">
+                        <div>אזור אישי</div>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+</body>

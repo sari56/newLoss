@@ -8,24 +8,32 @@
             <form class="needs-validation was-validated" novalidate="">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="firstName">שם</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                        <label for="name">שם</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="" value="" [(ngModel)]="person.PersonName" required=""
+                        pattern = "[a-z A-Z א-ת]*" oninvalid="setCustomValidity('Please enter on alphabets only. ')">
                         <div class="invalid-feedback">
                             נדרש שם
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName">תעודת זהות</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                        <label for="tz">תעודת זהות</label>
+                        <input type="password" name="tz" class="form-control" id="lastName" placeholder="" value="" required="" [(ngModel)]="person.PersonID"
+                        pattern = "[0-9]*" maxlength = "9" >
                         <div class="invalid-feedback">
                             נדרש תעודת זהות
                         </div>
                     </div>
                 </div>
-
+                <div class="mb-3">
+                        <label for="phone">טלפון <span class="text-muted"></span></label>
+                        <input type="phone" name="phone" class="form-control" id="phone" placeholder="you@example.com" required="" [(ngModel)] = "person.PersonPhone">
+                        <div class="invalid-feedback">
+                            נדרש מספר טלפון
+                        </div>
+                    </div>
                 <div class="mb-3">
                     <label for="email">אימייל <span class="text-muted"></span></label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required="">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required="" [(ngModel)] = "person.PersonEmail">
                     <div class="invalid-feedback">
                         נדרש אימייל
                     </div>
@@ -33,7 +41,7 @@
 
                 <div class="mb-3">
                     <label for="address">כתובת</label>
-                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                    <input type="text" name='address' class="form-control" id="address" placeholder="1234 Main St" required="" [(ngModel)]="person.PersonAddress">
                     <div class="invalid-feedback">
                         נדרש כתובת מגורים
                     </div>
@@ -43,14 +51,12 @@
                     <label for="address2">עיר <span class="text-muted"></span></label>
                     <select class="form-control" [(ngModel)]="selectedCity" (change)="onChange($event)"
                         aria-placeholder="בחר עיר" name="city" required="">
-                        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+                        <option *ngFor="let c of _City" [ngValue]="c.CityName">{{c.CityName}}</option>
                     </select>
                 </div>
-                <!-- </div> -->
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">שמירת פרטים</button>
+                <button class="btn btn-primary btn-lg btn-block" (click)="SaveUser(person)" type="submit">שמירת פרטים</button>
             </form>
-        <!-- </div>     -->
     </div>
     <!-- <form action="/action_page.php">
     <h2>משתמש חדש? הרשמה</h2>

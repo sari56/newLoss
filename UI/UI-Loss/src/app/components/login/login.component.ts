@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { City, DataService, Person } from 'src/app/services/data.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,44 +11,51 @@ export class LoginComponent implements OnInit {
   selectedCity: string;
   city: City;
   boolEmail: number = 1;
-  ListCity: Array<City> = new Array<City>();
-  person: Person = new Person();
+  _City: Array<City> = new Array();
+  person: Person;
   result: string;
   constructor(private _data: DataService) { }
 
   ngOnInit() {
+    this.person = new Person();
     this.selectedCity = null;
     this._data.GetAllCity().then(res => {
       if (res) {
-        this.ListCity = res;
+        this._City = res;
       }
     })
   }
   onChange($event) {
     console.log(this.selectedCity);
     let i;
-    for (i = 1; i < this.ListCity.length && this.ListCity[i].CityName != this.selectedCity; i++);
-    this.person.PersonCityCode = this.ListCity[i].CityCode;
+    for (i = 1; i < this._City.length && this._City[i].CityName != this.selectedCity; i++);
+    this.person.PersonCityCode = this._City[i].CityCode;
 
   }
 
 
-  SaveUser(p: Person) {
+  SaveUser(person: Person) {
     // if (!this.boolEmail) {
-      this._data.InsertUser(p);
-      this._data.SendEmail(p).then(res =>{
-        if(res!= null) {
-          this.result = res;
-          // window.alert("שם משתמש ישלח לאימייל");
+    console.log(person)
+    console.log(this.person)
+    this._data.InsertUser(this.person).then(res => {
+      if (res == "Inserting Data Successfully") {
+        this._data.SendEmail(this.person).then(res => {
+          if (res != null) {
+            this.result = res;
+            window.alert("שם משתמש ישלח לאימייל");
+          }
+          else
+            window.alert("כתובת המייל אינה חוקית");
+        });
+      }
+    });
 
-        }
-        else
-      window.alert("כתובת המייל אינה חוקית");
-      });
+
     // }
-    
-      //pop up
-    
-    
+
+    //pop up
+
+
   }
 }

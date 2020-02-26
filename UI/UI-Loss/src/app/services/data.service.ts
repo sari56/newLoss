@@ -9,8 +9,22 @@ import { environment } from 'src/environments/environment';
 export class DataService {
 
   private body: string
-  private isValidate: number = 0;
-  constructor(private http: HttpClient) { }
+  ListCity: Array<City> = new Array();
+  ListCategory: Array<Category> = new Array();
+  ListColors: Array<Color> = new Array();
+  constructor(private http: HttpClient) {
+    // this.GetAllCity().then(res =>{
+    //   this.ListCity = res;
+    // })
+
+    // this.GetAllCategory().then(res =>{
+    //   this.ListCategory = res;
+    // })
+
+    // this.GetColors().then(res =>{
+    //   this.ListColors = res;
+    // })
+   }
   setRequstData(actionName: string, collection: any, isObservable = false, identityGuid = null): any {
     this.body = JSON.stringify(collection);
     return this.http
