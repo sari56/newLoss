@@ -66,6 +66,7 @@ namespace Web_Api.Models
     {
         public int CategoryCode { get; set; }
         public string CategoryDesc { get; set; }
+        public string CategoryIcon { get; set; }
 
         public override Category Initialization(SqlDataReader reader)
         {
@@ -73,7 +74,7 @@ namespace Web_Api.Models
             {
                 CategoryCode = (int)reader["CategoryCode"],
                 CategoryDesc = reader["CategoryDesc"].ToString(),
-
+                //CategoryIcon = reader["CategoryIcon"].ToString()
             };
             return category;
         }
@@ -212,7 +213,7 @@ namespace Web_Api.Models
         public Nullable<int> CategoryCode { get; set; }
         public string FoundDesc { get; set; }
         public Nullable<int> FoundColor { get; set; }
-        public Nullable<System.DateTime> FoundDate { get; set; }
+        public DateTime FoundDate { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> StatusCode { get; set; }
         //public Nullable<int> PictureCode { get; set; }

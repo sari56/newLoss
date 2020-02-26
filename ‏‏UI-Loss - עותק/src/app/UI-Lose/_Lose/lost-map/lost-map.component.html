@@ -1,0 +1,35 @@
+<div>
+  <select  [(ngModel)]="location.selectedCity" aria-placeholder="בחר עיר">
+      <option *ngFor="let c of ListCity" [ngValue]="c">{{c.name}}</option>
+    </select>
+</div>
+<div>
+  <input type="text" value="אבני נזר 8 בני ברק ישראל">
+  <input type="button" (click)="getLatlang()">
+</div>
+<div>{{location.selectedCity.name}} {{location.selectedCity.lat}}</div>
+<agm-map [latitude]="location.selectedCity.lat" [longitude]="location.selectedCity.lng" [(zoom)]="location.zoom">
+
+   <agm-marker *ngFor="let losty of location.ListLosty;" [latitude]="losty.lat"  [longitude]="losty.lng" [iconUrl]="location.icon">
+      <agm-info-window>
+         <div>{{losty.name}}</div>
+        </agm-info-window>
+  </agm-marker>
+</agm-map>
+
+<!-- <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWXwfWSCnsonvPZobjIAaUHYIYU8MQUD0`&callback=initMap"
+  type="text/javascript"></script>
+<div>
+  <br><br>
+  <label for="fcity">:עיר</label>
+  <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+    <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+  </select>
+</div> -->
+
+<!-- <agm-map [latitude]="latitude" [longitude]="longitude">
+  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+</agm-map> -->
+
+<!-- <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng"  [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true"> -->

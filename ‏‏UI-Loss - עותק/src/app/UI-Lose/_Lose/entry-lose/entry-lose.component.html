@@ -1,0 +1,11 @@
+<div class="formBorder">
+    <button id="btn" type="button" (click)="ChangeLosty()" class="btn btn-default btn-lg active"
+        style="margin: unset;size: 50px">חיפוש במפת האבדות</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="btn" type="button" (click)="ChangeFind()" class="btn btn-default btn-lg active"
+        style="margin: unset;size: 50px">חיפוש עפ"י סימנים</button>
+
+    <app-lost-map [hidden]="mapHidden" [map_hid]=true></app-lost-map>
+    <app-search [hidden]="searchHidden" [search_hid]=true></app-search>
+</div>

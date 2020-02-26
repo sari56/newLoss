@@ -1,0 +1,105 @@
+<br><br>
+
+<body style="width: 805px;">
+  <div class="formBorder" style="width: 800px;">
+    <form action="/action_page.php">
+
+      <!-- <label for="fid">:תעודת זהות</label>
+      <input type="text" id="fid" name="fid" [(ngModel)]="found.FindID" placeholder="תעודת זהות" /><br> -->
+      <!-- <input type="text" id="fid" name="fid" required minlength="9" maxlength="9" [(ngModel)]="found.FindID"
+        placeholder="תעודת זהות" /><br> -->
+
+      <label for="pass">:שם משתמש</label>
+      <input type="password" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+
+      <label for="femail">:דוא"ל</label>
+      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
+      <!-- <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
+          [(ngModel)]="find.FindEmail" #femail="ngModel">
+        <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
+          <div *ngIf="femail.errors.required">שדה זה חובה</div>
+        </div> -->
+      <button (click)="Check(userName,email)">אישור</button>
+    </form>
+    <p [hidden]="isHidden">
+      <label for="Category">:קטגוריה</label>
+      <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+        <option *ngFor="let Cat of _Category" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+      </select>
+      <br>
+      <label for="Desc">:תיאור המציאה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="found.FoundDesc" placeholder="תיאור המציאה">
+      <br>
+      <label for="color">:צבע המציאה</label><br>
+      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+        <option *ngFor="let c of _Colors" [ngValue]="c.color">{{c.color}}</option>
+      </select>
+      <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
+      <br>
+      <label for="Desc">:כתובת המציאה</label>
+      <input type="text" id="locationFound" name="locationFound" [(ngModel)]="locationFound" placeholder="מקום המציאה">
+      <br>
+      <!-- עיר -->
+      <label for="fcity">:עיר המציאה</label>
+      <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+      </select><button (click)="getLatlang()"></button>
+      <br>
+      <!-- לבדוק שהתאריך קטן מהיום -->
+      <label for="Date">:תאריך בו נמצא</label><br>
+      <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+      <br><br>
+      <label for="Remark">:הערות</label>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="found.Remarks" placeholder="הערות">
+      <br><br>
+      <button (click)="getLatlang(found,currentDate)" type="submit">שמירת פרטי מציאה</button>
+      <br>
+      <!-- <input type="file"> -->
+      <!-- <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+      </label> -->
+    </p>
+
+  </div>
+  <div [hidden]="showLosses">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">לפרטי מאבד</th>
+          <th scope="col">קטגוריה</th>
+          <th scope="col">תיאור</th>
+          <th scope="col">צבע המציאה</th>
+          <th scope="col">תאריך המציאה</th>
+          <th scope="col">סטטוס</th>
+          <th scope="col">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of _Losses" style="text-align: center">
+          <button (click)="SelectLoss(l)" class="btn btn-danger btn-sm" [hidden] = "buttonHidden">
+            <span class="oi oi-trash">עדכון</span>
+          </button>
+          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden] = "!buttonHidden"><span class="oi oi-trash">פרטי מאבד</span>
+          </button>
+          <td>{{l.Category}}</td>
+          <td>{{l.LossDesc}}</td>
+          <td>{{l.color}}</td>
+          <td>{{l.LossDate | date:'yyyy/MM/dd'}}</td>
+          <td>{{l.Status}}</td>
+          <td>{{l.Remarks}}</td>
+          <!-- <input [(ngModel)] = "f.FoundCode"> -->
+          <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+          <td>
+
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" align="center">Fetching Employees</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>

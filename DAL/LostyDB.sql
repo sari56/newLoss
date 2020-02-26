@@ -43,6 +43,8 @@ Create Table Category
  CategoryCode int identity(1,1) primary key,
  CategoryDesc varchar(20)
 )
+ALTER TABLE Category
+ADD CategoryIcon varchar(150)
 --אנשים
 Create Table Person
 (

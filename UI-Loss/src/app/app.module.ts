@@ -29,6 +29,8 @@ import { PersonalFoundComponent } from './UI-Lose/PersonalArea/personal-found/pe
 import { PersonalLossComponent } from './UI-Lose/PersonalArea/personal-loss/personal-loss.component';
 import { EditComponent } from './UI-Lose/PersonalArea/edit/edit.component';
 import { MapComponent } from './UI-Lose/_Lose/map/map.component';
+import { HomeComponent } from './UI-Lose/home/home.component';
+// import { MatSliderModule } from '@angular/material/slider';
 
 const ROUTES:Routes=[
   { path: "find", component:FindComponent},
@@ -63,7 +65,8 @@ const ROUTES:Routes=[
     PersonalFoundComponent,
     PersonalLossComponent,
     EditComponent,
-    MapComponent
+    MapComponent,
+    HomeComponent
     // ImageSnippetComponent
   ],
   imports: [
@@ -72,6 +75,7 @@ const ROUTES:Routes=[
     FormsModule,
     HttpClientModule,
     // DropDownsModule,
+    // MatSliderModule,
     RouterModule.forRoot(ROUTES ,{useHash:true}),
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),

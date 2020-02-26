@@ -1,0 +1,36 @@
+<body>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">קטגוריה</th>
+        <th scope="col">תיאור</th>
+        <th scope="col">צבע האבדה</th>
+        <th scope="col">תאריך האבדה</th>
+        <th scope="col">סטטוס</th>
+        <th scope="col">הערות</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of LOSSES" style="text-align: center">
+        <button (click)="SelectLoss(l)" class="btn btn-danger btn-sm">
+          <span class="oi oi-trash">נמצא</span>
+        </button>
+        <th>{{l.Category}}</th>
+        <td>{{l.LossDesc}}</td>
+        <td>{{l.color}}</td>
+        <td>{{l.LossDate | date:'yyyy/MM/dd'}}</td>
+        <td>{{l.Status}}</td>
+        <td>{{l.Remarks}}</td>
+        <td>
+          <!-- <th [style.background-color]="l.LossColor" [style.color]="l.LossColor"></th> -->
+          <!-- <button (click)="delete(employee)" class="btn btn-danger btn-sm"> -->
+          <span class="oi oi-trash"></span>
+          <!-- </button> -->
+        </td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="5" align="center">Fetching Employees</td>
+      </tr>
+    </tbody>
+  </table>
+</body>

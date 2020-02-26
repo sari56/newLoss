@@ -1,0 +1,47 @@
+<body>
+  <!-- <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+  <div [hidden] = "!enable">
+יש לאמת פרטי התקשרות!
+  </div>
+  <div [hidden] = "enable">
+    <br><br>
+    <!-- שם מאבד -->
+    <label for="fname">:שם</label>
+    <input id="fname" name="fname" class="form-control" required placeholder="שם מוצא האבדה" value="FIND.FindName"
+      [(ngModel)]="FIND.FindName" #fname="ngModel">
+    <div *ngIf="fname.invalid && (fname.dirty || fname.touched)" class="alert alert-danger">
+      <div *ngIf="fname.errors.required">שדה זה חובה</div>
+    </div>
+    <!-- טלפון -->
+    <label for="fphone">:טלפון</label>
+    <input id="fphone" name="fphone" class="form-control" required placeholder="טלפון" [(ngModel)]="FIND.FindPhone"
+      #fphone="ngModel">
+    <div *ngIf="fphone.invalid && (fphone.dirty || fphone.touched)" class="alert alert-danger">
+      <div *ngIf="fphone.errors.required">שדה זה חובה</div>
+    </div>
+    <!-- דוא"ל -->
+    <!-- אימות מייל -->
+    <label for="femail">:דוא"ל</label>
+    <input id="femail" name="femail" class="form-control" required placeholder="דואר אלקטרוני"
+      [(ngModel)]="FIND.FindEmail" #femail="ngModel">
+    <div *ngIf="femail.invalid && (femail.dirty || femail.touched)" class="alert alert-danger">
+      <div *ngIf="femail.errors.required">שדה זה חובה</div>
+    </div>
+    <!-- רחוב -->
+    <label for="faddress">:רחוב</label>
+    <input id="faddress" name="faddress" class="form-control" required placeholder="רחוב" [(ngModel)]="FIND.FindAddress"
+      #faddress="ngModel">
+    <div *ngIf="faddress.invalid && (faddress.dirty || faddress.touched)" class="alert alert-danger">
+      <div *ngIf="faddress.errors.required">שדה זה חובה</div>
+    </div>
+    <br>
+    <!-- עיר -->
+    <label for="fcity">:עיר</label><br>
+    <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+      <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+    </select>
+    <br><br>
+    <input type="submit" value="שמירת פרטים" (click)="ChangeDetials()">
+    <br><br>
+  </div>
+</body>

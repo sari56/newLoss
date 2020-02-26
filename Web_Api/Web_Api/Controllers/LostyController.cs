@@ -140,60 +140,75 @@ namespace Web_Api.Controllers
             for (i = resultFounds.Count() - 1; i >= 0; i--)
             {
                 flag = 0;
-                if (resultFounds[i].CategoryCode == signs.Category)
-                    flag += 20;
-                if (signs.Description != " ")
+                if (resultFounds[i].FoundDate.CompareTo(signs.Date.Subtract(TimeSpan.FromDays(7))) >= 0)
                 {
-                    string[] description = signs.Description.Split(' ');
-                    j = 0;
-                    foreach (string word in description)
+                    if (resultFounds[i].CategoryCode == signs.Category)
+                        flag += 30;
+                    if (signs.Description != " ")
                     {
-                        string[] FoundDesc = resultFounds[i].FoundDesc.Split(' ');
-                        foreach (string desc in FoundDesc)
+                        string[] description = signs.Description.Split(' ');
+                        j = 0;
+                        foreach (string word in description)
                         {
-                            j += word.Contains(desc) == true ? 1 : 0;
+                            string[] FoundDesc = resultFounds[i].FoundDesc.Split(' ');
+                            foreach (string desc in FoundDesc)
+                            {
+                                j += word.Contains(desc) == true ? 1 : 0;
+
+                            }
                         }
+                        if (j != 0)
+                            flag += 20;
                     }
-                    if (j != 0)
-                        flag += 20;
-                }
-                else
-                {
-                    flag += 10;
-                }
-                //if (signs.Color == resultFounds[i].FoundColor)
-                if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
-                    flag += 20;
-                //if (resultFounds[i].FoundDate >= signs.Date.AddDays(-7))
-                //    flag += 20;
-                if (signs.Remarks != " ")
-                {
-                    string[] remarks = signs.Remarks.Split(' ');
-                    j = 0;
-                    foreach (string word in remarks)
+                    else
                     {
-                        string[] FoundRemark = resultFounds[i].Remarks.Split(' ');
-                        foreach (string remark in FoundRemark)
-                        {
-                            j += word.Contains(remark) == true ? 1 : 0;
-                        }
+                        flag += 10;
                     }
-                    if (j != 0)
-                        flag += 20;
-                    //if (signs.Remarks.Contains(resultFounds[i].Remarks))
-                    //    flag += 20;
+                    //if (signs.Color == resultFounds[i].FoundColor)
+                    if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
+                        flag += 15;
+                    if (signs.Remarks != " ")
+                    {
+                        string[] remarks = signs.Remarks.Split(' ');
+                        j = 0;
+                        foreach (string word in remarks)
+                        {
+                            string[] FoundRemark = resultFounds[i].Remarks.Split(' ');
+                            foreach (string remark in FoundRemark)
+                            {
+                                j += word.Contains(remark) == true ? 1 : 0;
+
+                            }
+                        }
+                        if (j != 0)
+                            flag += 20;
+                        //if (signs.Remarks.Contains(resultFounds[i].Remarks))
+                        //    flag += 20;
+                    }
+                    else
+                    {
+                        flag += 10;
+                    }
                 }
-                else
+                if (flag <= 60)
                 {
-                    flag += 10;
-                }
-                if (flag < 50)
+
+                    //.Subtract(TimeSpan.FromDays(7)))
                     resultFounds.Remove(resultFounds[i]);
+                }
+
             }
 
             //resultFounds.ForEach(f => f.CategoryCode == signs.Category && f.FoundColor == signs.Color && f.Date == signs.Date).ToList();
             return resultFounds;
         }
+
+        //[Route("api/Losty/GetDate")]
+        //[HttpGet]
+        //public DateTime GetDate()
+        //{
+        //   return DateTime.Now.Subtract(TimeSpan.FromDays(7));
+        //}
 
         /// <summary>
         /// Get Founds by signs
@@ -692,7 +707,9 @@ namespace Web_Api.Controllers
             mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
             InsertUserName(person.PersonID, person.PersonEmail, userName);
             //if (IsInsertUserName == true)
-            return mail.sendMail();
+            if (mail.sendMail() == "true")
+                return userName;
+            return null;
             //return "Incorrect email Address";
         }
 
@@ -752,9 +769,9 @@ namespace Web_Api.Controllers
             }
             connection.DisConnectSql();
             if (check == true)
-                 return lose;
+                return lose;
             return null;
-           
+
         }
 
         public bool GetUser(Person person)

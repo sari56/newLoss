@@ -1,0 +1,95 @@
+<br><br>
+
+<body style="width: 805px;">
+  <div class="formBorder" style="width: 800px;">
+    <form action="/action_page.php">
+
+      <!-- <label for="lid">:תעודת זהות</label>
+      <input type="text" id="lid" name="lid" [(ngModel)]="loss.LoseID" placeholder="תעודת זהות" /><br> -->
+
+      <label for="pass">:שם משתמש</label>
+      <input type="password" id="userNames" name="userName" [(ngModel)]="userName" placeholder="שם משתמש">
+
+      <label for="email">:דוא"ל</label>
+      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="דואר אלקטרוני">
+      <button (click)="Check(userName,email)">אישור</button>
+    </form>
+    <p [hidden]="isHidden">
+      <label for="Category">:קטגוריה</label>
+      <select [(ngModel)]="selectedCategory" (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+        <option *ngFor="let Cat of _Category" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+      </select>
+      <br>
+      <label for="Desc">:תיאור האבדה</label>
+      <input type="text" id="Desc" name="Desc" [(ngModel)]="loss.LossDesc" placeholder="תיאור האבדה">
+      <br>
+      <label for="Color">:צבע האבדה</label><br>
+      <select [(ngModel)]="selectedColor" (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+        <option *ngFor="let c of _Colors" [ngValue]="c.color">{{c.color}}</option>
+      </select>
+      <!-- <input type="color" [(ngModel)]="selectedColor" (change)="onChange_Color($event)" id="Color" name="Color"
+        style="width: 120px"> -->
+      <br>
+      <label for="Desc">:כתובת האבדה</label>
+      <input type="text" id="locationLoss" name="locationLoss" [(ngModel)]="locationLoss" placeholder="מקום האבדה">
+      <br>
+      <!-- עיר -->
+      <label for="fcity">:עיר האבדה</label>
+      <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר">
+        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+      </select><button (click)="getLatlang()"></button>
+      <br>
+      <!-- לבדוק שהתאריך קטן מהיום -->
+      <label for="Date">:תאריך בו נאבד</label><br>
+      <input type="date" id="Date" name="Date" value="" required max="{{currentDate | date:'dd-MM-yyyy'}}"
+        (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+      <br>
+      <br>
+      <label for="Remark">:הערות</label>
+      <input type="text" id="Remark" name="Remark" [(ngModel)]="loss.Remarks" placeholder="הערות">
+      <br>
+      <br>
+      <button (click)="getLatlang(loss,currentDate)" type="submit">שמירת פרטי אבדה</button>
+      <br>
+    </p>
+  </div>
+  <div [hidden]="showFounds">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">לפרטי מוצא</th>
+          <th scope="col">קטגוריה</th>
+          <th scope="col">תיאור</th>
+          <th scope="col">צבע המציאה</th>
+          <th scope="col">תאריך המציאה</th>
+          <th scope="col">סטטוס</th>
+          <th scope="col">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of _Founds" style="text-align: center">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
+            <span class="oi oi-trash">ביקוש</span>
+          </button>
+          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden]="!buttonHidden"><span
+              class="oi oi-trash">פרטי מוצא</span>
+          </button>
+          <td>{{f.Category}}</td>
+          <td>{{f.FoundDesc}}</td>
+          <td>{{f.color}}</td>
+          <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+          <td>{{f.Status}}</td>
+          <td>{{f.Remarks}}</td>
+          <!-- <input [(ngModel)] = "f.FoundCode"> -->
+          <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+          <td>
+
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" align="center">Fetching Employees</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>

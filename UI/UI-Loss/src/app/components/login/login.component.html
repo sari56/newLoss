@@ -1,0 +1,90 @@
+<div class=" d-flex justify-content-center">
+    <div class="row border">
+        <!-- <div class="col-md-8 order-md-1"> -->
+            <div>
+                <h4 class="mb-3">משתמש חדש?</h4>
+            <h4 class="mb-3"> הרשם עכשו ותוכל למצוא אבדותיך ולהחזיר אבדות שמצאת!</h4>
+        </div>
+            <form class="needs-validation was-validated" novalidate="">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">שם</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                        <div class="invalid-feedback">
+                            נדרש שם
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">תעודת זהות</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                        <div class="invalid-feedback">
+                            נדרש תעודת זהות
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">אימייל <span class="text-muted"></span></label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required="">
+                    <div class="invalid-feedback">
+                        נדרש אימייל
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address">כתובת</label>
+                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                    <div class="invalid-feedback">
+                        נדרש כתובת מגורים
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address2">עיר <span class="text-muted"></span></label>
+                    <select class="form-control" [(ngModel)]="selectedCity" (change)="onChange($event)"
+                        aria-placeholder="בחר עיר" name="city" required="">
+                        <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+                    </select>
+                </div>
+                <!-- </div> -->
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">שמירת פרטים</button>
+            </form>
+        <!-- </div>     -->
+    </div>
+    <!-- <form action="/action_page.php">
+    <h2>משתמש חדש? הרשמה</h2>
+    <div class="input-container">
+        <i class="fa fa-user icon"></i>
+        <input class="input-field" type="text" placeholder="שם" name="usrnm" [(ngModel)] = "person.PersonName">
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-key icon"></i>
+        <input class="input-field" type="password" placeholder="תעודת זהות" name="psw" [(ngModel)] = "person.PersonID">
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="text" placeholder="טלפון" name="email" [(ngModel)] = "person.PersonPhone"> 
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="text" placeholder="אימייל" name="email" [(ngModel)] = "person.PersonEmail">
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <select [(ngModel)]="selectedCity" (change)="onChange($event)" aria-placeholder="בחר עיר" name="city">
+                <option *ngFor="let c of ListCity" [ngValue]="c.CityName">{{c.CityName}}</option>
+            </select>
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="text" placeholder="רחוב" name="email" [(ngModel)] = "person.PersonAddress">
+    </div>
+
+    <button type="submit" (click)="SaveUser(person)" class="btn">שמירת פרטים</button>
+</form> -->
