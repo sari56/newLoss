@@ -337,6 +337,7 @@ select * from FindLoss
 select * from Category
 select * from Found
 select * from AskFound
+select * from City
 
 
 delete from [User] where UserID = 208094391

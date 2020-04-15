@@ -1,2 +1,40 @@
-<p>map works!</p>
-<agm-map [latitude]="city.Lat" [longitude]="city.Lng" [(zoom)]="city.zoom"></agm-map>
+<!-- <agm-map [latitude]="city.Lat" [longitude]="city.Lng" [(zoom)]="city.zoom"></agm-map> -->
+
+<body> 
+        <app-header></app-header>
+        
+    <div class="raw border container">
+        <h1>מפת המציאות</h1>
+    <div class="mb-3">
+        <label for="city">עיר <span class="text-muted"></span></label>
+        <select class="form-control" name="city" [(ngModel)]="selectedCity" (change)="onChange($event)"
+            aria-placeholder="בחר עיר" name="city" required="">
+            <option *ngFor="let c of _City" [ngValue]="c.CityName">{{c.CityName}}</option>
+        </select>
+    </div>
+
+    <agm-map [latitude]="city.Lat" [longitude]="city.Lng" [(zoom)]="zoom">
+        <agm-marker *ngFor="let found of _Found;" [latitude]="found.FoundLat" [longitude]="found.FoundLng"
+            [iconUrl]="icon">
+            <agm-info-window>
+                <div style="padding: 7px; text-align: center">
+                    {{found.Category}}<br>
+                    {{found.FoundDesc}}<br>
+                    {{found.color}}<br>
+                    {{found.Remarks}}<br>
+                    {{found.FoundCity}}<br>
+                    <button (click)="SelectFound(found)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
+                        <span class="oi oi-trash">ביקוש</span>
+                    </button>
+                    <button (click)="Select()" class="btn btn-danger btn-sm" [hidden]="!buttonHidden"><span
+                            class="oi oi-trash">פרטי מוצא</span>
+                    </button>
+                </div>
+            </agm-info-window>
+        </agm-marker>
+    </agm-map>
+    <div *ngIf="message != '' " class="raw border message">
+        {{message}}
+    </div>
+</div>
+</body>

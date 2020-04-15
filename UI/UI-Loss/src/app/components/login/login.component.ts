@@ -33,11 +33,8 @@ export class LoginComponent implements OnInit {
 
   }
 
-
   SaveUser(person: Person) {
     // if (!this.boolEmail) {
-    console.log(person)
-    console.log(this.person)
     this._data.InsertUser(this.person).then(res => {
       if (res == "Inserting Data Successfully") {
         this._data.SendEmail(this.person).then(res => {
@@ -50,12 +47,6 @@ export class LoginComponent implements OnInit {
         });
       }
     });
-
-
-    // }
-
     //pop up
-
-
   }
 }

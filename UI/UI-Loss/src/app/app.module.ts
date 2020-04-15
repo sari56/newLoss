@@ -17,6 +17,11 @@ import { SearchComponent } from './search/search.component';
 import { DataService } from './services/data.service';
 import { FormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { TableComponent } from './components/table/table.component';
+import { PersonalAreaComponent } from './components/PersonalArea/personal-area/personal-area.component';
+import { PersonalFoundComponent } from './components/PersonalArea/personal-found/personal-found.component';
+import { PersonalLossComponent } from './components/PersonalArea/personal-loss/personal-loss.component';
+import { EditComponent } from './components/PersonalArea/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,12 @@ import { AgmCoreModule } from '@agm/core';
     LossComponent,
     // SearchComponent,
     MapComponent,
-    SearchComponent
+    SearchComponent,
+    TableComponent,
+    PersonalAreaComponent,
+    PersonalFoundComponent,
+    PersonalLossComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

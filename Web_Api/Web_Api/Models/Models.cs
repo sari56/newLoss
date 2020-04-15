@@ -168,11 +168,11 @@ namespace Web_Api.Models
         public Nullable<int> CategoryCode { get; set; }
         public string LossDesc { get; set; }
         public Nullable<int> LossColor { get; set; }
-        public Nullable<System.DateTime> LossDate { get; set; }
+        public DateTime LossDate { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> StatusCode { get; set; }
         //public Nullable<int> PictureCode { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public DateTime Date { get; set; }
         public Nullable<int> LossCityCode { get; set; }
         public double LossLat { get; set; }
         public double LossLng { get; set; }

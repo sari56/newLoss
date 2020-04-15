@@ -5,12 +5,21 @@
       <h1 class="d-flex align-content-center flex-wrap">מצא לי</h1>
     </div>
   </div>
+
 </div>
 
-<div class="container">
+<div class="d-flex hello" *ngIf="_data.isLogin">
+    <div class="d-flex  container">
+        <div>שלום ל</div>
+        <a routerLink="/personal-area" class="button">
+          <div>איזור אישי</div>
+      </a>
+      </div>
+    </div>
+<div class="contaiener">
   <button class="btn align-self-center" onclick="document.getElementById('id01').style.display='block'"
     style="width:auto;">כניסה</button></div>
-
+   
 <div class="container">
   <div id="id01" class="modal">
     <form class="modal-content animate border needs-validation was-validated">
@@ -18,7 +27,6 @@
       <div class="imgcontainer">
         <span onclick="document.getElementById('id01').style.display='none'" class="close"
           title="Close Modal">&times;</span>
-        <br>
       </div>
      
       <h1>כניסה למערכת מצא לי</h1>
@@ -49,6 +57,9 @@
       </div>
 
       <div class="container" style="background-color:#f1f1f1">
+          <div *ngIf="message != '' " class="raw border message">
+              {{message}}
+          </div>
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         <button type="button" onclick="document.getElementById('id01').style.display='none'"
           class="cancelbtn">ביטול</button>
@@ -57,14 +68,11 @@
   </form>
 </div>
 </div>
-
-<br><br><br>
 <!-- <mat-form-field>
     <mat-label></mat-label>
     <input placeholder="Just a placeholder">
   </mat-form-field> -->
 <!-- <app-home [hidden]="login"></app-home> -->
-<app-login></app-login>
 
 <router-outlet></router-outlet>
 

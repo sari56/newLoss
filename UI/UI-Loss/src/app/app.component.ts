@@ -13,21 +13,21 @@ export class AppComponent {
   login: boolean = true;
   status: string;
   person: Person = new Person();
-
-  constructor(private _data: DataService, private _router: Router) { }
+  message: string = '';
+  constructor(public _data: DataService, private _router: Router) { }
 
   Login() {
     console.log(this.userName + "  " + this.person.PersonEmail)
     this._data.VerifyUserName([this.userName, this.person.PersonEmail]).then(res => {
-       if (res != null) {
-        localStorage.setItem('auth', JSON.stringify({ userName: this.userName, Person: res }));
+      if (res != null) {
+        localStorage.setItem('auth', JSON.stringify({ userName: this.userName, personID: res.PersonID }));
         this.login = false;
         this._router.navigateByUrl('home');
-          document.getElementById('id01').style.display='none'
-        //pop up
+        document.getElementById('id01').style.display = 'none'
+        this._data.isLogin = true;
       }
       else {
-        window.alert("שגיאה")
+        this.message = "שם משתמש לא תקין! יש להרשם במערכת"
       }
     })
   }

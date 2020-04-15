@@ -1,1 +1,106 @@
-<p>loss works!</p>
+<body>
+  <app-header></app-header>
+  <div class=" d-flex justify-content-center">
+    <div class="row border">
+      <h4 class="mb-3">הוספת אבדה</h4>
+      <form class="needs-validation was-validated" novalidate="">
+        <div class="mb-3">
+          <label for="category">מה נאבד?</label>
+          <select class="form-control" name="category" [(ngModel)]="selectedCategory"
+            (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+            <option *ngFor="let Cat of _Category" name="category" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}
+            </option>
+          </select>
+          <div class="invalid-feedback">
+            נדרש לבחור קטגוריה
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="desc">תאור האבדה</label>
+          <input type="text" name="desc" class="form-control" id="lastName" placeholder="" value=""
+            [(ngModel)]="loss.FoundDesc">
+        </div>
+        <div class="mb-3">
+          <label for="color">צבע המציאה<span class="text-muted"></span></label>
+          <select class="form-control" [(ngModel)]="selectedColor" name="color" (change)="onChange_Color($event)"
+            aria-placeholder="בחר צבע">
+            <option *ngFor="let c of _Colors" [ngValue]="c.color">{{c.color}}</option>
+          </select>
+          <div class="invalid-feedback">
+            נדרש לבחור צבע
+          </div>
+        </div>
+        <div class="mb-3">
+          <!-- <label for="Desc">:כתובת המציאה</label>
+                  <input type="text" id="locationFound" name="locationFound" [(ngModel)]="locationFound" placeholder="מקום המציאה"> -->
+          <label for="address">כתובת האבדה</label>
+          <input type="text" class="form-control" id="locationFound" name="locationLoss" [(ngModel)]="locationLoss"
+            placeholder="1234 Main St" required="">
+          <div class="invalid-feedback">
+            נדרש כתובת מציאה
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="city">עיר <span class="text-muted"></span></label>
+          <select class="form-control" name="city" [(ngModel)]="selectedCity" (change)="onChange($event)"
+            aria-placeholder="בחר עיר" name="city" required="">
+            <option *ngFor="let c of _City" [ngValue]="c.CityName">{{c.CityName}}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="date">תאריך האבדה <span class="text-muted"></span></label><br>
+          <input type="date" id="Date" name="Date" value="" required max="2020-02-27" (change)="onChange_Date($event)"
+            [(ngModel)]="currentDate">
+        </div>
+        <div class="mb-3">
+          <label for="remarks">הערות</label>
+          <input type="text" class="form-control" id="remarks" name="remarks" placeholder="הערות" value=""
+            [(ngModel)]="loss.Remarks">
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="getLatlang(loss,currentDate)">שמירת
+          פרטים</button>
+      </form>
+    </div>
+  </div>
+  <div [hidden]="true">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">לפרטי מוצא</th>
+          <th scope="col">קטגוריה</th>
+          <th scope="col">תיאור</th>
+          <th scope="col">צבע המציאה</th>
+          <th scope="col">תאריך המציאה</th>
+          <th scope="col">סטטוס</th>
+          <th scope="col">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of _Founds" style="text-align: center">
+          <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
+            <span class="oi oi-trash">ביקוש</span>
+          </button>
+          <button (click)="Select()" class="btn btn-danger btn-sm" [hidden]="!buttonHidden"><span
+              class="oi oi-trash">פרטי מוצא</span>
+          </button>
+          <td>{{f.Category}}</td>
+          <td>{{f.FoundDesc}}</td>
+          <td>{{f.color}}</td>
+          <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+          <td>{{f.Status}}</td>
+          <td>{{f.Remarks}}</td>
+          <!-- <input [(ngModel)] = "f.FoundCode"> -->
+          <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+          <td>
+
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" align="center">Fetching Employees</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>

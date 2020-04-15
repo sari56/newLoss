@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { City, Category, Color, DataService, Found, Signs, Loss } from 'src/app/services/data.service';
+import { City, Category, Color, DataService, Found, Signs, Loss, Person, User } from 'src/app/services/data.service';
 import { AgmMap, MapsAPILoader } from '@agm/core';
-
+ declare var google: any;
 @Component({
   selector: 'app-found',
   templateUrl: './found.component.html',
@@ -9,6 +9,7 @@ import { AgmMap, MapsAPILoader } from '@agm/core';
 })
 export class FoundComponent implements OnInit {
   geocoder: any;
+ 
   locationFound: string;
   selectedColor: string;
   selectedCategory: string;
@@ -78,7 +79,6 @@ export class FoundComponent implements OnInit {
   }
 
   getLatlang(f: Found, currentDate: Date) {
-    debugger;
     let address = this.locationFound + ' ' + this.selectedCity + ' ' + 'ישראל';
     console.log("address:  " + address)
     this.geocoder.geocode({ 'address': address }, (results) => {
@@ -94,41 +94,41 @@ export class FoundComponent implements OnInit {
   }
 
   SaveFound(f: Found, currentDate: Date) {
-      f.FindID = "222335678";
-      // localStorage.getItem("iv1673799594");
-      f.CategoryCode = this.found.CategoryCode;
-      f.FoundColor = this.found.FoundColor;
-      if (this.found.FoundDesc == null) {
-        this.found.FoundDesc = " ";
-      }
-      if (this.found.Remarks == null) {
-        this.found.Remarks = " ";
-      }
-      f.StatusCode = 2;
-      f.Date = new Date();
-      this._data.InsertFound(f).then(res => {
-        if (res == "Inserting Found Seccessfuly") {
-          window.alert("המציאה התווספה בהצלחה!");
-          //Search
-          this.signs = new Signs(f.CategoryCode, f.FoundDesc, f.FoundColor, f.FoundDate, f.Remarks);
-          this._data.SearchLosses(this.signs).then(res => {
-            if (res)
-              this._Losses = res;
-            // this.showLosses = false;
-            for (let i = 0; i < this._Losses.length; i++) {
-              this._Losses[i].Category = this._Category[this._Losses[i].CategoryCode - 1].CategoryDesc;
-              this._Losses[i].color = this._Colors[this._Losses[i].LossColor - 1].color;
-              this._Losses[i].Status = this._Status[this._Losses[i].StatusCode - 1];
-              console.log(this._Losses[i].Category + " " + this._Losses[i].color);
-            }
-          });
-        }
-        else {
-          window.alert("שגיאה");
-        }
-      });
+    const auth: User = JSON.parse(localStorage.getItem('auth'));
+    f.FindID = auth.personID;
+    f.CategoryCode = this.found.CategoryCode;
+    f.FoundColor = this.found.FoundColor;
+    if (this.found.FoundDesc == null) {
+      this.found.FoundDesc = " ";
     }
+    if (this.found.Remarks == null) {
+      this.found.Remarks = " ";
+    }
+    f.StatusCode = 2;
+    f.Date = new Date();
+    this._data.InsertFound(f).then(res => {
+      if (res == "Inserting Found Seccessfuly") {
+        window.alert("המציאה התווספה בהצלחה!");
+        //Search
+        this.signs = new Signs(f.CategoryCode, f.FoundDesc, f.FoundColor, f.FoundDate, f.Remarks);
+        this._data.SearchLosses(this.signs).then(res => {
+          if (res)
+            this._Losses = res;
+          // this.showLosses = false;
+          for (let i = 0; i < this._Losses.length; i++) {
+            this._Losses[i].Category = this._Category[this._Losses[i].CategoryCode - 1].CategoryDesc;
+            this._Losses[i].color = this._Colors[this._Losses[i].LossColor - 1].color;
+            this._Losses[i].Status = this._Status[this._Losses[i].StatusCode - 1];
+            console.log(this._Losses[i].Category + " " + this._Losses[i].color);
+          }
+        });
+      }
+      else {
+        window.alert("שגיאה");
+      }
+    });
   }
+}
 
   // formatted_address: "David Ben Gurion St, Giv'at Shmuel, Israel"
   // geometry: {,…}

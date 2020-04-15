@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DataService {
-
+public isLogin = false;
   private body: string
   ListCity: Array<City> = new Array();
   ListCategory: Array<Category> = new Array();
@@ -253,4 +253,9 @@ export class Person {
     this.PersonPhone = PersonPhone;
     this.PersonEmail = PersonEmail;
   }
+}
+
+export interface User {
+  userName: string;
+  personID: string;
 }

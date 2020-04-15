@@ -1,1 +1,123 @@
-<p>search works!</p>
+<body>
+    <app-header></app-header>
+    <div class=" d-flex justify-content-center">
+        <div class="row border" style="text-align: right;">
+            <form class="needs-validation was-validated" novalidate="">
+                <div style="align-items: center;">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                            title="Close Modal">&times;</span>
+                    </div>
+
+                    <label for="Category">מה נאבד:</label>
+                    <select class="form-control" name="Category" [(ngModel)]="selectedCategory" required
+                        (change)="onChange_Category($event)" aria-placeholder="בחר קטגוריה">
+                        <option *ngFor="let Cat of _Category" [ngValue]="Cat.CategoryDesc">{{Cat.CategoryDesc}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        נדרש לבחור קטגוריה
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Desc">תיאור האבדה:</label><br>
+                        <input type="text" class="form-control" id="Desc" name="Desc" [(ngModel)]="signs.Description">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Color">צבע האבדה:</label>
+                        <select class="form-control" name="Color" [(ngModel)]="selectedColor" required
+                            (change)="onChange_Color($event)" aria-placeholder="בחר צבע">
+                            <option *ngFor="let c of _Colors" [ngValue]="c.color">{{c.color}}</option>
+                        </select>
+
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Date">תאריך בו נאבד:</label><br>
+
+                        <!-- <div>החיפוש יעשה מטווח של שבוע קודם</div> -->
+                        <input type="date" id="Date" class="form-control" name="Date" value="" required max="2020/02/27"
+                            (change)="onChange_Date($event)" [(ngModel)]="currentDate">
+                        <div class="invalid-feedback">
+                            החיפוש יעשה מטווח של שבוע קודם
+                        </div>
+                    </div>
+                    <br>
+                    <label for="Remark">הערות:</label>
+                    <br>
+                    <input type="text" id="Remark" name="Remark" class="form-control" [(ngModel)]="signs.Remarks"
+                        placeholder="הערות">
+                    <hr class="mb-4">
+                    <button class="btn align-self-center" (click)="SearchLoss()" style="width:auto;">חיפוש</button>
+                    <!-- <button class="btn btn-primary btn-lg btn-block" (click)="SearchLoss()">חיפוש</button><br><br> -->
+                </div>
+                <br>
+                <div  disabled="isValidate" [hidden]="tableHidden">
+                    <h1>מציאות התואמות את פרטי אבדתך</h1>
+                    <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">לפרטי מוצא</th>
+                                <th scope="col">קטגוריה</th>
+                                <th scope="col">תיאור</th>
+                                <th scope="col">צבע המציאה</th>
+                                <th scope="col">תאריך המציאה</th>
+                                <th scope="col">סטטוס</th>
+                                <th scope="col">הערות</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let f of _Founds" style="text-align: center">
+                                <button (click)="SelectFound(f)" class="btn btn-danger btn-sm" [hidden]="buttonHidden">
+                                    <span class="oi oi-trash">ביקוש</span>
+                                </button>
+                                <button (click)="Select()" class="btn btn-danger btn-sm" [hidden]="!buttonHidden"><span
+                                        class="oi oi-trash">פרטי מוצא</span>
+                                </button>
+                                <td>{{f.Category}}</td>
+                                <td>{{f.FoundDesc}}</td>
+                                <td>{{f.color}}</td>
+                                <td>{{f.FoundDate | date:'yyyy/MM/dd'}}</td>
+                                <td>{{f.Status}}</td>
+                                <td>{{f.Remarks}}</td>
+                                <input [hidden]="true" [(ngModel)]="f.FoundCode">
+                                <!-- [style.background-color]="f.FoundColor" [style.color]="f.FoundColor" -->
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr *ngIf="loading">
+                                <td colspan="5" align="center">================================</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div *ngIf="message != '' " class="raw border message">
+                    {{message}}
+                </div>
+                <!-- <a routerLink="/table" [hi] ></a> -->
+                <!-- <app-table [hidden]="tableHidden"></app-table> -->
+            </form>
+
+            <!-- <div class="imgcontainer">
+                    <span onclick="document.getElementById('id02').style.display='none'"
+                        title="Close Modal">&times;</span>
+                        <app-table id="id02"></app-table>
+                </div> -->
+        </div>
+    </div>
+</body>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

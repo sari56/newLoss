@@ -103,13 +103,6 @@ namespace Web_Api.Controllers
             connection.DisConnectSql();
 
             return _color.RelevantColors;
-            //string[] colors = _color.RelevantColors.Split(',');
-
-            //foreach (string c in colors)
-            //{
-            //    resultColors.Add(int.Parse(c));
-            //}
-            //return resultColors;
         }
 
         /// <summary>
@@ -121,9 +114,6 @@ namespace Web_Api.Controllers
         [HttpPost]
         public List<Found> GetFounds(Signs signs)
         {
-            //SqlCommand cmd = ConnectSql(string.Format("Select * From Found Where((CategoryCode = '{0}' AND FoundColor = '{1}' AND FoundDate > '{2}') " +
-            //                           "OR (CategoryCode = '{0}' AND FoundColor = '{1}') OR (CategoryCode = '{0}' AND FoundDate > '{2}') OR (FoundColor =" +
-            //                           " '{1}' AND FoundDate > '{2}'))", signs.Category.ToString(), signs.Color, signs.Date.ToString()));
             SqlCommand cmd = ConnectSql("Select * From Found");
             SqlDataReader reader = cmd.ExecuteReader();
             List<Found> resultFounds = new List<Found>();
@@ -133,8 +123,6 @@ namespace Web_Api.Controllers
                 resultFounds.Add(found.Initialization(reader));
             }
             connection.DisConnectSql();
-            //if (resultFounds.Count() == 0)
-            //    return null;
 
             int flag, i, j;
             for (i = resultFounds.Count() - 1; i >= 0; i--)
@@ -164,7 +152,6 @@ namespace Web_Api.Controllers
                     {
                         flag += 10;
                     }
-                    //if (signs.Color == resultFounds[i].FoundColor)
                     if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
                         flag += 15;
                     if (signs.Remarks != " ")
@@ -182,8 +169,7 @@ namespace Web_Api.Controllers
                         }
                         if (j != 0)
                             flag += 20;
-                        //if (signs.Remarks.Contains(resultFounds[i].Remarks))
-                        //    flag += 20;
+                        
                     }
                     else
                     {
@@ -192,26 +178,16 @@ namespace Web_Api.Controllers
                 }
                 if (flag <= 60)
                 {
-
-                    //.Subtract(TimeSpan.FromDays(7)))
                     resultFounds.Remove(resultFounds[i]);
                 }
 
             }
-
-            //resultFounds.ForEach(f => f.CategoryCode == signs.Category && f.FoundColor == signs.Color && f.Date == signs.Date).ToList();
+        
             return resultFounds;
         }
 
-        //[Route("api/Losty/GetDate")]
-        //[HttpGet]
-        //public DateTime GetDate()
-        //{
-        //   return DateTime.Now.Subtract(TimeSpan.FromDays(7));
-        //}
-
         /// <summary>
-        /// Get Founds by signs
+        /// Get Losses by signs
         /// </summary>
         /// <param name="signs">lose's signs for search</param>
         /// <returns>list of relevant founds</returns>
@@ -228,61 +204,66 @@ namespace Web_Api.Controllers
                 resultLosses.Add(loss.Initialization(reader));
             }
             connection.DisConnectSql();
-
+            
             int flag, i, j;
             for (i = resultLosses.Count() - 1; i >= 0; i--)
             {
                 flag = 0;
-                if (resultLosses[i].CategoryCode == signs.Category)
-                    flag += 20;
-                if (signs.Description != " ")
+                if (resultLosses[i].LossDate.CompareTo(signs.Date.Subtract(TimeSpan.FromDays(7))) >= 0)
                 {
-                    string[] description = signs.Description.Split(' ');
-                    j = 0;
-                    foreach (string word in description)
+                    if (resultLosses[i].CategoryCode == signs.Category)
+                        flag += 30;
+                    if (signs.Description != " ")
                     {
-                        string[] FoundDesc = resultLosses[i].LossDesc.Split(' ');
-                        foreach (string desc in FoundDesc)
+                        string[] description = signs.Description.Split(' ');
+                        j = 0;
+                        foreach (string word in description)
                         {
-                            j += word.Contains(desc) == true ? 1 : 0;
+                            string[] FoundDesc = resultLosses[i].LossDesc.Split(' ');
+                            foreach (string desc in FoundDesc)
+                            {
+                                j += word.Contains(desc) == true ? 1 : 0;
+
+                            }
                         }
+                        if (j != 0)
+                            flag += 20;
                     }
-                    if (j != 0)
-                        flag += 20;
-                }
-                else
-                {
-                    flag += 10;
-                }
-                //if (GetRelevantColors(signs.Color).Contains(resultFounds[i].FoundColor.ToString()))
-                if (signs.Color == resultLosses[i].LossColor)
-                    flag += 20;
-                if (resultLosses[i].LossDate >= signs.Date.AddDays(-7))
-                    flag += 20;
-                if (signs.Remarks != " ")
-                {
-                    string[] remarks = signs.Remarks.Split(' ');
-                    j = 0;
-                    foreach (string word in remarks)
+                    else
                     {
-                        string[] FoundRemark = resultLosses[i].Remarks.Split(' ');
-                        foreach (string remark in FoundRemark)
-                        {
-                            j += word.Contains(remark) == true ? 1 : 0;
-                        }
+                        flag += 10;
                     }
-                    if (j != 0)
-                        flag += 20;
-                    if (signs.Remarks.Contains(resultLosses[i].Remarks))
-                        flag += 20;
+                    if (GetRelevantColors(signs.Color).Contains(resultLosses[i].LossColor.ToString()))
+                        flag += 15;
+                    if (signs.Remarks != " ")
+                    {
+                        string[] remarks = signs.Remarks.Split(' ');
+                        j = 0;
+                        foreach (string word in remarks)
+                        {
+                            string[] FoundRemark = resultLosses[i].Remarks.Split(' ');
+                            foreach (string remark in FoundRemark)
+                            {
+                                j += word.Contains(remark) == true ? 1 : 0;
+
+                            }
+                        }
+                        if (j != 0)
+                            flag += 20;
+          
+                    }
+                    else
+                    {
+                        flag += 10;
+                    }
                 }
-                else
+                if (flag <= 60)
                 {
-                    flag += 10;
-                }
-                if (flag < 50)
                     resultLosses.Remove(resultLosses[i]);
+                }
+
             }
+
             return resultLosses;
         }
 
@@ -437,12 +418,12 @@ namespace Web_Api.Controllers
         /// <returns>is insert?</returns>
         [Route("api/Losty/VerifyUserName")]
         [HttpPost]
-        public bool VerifyUserName(string[] user)
+        public Person VerifyUserName(string[] user)
         {
             string userID = "";
             Person person = new Person();
             //Get User ID
-            string searchUser = string.Format("Select UserID From [User] Where UserName = '{0}' AND UserEmail = '{1}' ", user[1], user[2]);
+            string searchUser = string.Format("Select UserID From [User] Where UserName = '{0}' AND UserEmail = '{1}' ", user[0], user[1]);
             SqlCommand cmd = ConnectSql(searchUser);
             SqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
@@ -461,11 +442,14 @@ namespace Web_Api.Controllers
                 connection.DisConnectSql();
                 if (DeleteUser(person) == true)
                 {
-                    if (user[0].Equals(_FIND))
-                        checkInsert = InsertFind(person);
-                    else
-                        checkInsert = InsertLose(person);
+                  
+                    checkInsert = InsertFind(person);
+                   
+                    checkInsert = InsertLose(person);
                 }
+                
+                return person;
+
             }
             //Search in Find / Lose Tables if User Find/Lose appear in the different table copy to the relevant table
             else
@@ -476,16 +460,12 @@ namespace Web_Api.Controllers
                 reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    if (user[0].Equals(_FIND))
-                    {
-                        checkInsert = true;
-                    }
-                    else
-                    {
-                        person = person.Initialization(reader, FIND);
-                    }
+                    
+                    checkInsert = true;               
+                    person = person.Initialization(reader, FIND);
+                    connection.DisConnectSql();
+                    return person;
                 }
-                connection.DisConnectSql();
                 if (checkInsert == false)
                 {
                     string searchInLoseTable = string.Format("Select * From Lose Where LoseID = '{0}' ", userID);
@@ -493,28 +473,28 @@ namespace Web_Api.Controllers
                     reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        if (user[0].Equals(_LOSE))
-                        {
-                            checkInsert = true;
-                        }
-                        else
-                        {
-                            person = person.Initialization(reader, LOSE);
-                            connection.DisConnectSql();
-                            checkInsert = InsertFind(person);
-                        }
+                   
+                        checkInsert = true;                    
+                        person = person.Initialization(reader, LOSE);
+                        connection.DisConnectSql();
+                        return person;
                     }
                     else
                     {
-                        if (person != null)
-                        {
-                            connection.DisConnectSql();
-                            checkInsert = InsertLose(person);
-                        }
+                      
+                        connection.DisConnectSql();
+                        checkInsert = InsertFind(person);
                     }
+                
+                    if (person != null)
+                    {
+                        connection.DisConnectSql();
+                        checkInsert = InsertLose(person);
+                    }
+                    //}
                 }
             }
-            return checkInsert;
+            return null;
         }
 
         /// <summary>
@@ -546,7 +526,7 @@ namespace Web_Api.Controllers
         [HttpPost]
         public string InsertFound(Found found)
         {
-            found.FindID = GetUserID(found.FindID);
+            //found.FindID = GetUserID(found.FindID);
             SqlCommand cmd = ConnectSql("Insert into Found  Values(@FindID , @CategoryCode , @FoundDesc , @FoundColor , @FoundDate , @Remarks, @StatusCode , @Date, @FoundCityCode, @FoundLat, @FoundLng)");
             try
             {
@@ -583,7 +563,7 @@ namespace Web_Api.Controllers
         [HttpPost]
         public string InsertLoss(Loss loss)
         {
-            loss.LoseID = GetUserID(loss.LoseID);
+            //loss.LoseID = GetUserID(loss.LoseID);
             SqlCommand cmd = ConnectSql("Insert into Loss Values(@LoseID , @CategoryCode , @LossDesc , @LossColor , @LossDate ," +
                 " @Remarks, @StatusCode , @Date, @LossCityCode, @LossLat, @LossLng)");
             try
@@ -698,19 +678,14 @@ namespace Web_Api.Controllers
         [Route("api/Losty/SendEmail")]
         public string SendEmail(Person person)
         {
-            //string[] recive = user.Split(' ');
             mail_core mail = new mail_core();
             string userName = GetUserName(person.PersonName);
-            //mail.NewMail("sv4114994@gmail.com", "sari", "b0527109047@gmail.com", "batya", "hello", "good day", "");
-            //mail.smtpServerSettings("smtp.gmail.com", 587, "b0527109047@gmail.com", "b1234123", true);
             mail.NewMail(person.PersonEmail, person.PersonName, "RS.Losty@gmail.com", "Losty", "LOSTY שם משתמש כניסה למערכת ", "שלום ל" + person.PersonName + " שם המשתמש שלך: " + userName, "");
             mail.smtpServerSettings("smtp.gmail.com", 587, "RS.Losty@gmail.com", "losty.1234", true);
             InsertUserName(person.PersonID, person.PersonEmail, userName);
-            //if (IsInsertUserName == true)
             if (mail.sendMail() == "true")
                 return userName;
             return null;
-            //return "Incorrect email Address";
         }
 
         /// <summary>
